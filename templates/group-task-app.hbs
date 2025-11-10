@@ -1,0 +1,97 @@
+<form class="rmu-calc-wrapper" autocomplete="off">
+  <div class="rmu-calc-pane">
+
+    <fieldset class="rmu-calc-fieldset">
+      <legend>Task Skill</legend>
+      <div class="form-group">
+        <label>Skill</label>
+        <div class="form-fields">
+          <select class="rmu-task-skill-select" name="taskSkillName">
+            <option value="">Select Task Skill...</option>
+            {{#select taskSkillName}}
+              {{#each allSkillOptions}}
+                <option value="{{this}}">{{this}}</option>
+              {{/each}}
+            {{/select}}
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="rmu-calc-fieldset">
+      <legend>Participants</legend>
+      <div class="rmu-participant-list" id="group-task-participants">
+        <div class="rmu-participant-row rmu-participant-header">
+          <span>Enabled</span>
+          <span>Leader</span>
+          <span>Participant</span>
+          <span>Ldr. Ranks</span>
+          <span>Skill Bonus</span>
+        </div>
+        {{#each participants}}
+          <div class="rmu-participant-row">
+            <input
+              type="checkbox"
+              class="rmu-participant-enable"
+              data-id="{{id}}"
+              {{checked enabled}}
+            />
+            <input
+              type="radio"
+              class="rmu-leader-select"
+              name="leader"
+              value="{{id}}"
+              {{checked (eq id ../leaderId)}}
+              {{disabled (not enabled)}}
+            />
+            <label>{{name}}</label>
+            <span class="rmu-participant-ranks">{{leadershipRanks}}</span>
+            <span class="rmu-participant-bonus">{{bonusForSelectedSkill}}</span>
+          </div>
+        {{/each}}
+      </div>
+      <div class="rmu-add-wrapper">
+        <button type="button" class="rmu-add-participant">
+          <i class="fas fa-plus"></i> Add Participant
+        </button>
+      </div>
+    </fieldset>
+
+    <fieldset class="rmu-calc-fieldset">
+      <legend>Calculation</legend>
+      <div class="rmu-output-box">
+        <div class="rmu-output-row">
+          <span>Average Skill Bonus:</span>
+          <span class="rmu-output-value">+{{calculation.averageBonus}}</span>
+        </div>
+        <div class="rmu-output-row">
+          <span>Leadership Ranks ({{calculation.leaderName}}):</span>
+          <span class="rmu-output-value">+{{calculation.leadershipBonus}}</span>
+        </div>
+        <div class="rmu-output-row rmu-output-total">
+          <span>Total Bonus:</span>
+          <span class="rmu-output-value">+{{calculation.total}}</span>
+        </div>
+
+        {{#if calculation.participants}}
+          <div class="rmu-output-breakdown">
+            <span class="rmu-notes">Participant Bonuses:</span>
+            <ul>
+              {{#each calculation.participants}}
+                <li>
+                  <strong>+{{bonus}}</strong> ({{name}})
+                </li>
+              {{/each}}
+            </ul>
+          </div>
+        {{/if}}
+      </div>
+    </fieldset>
+  </div>
+</form>
+
+<footer class="rmu-calc-footer">
+  <button type="button" class="rmu-send-chat">
+    <i class="fas fa-comment-alt"></i> Send to Chat (GM)
+  </button>
+</footer>

@@ -1,0 +1,398 @@
+/* =====================================
+--- CSS VARIABLES ---
+=====================================
+*/
+
+div.application.rmu-calc-app,
+div.application.rmu-calc-app .window-header {
+  /* --- Color Palette --- */
+  --color-bg-darkest: #191813;
+  --color-bg-medium: rgba(0, 0, 0, 0.3);
+  --color-bg-light: rgba(255, 255, 255, 0.1);
+  --color-bg-hover: rgba(255, 255, 255, 0.2);
+  
+  /* --- Text Palette --- */
+  --color-text-main: rgba(255, 255, 255, 0.85);
+  --color-text-muted: rgba(255, 255, 255, 0.75);
+  --color-text-accent: #a99335;
+  --color-text-accent-hover: #cbb047;
+  --color-text-on-accent: #191813;
+  
+  /* --- Borders --- */
+  --color-border: rgba(255, 255, 255, 0.2);
+  --border-main: 1px solid var(--color-border);
+  --border-dashed: 1px dashed var(--color-border);
+  --border-radius-main: 3px;
+}
+
+/* =====================================
+--- MAIN MODULE STYLES ---
+=====================================
+*/
+
+div.application.rmu-calc-app,
+div.application.rmu-calc-app .window-header {
+  background-image: unset;
+  background-color: var(--color-bg-darkest);
+  color: var(--color-text-main);
+}
+
+div.application.rmu-calc-app .window-header {
+  border-bottom: var(--border-main);
+}
+
+div.application.rmu-calc-app .rmu-notes {
+  color: var(--color-text-muted);
+}
+
+div.application.rmu-calc-app button {
+  background: var(--color-bg-light);
+  border: var(--border-main);
+  border-radius: var(--border-radius-main);
+  color: var(--color-text-muted);
+  transition: background-color 0.1s, border-color 0.1s, color 0.1s;
+}
+
+div.application.rmu-calc-app .rmu-button-title {
+  color: var(--color-text-accent);
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+div.application.rmu-calc-app .rmu-button-note {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  font-weight: normal;
+}
+
+div.application.rmu-calc-app button:hover {
+  background: var(--color-bg-hover);
+  border-color: var(--color-text-accent);
+  color: var(--color-text-main);
+}
+
+/* =====================================
+--- COMMON LAYOUT ---
+=====================================
+*/
+
+button.control.tool.rmu-skill-button-icon {
+  background-image: url("../assets/icon-group-skill.svg");
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 0;
+}
+
+div.application.rmu-calc-app .window-content {
+  background: none;
+  background-color: var(--color-bg-darkest);
+  color: var(--color-text-main);
+  padding: 0.6rem;
+  overflow: auto;
+  height: auto;
+}
+
+.rmu-calc-pane {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.rmu-notes {
+  text-align: center;
+}
+
+/* =====================================
+--- LAUNCHER LAYOUT ---
+=====================================
+*/
+
+.rmu-launcher-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.rmu-launcher-buttons button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  gap: 1rem;
+  text-align: center;
+}
+
+.rmu-launcher-buttons button {
+  flex-direction: row;
+  align-items: center;
+}
+
+.rmu-button-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 0.6rem;
+}
+
+.rmu-launcher-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+}
+
+/* =====================================
+--- CALCULATOR STYLES ---
+=====================================
+*/
+
+/* --- Fieldsets --- */
+div.application.rmu-calc-app .rmu-calc-fieldset {
+  padding: 1rem;
+  gap: 0.5rem;
+  border: var(--border-main);
+  border-radius: 5px;
+  width: 100%;
+}
+
+div.application.rmu-calc-app .rmu-calc-fieldset legend {
+  font-weight: bold;
+  color: var(--color-text-accent);
+}
+
+div.application.rmu-calc-app .rmu-sub-fieldset {
+  border: var(--border-dashed);
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: var(--border-radius-main);
+  
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.4rem 1rem;
+  align-items: center;
+}
+
+div.application.rmu-calc-app .rmu-sub-fieldset legend {
+  grid-column: 1 / 3; 
+  font-size: 0.8rem;
+  font-weight: normal;
+  padding: 0 5px;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 5px;
+}
+
+/* --- Form Inputs & Selects --- */
+
+div.application.rmu-calc-app .form-group {
+  display: grid;
+  grid-template-columns: max-content 1fr; 
+  align-items: center;
+  gap: 1rem;
+}
+
+div.application.rmu-calc-app .rmu-sub-fieldset .form-group {
+  display: contents;
+}
+
+div.application.rmu-calc-app .form-group .form-fields {
+  display: contents;
+}
+div.application.rmu-calc-app .form-group label {
+  margin: 0;
+  white-space: nowrap;
+}
+
+div.application.rmu-calc-app input[type="text"],
+div.application.rmu-calc-app input[type="number"],
+div.application.rmu-calc-app select {
+  background: var(--color-bg-medium);
+  border: var(--border-main);
+  color: var(--color-text-main);
+  border-radius: var(--border-radius-main);
+}
+div.application.rmu-calc-app input[type="text"]:focus,
+div.application.rmu-calc-app input[type="number"]:focus,
+div.application.rmu-calc-app select:focus {
+  border-color: var(--color-text-accent);
+  box-shadow: 0 0 5px var(--color-text-accent);
+}
+div.application.rmu-calc-app select option {
+  background: var(--color-bg-darkest);
+  color: var(--color-text-main);
+}
+div.application.rmu-calc-app input[type="radio"],
+div.application.rmu-calc-app input[type="checkbox"] {
+  accent-color: var(--color-text-accent);
+}
+
+/* --- Participant List --- */
+div.application.rmu-calc-app .rmu-participant-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* --- THIS IS THE FIX --- */
+/* Specific grid layouts for each app */
+div.application.rmu-calc-app #boost-skill-participants .rmu-participant-row {
+  display: grid;
+  grid-template-columns: 60px 60px 1fr 80px; /* 4 columns */
+  align-items: center;
+  gap: 10px;
+}
+div.application.rmu-calc-app #group-task-participants .rmu-participant-row {
+  display: grid;
+  grid-template-columns: 60px 60px 1fr 80px 80px; /* 5 columns */
+  align-items: center;
+  gap: 10px;
+}
+/* --- END FIX --- */
+
+div.application.rmu-calc-app .rmu-participant-row.rmu-participant-header {
+  font-weight: bold;
+  font-size: 11px;
+  text-transform: uppercase;
+  border-bottom: var(--border-main);
+  padding-bottom: 4px;
+}
+div.application.rmu-calc-app .rmu-participant-row.rmu-participant-header span:last-child {
+  text-align: center;
+}
+div.application.rmu-calc-app .rmu-participant-row input[type="checkbox"],
+div.application.rmu-calc-app .rmu-participant-row input[type="radio"] {
+  margin: 0;
+  justify-self: center;
+}
+div.application.rmu-calc-app .rmu-participant-row .rmu-participant-ranks,
+div.application.rmu-calc-app .rmu-participant-row .rmu-participant-bonus {
+  text-align: center;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+div.application.rmu-calc-app .rmu-add-wrapper {
+  margin-top: 10px;
+}
+
+/* --- Dynamic Skill List (Rule 1) --- */
+div.application.rmu-calc-app .rmu-dynamic-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+div.application.rmu-calc-app .rmu-dynamic-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 5px;
+  align-items: center;
+}
+div.application.rmu-calc-app .rmu-icon-button {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  line-height: 1;
+}
+div.application.rmu-calc-app .rmu-icon-button img {
+  filter: invert(90%);
+}
+
+/* --- Output Box --- */
+div.application.rmu-calc-app .rmu-output-box {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 1rem;
+}
+
+div.application.rmu-calc-app .rmu-output-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+div.application.rmu-calc-app .rmu-output-row .rmu-output-value {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+div.application.rmu-calc-app .rmu-output-total {
+  font-size: 1.1rem;
+  border-top: var(--border-main);
+  padding-top: 5px;
+}
+
+div.application.rmu-calc-app .rmu-output-total .rmu-output-value {
+  font-size: 1.1rem;
+  color: var(--color-text-accent);
+  font-weight: bold;
+}
+
+div.application.rmu-calc-app .rmu-output-breakdown {
+  margin-top: 10px;
+  border-top: var(--border-dashed);
+  padding-top: 10px;
+}
+
+div.application.rmu-calc-app .rmu-output-breakdown .rmu-notes {
+  font-weight: bold;
+}
+
+div.application.rmu-calc-app .rmu-output-breakdown ul {
+  margin: 5px 0 0 0;
+  padding-left: 20px;
+  font-size: 0.9rem;
+}
+
+/* --- Footer --- */
+div.application.rmu-calc-app .rmu-calc-footer {
+  flex: none;
+  border-top: var(--border-main);
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+div.application.rmu-calc-app .rmu-send-chat {
+  background: var(--color-text-accent);
+  border-color: var(--color-text-accent);
+  color: var(--color-text-main);
+  font-weight: normal;
+}
+
+div.application.rmu-calc-app .rmu-send-chat:hover {
+  background: var(--color-text-accent-hover);
+  border-color: var(--color-text-accent-hover);
+  color: var(--color-text-main);
+}
+
+/* --- Scrollbar --- */
+div.application.rmu-calc-app .window-content::-webkit-scrollbar {
+  width: 8px !important;
+}
+
+div.application.rmu-calc-app .window-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2) !important;
+  border-radius: 10px !important;
+}
+
+div.application.rmu-calc-app .window-content::-webkit-scrollbar-thumb {
+  background-color: var(--color-text-accent) !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(0, 0, 0, 0.6) !important;
+}
+
+div.application.rmu-calc-app .window-content::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-text-accent-hover) !important;
+}
+
+div.application.rmu-calc-app .window-content::-webkit-scrollbar-button {
+  display: none;
+}

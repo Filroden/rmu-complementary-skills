@@ -1,0 +1,26 @@
+{
+  "id": "rmu-complementary-skills",
+  "title": "RMU Complementary Skills",
+  "description": "A GM-only tool to calculate complementary skill checks for RMU, supporting both 'Boost Skill' (Rule 1) and 'Group Task' (Rule 2) scenarios.",
+  "version": "0.0.1",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13.350"
+  },
+  "relationships": {
+    "systems": [
+      {
+        "id": "rmu",
+        "type": "system",
+        "compatibility": {}
+      }
+    ]
+  },
+  "authors": [
+    {
+      "name": "Ken Dearman"
+    }
+  ],
+  "esmodules": ["js/init.js"],
+  "styles": ["styles/rmu-complementary-skills.css"]
+}

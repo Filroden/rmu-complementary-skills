@@ -1,0 +1,11 @@
+{
+  "name": "rmu-complementary-skills",
+  "type": "module",
+  "scripts": {
+    "pack": "node scripts/pack.mjs",
+    "foundry-id": "node scripts/foundry-id.mjs"
+  },
+  "devDependencies": {
+    "@foundryvtt/foundryvtt-cli": "3.0.0"
+  }
+}
