@@ -396,3 +396,47 @@ div.application.rmu-calc-app .window-content::-webkit-scrollbar-thumb:hover {
 div.application.rmu-calc-app .window-content::-webkit-scrollbar-button {
   display: none;
 }
+
+/* =====================================
+--- ADD PARTICIPANT DIALOG ---
+=====================================
+*/
+
+/* This targets the form inside the DialogV2 */
+div.application.rmu-calc-app form.dialog-form {
+  gap: 0.5rem;
+}
+
+/* This targets the <footer> inside the DialogV2 */
+div.application.rmu-calc-app footer.form-footer {
+  padding: 0;
+  border-top: var(--border-main);
+  margin-top: 10px;
+}
+
+div.application.rmu-calc-app .rmu-add-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+/* * This overrides the calculator's .form-group grid 
+ * and makes it a simple flex row for the checklist.
+*/
+div.application.rmu-calc-app .rmu-add-list .form-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
+div.application.rmu-calc-app .rmu-add-list .form-group input {
+  margin: 0;
+  flex: none; /* Don't let checkbox grow */
+}
+
+div.application.rmu-calc-app .rmu-add-list .form-group label {
+  color: var(--color-text-main);
+  font-weight: normal;
+}
