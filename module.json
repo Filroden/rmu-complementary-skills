@@ -22,5 +22,12 @@
     }
   ],
   "esmodules": ["js/init.js"],
-  "styles": ["styles/rmu-complementary-skills.css"]
+  "styles": ["styles/rmu-complementary-skills.css"],
+  
+  "url": "https://github.com/Filroden/rmu-complementary-skills",
+  "manifest": "https://github.com/Filroden/rmu-complementary-skills/releases/latest/download/module.json",
+  "download": "https://github.com/Filroden/rmu-complementary-skills/releases/download/v0.0.1/rmu-complementary-skills.zip",
+  "bugs": "https://github.com/Filroden/rmu-complementary-skills/issues",
+  "readme": "https://github.com/Filroden/rmu-complementary-skills/blob/main/README.md",
+  "license": "https://mit-license.org/"
 }
