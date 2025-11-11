@@ -29,20 +29,8 @@
         </div>
         {{#each participants}}
           <div class="rmu-participant-row">
-            <input
-              type="checkbox"
-              class="rmu-participant-enable"
-              data-id="{{id}}"
-              {{checked enabled}}
-            />
-            <input
-              type="radio"
-              class="rmu-primary-actor-select"
-              name="primaryActor"
-              value="{{id}}"
-              {{checked (eq id ../primaryActorId)}}
-              {{disabled (not enabled)}}
-            />
+            <input type="checkbox" class="rmu-participant-enable" data-id="{{id}}" {{checked enabled}}/>
+            <input type="radio" class="rmu-primary-actor-select" name="primaryActor" value="{{id}}" {{checked (eq id ../primaryActorId)}} {{disabled (not enabled)}}/>
             <label>{{name}}</label>
             <span class="rmu-participant-bonus">{{bonusForSelectedSkill}}</span>
           </div>
@@ -59,14 +47,11 @@
       <fieldset class="rmu-calc-fieldset">
         <legend>Complementary Skills</legend>
         <div class="rmu-sub-fieldset">
-          <legend>From Primary Actor</legend>
+          <legend>From Primary Participant</legend>
           <div class="rmu-dynamic-list">
             {{#each primaryActorSkills}}
               <div class="rmu-dynamic-row">
-                <select
-                  class="rmu-primary-comp-skill"
-                  data-index="{{@index}}"
-                >
+                <select class="rmu-primary-comp-skill" data-index="{{@index}}">
                   <option value="">Select Skill...</option>
                   {{#each ../primaryComplementOptions}}
                     <option value="{{name}}" {{selected (eq name ../name)}}>
@@ -74,17 +59,8 @@
                     </option>
                   {{/each}}
                 </select>
-                <button
-                  type="button"
-                  class="rmu-icon-button rmu-primary-comp-delete"
-                  data-index="{{@index}}"
-                  title="Remove Skill"
-                >
-                  <img
-                    src="modules/rmu-complementary-skills/assets/icon-trash.svg"
-                    width="14"
-                    height="14"
-                  />
+                <button type="button" class="rmu-icon-button rmu-primary-comp-delete" data-index="{{@index}}" title="Remove Skill">
+                  <img src="modules/rmu-complementary-skills/assets/icon-trash.svg" width="14" height="14"/>
                 </button>
               </div>
             {{/each}}
@@ -101,13 +77,10 @@
               <div class="form-group">
                 <label>{{name}}</label>
                 <div class="form-fields">
-                  <select
-                    class="rmu-other-comp-skill"
-                    data-id="{{id}}"
-                  >
+                  <select class="rmu-other-comp-skill" data-id="{{id}}">
                     <option value="">None</option>
                     {{#each allSkills}}
-                      <option value="{{name}}" {{selected (eq name selectedSkillName)}}>
+                      <option value="{{name}}" {{selected (eq name (lookup ../../otherActorSkills ../id))}}>
                         {{name}} (Ranks: {{ranks}})
                       </option>
                     {{/each}}

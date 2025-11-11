@@ -64,8 +64,14 @@ export class RmuSkillParser {
    */
   static getSkillData(rawSkill) {
     const s = rawSkill?.system ?? {};
+    const baseName = s.name ?? "Unknown Skill";
+    const specialization = s.specialization ?? null;
+    const fullName = (specialization && specialization.trim() !== "")
+      ? `${baseName} (${specialization})`
+      : baseName;
+
     return {
-      name: s.name ?? "Unknown Skill", //
+      name: fullName, //
       category: s.category ?? "Unknown", //
       ranks: s._totalRanks ?? 0, //
       bonus: s._bonus ?? 0, //
