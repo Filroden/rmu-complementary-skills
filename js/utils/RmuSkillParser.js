@@ -15,7 +15,6 @@ export class RmuSkillParser {
       return [];
     }
 
-    // 1. Ensure derived data is populated, as per skill-model.md
     if (typeof actor.hudDeriveExtendedData === "function") {
       try {
         await actor.hudDeriveExtendedData(); //
@@ -27,7 +26,6 @@ export class RmuSkillParser {
       console.warn(`[RMU Comp Skills] Actor ${actor.name} does not have hudDeriveExtendedData.`);
     }
 
-    // 2. Access and flatten the skills
     return this._getAllActorSkills(actor);
   }
 
@@ -86,7 +84,6 @@ export class RmuSkillParser {
   }
 
   /**
-   * --- THIS IS THE FIX ---
    * A shared sorting function that sorts by Category, then Name.
    * This matches the default RMU skill list order.
    * @param {Object} a - Skill data object
@@ -97,5 +94,4 @@ export class RmuSkillParser {
     if (categoryCompare !== 0) return categoryCompare;
     return a.name.localeCompare(b.name);
   }
-  // --- END FIX ---
 }

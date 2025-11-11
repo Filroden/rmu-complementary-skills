@@ -8,11 +8,9 @@
         <div class="form-fields">
           <select class="rmu-task-skill-select" name="taskSkillName">
             <option value="">Select Task Skill...</option>
-            {{#select taskSkillName}}
-              {{#each allSkillOptions}}
-                <option value="{{this}}">{{this}}</option>
-              {{/each}}
-            {{/select}}
+            {{#each allSkillOptions}}
+              <option value="{{this}}" {{selected (eq this ../taskSkillName)}}>{{this}}</option>
+            {{/each}}
           </select>
         </div>
       </div>

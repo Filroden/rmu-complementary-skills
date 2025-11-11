@@ -8,11 +8,11 @@
         <div class="form-fields">
           <select class="rmu-primary-skill-select" name="primarySkillName">
             <option value="">Select Primary Skill...</option>
-            {{#select primarySkillName}}
-              {{#each primarySkillOptions}}
-                <option value="{{name}}">{{name}} (Bonus: {{bonus}})</option>
-              {{/each}}
-            {{/select}}
+            {{#each primarySkillOptions}}
+              <option value="{{name}}" {{selected (eq name ../primarySkillName)}}>
+                {{name}} (Bonus: {{bonus}})
+              </option>
+            {{/each}}
           </select>
         </div>
       </div>
@@ -68,11 +68,11 @@
                   data-index="{{@index}}"
                 >
                   <option value="">Select Skill...</option>
-                  {{#select name}}
-                    {{#each ../primaryComplementOptions}}
-                      <option value="{{name}}">{{name}} (Ranks: {{ranks}})</option>
-                    {{/each}}
-                  {{/select}}
+                  {{#each ../primaryComplementOptions}}
+                    <option value="{{name}}" {{selected (eq name ../name)}}>
+                      {{name}} (Ranks: {{ranks}})
+                    </option>
+                  {{/each}}
                 </select>
                 <button
                   type="button"
@@ -106,12 +106,11 @@
                     data-id="{{id}}"
                   >
                     <option value="">None</option>
-                    {{#select (lookup ../otherActorSkills id)}}
-                      {{#each allSkills}}
-                        <option value="{{name}}">{{name}}
-                          (Ranks: {{ranks}})</option>
-                      {{/each}}
-                    {{/select}}
+                    {{#each allSkills}}
+                      <option value="{{name}}" {{selected (eq name selectedSkillName)}}>
+                        {{name}} (Ranks: {{ranks}})
+                      </option>
+                    {{/each}}
                   </select>
                 </div>
               </div>

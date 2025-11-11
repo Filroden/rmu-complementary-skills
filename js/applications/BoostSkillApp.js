@@ -1,10 +1,23 @@
 import { BaseCalculatorApp } from "./BaseCalculatorApp.js";
 import { RmuSkillParser } from "../utils/RmuSkillParser.js";
 
+/**
+ * An application for calculating the bonus for a skill check boosted by complementary skills from multiple actors.
+ * @extends {BaseCalculatorApp}
+ */
 export class BoostSkillApp extends BaseCalculatorApp {
+  /**
+   * Initializes the application and sets up the initial state for the calculation.
+   * @param {Array<Token>} tokens - The initial array of tokens to include in the calculator.
+   * @param {object} [options={}] - Application rendering options.
+   */
   constructor(tokens, options = {}) {
     super(tokens, options);
 
+    /**
+     * The internal state of the calculator, tracking selected actors, skills, and bonuses.
+     * @type {object}
+     */
     this.calcState = {
       primaryActorId: tokens[0]?.id || null,
       primarySkillName: null,
@@ -13,18 +26,29 @@ export class BoostSkillApp extends BaseCalculatorApp {
     };
   }
 
-  static get title() {
-    return "Boost Skill Check";
-  }
+  /**
+   * The title of the application window.
+   * @returns {string}
+   */
+  static get title() { return "Boost Skill Check"; }
 
-  static get template() {
-    return "modules/rmu-complementary-skills/templates/boost-skill-app.hbs";
-  }
+  /**
+   * The path to the Handlebars template for the application.
+   * @returns {string}
+   */
+  static get template() { return "modules/rmu-complementary-skills/templates/boost-skill-app.hbs"; }
   
+  /**
+   * Prepares the UI-specific context for rendering the Boost Skill application.
+   * @param {object} options - Context preparation options.
+   * @returns {Promise<object>} The UI context object.
+   * @override
+   */
   async getSpecificUiContext(options) {
     const participants = this.getEnabledParticipants();
     if (participants.length === 0) return { participants: [] };
 
+    // Reset primary actor if they are no longer enabled.
     if (!this.participants.get(this.calcState.primaryActorId)?.enabled) {
       this.calcState.primaryActorId = participants[0]?.id || null;
       this.calcState.primarySkillName = null;
@@ -33,16 +57,16 @@ export class BoostSkillApp extends BaseCalculatorApp {
 
     const primaryActor = this.participants.get(this.calcState.primaryActorId);
     
+    // Get the list of skills for the primary actor's dropdown.
     const primarySkillOptions = primaryActor ? 
       primaryActor.actor.system._skills
         .map(RmuSkillParser.getSkillData)
         .sort(RmuSkillParser.sortSkills)
       : [];
     
-    // Get the selected skill name
     const selectedSkillName = this.calcState.primarySkillName;
     
-    // Iterate over all participants to find their bonus for the selected skill
+    // Update the bonus for the selected primary skill for all participants.
     for (const p of this.participants.values()) {
       const allSkills = p.actor.system._skills.map(RmuSkillParser.getSkillData);
       const skill = allSkills.find(s => s.name === selectedSkillName);
@@ -50,9 +74,7 @@ export class BoostSkillApp extends BaseCalculatorApp {
     }
     
     const primaryComplementOptions = primaryActor ? primaryActor.allSkills : [];
-    
     const otherParticipants = participants.filter(p => p.id !== this.calcState.primaryActorId);
-
     const calculation = this._calculateBonus(primarySkillOptions);
 
     return {
@@ -68,8 +90,12 @@ export class BoostSkillApp extends BaseCalculatorApp {
     };
   }
   
+  /**
+   * Attaches event listeners specific to the Boost Skill application.
+   * @param {jQuery} $content - The jQuery object for the content element.
+   * @override
+   */
   attachSubclassListeners($content) {
-    // --- State-changing listeners ---
     $content.find(".rmu-primary-actor-select").on("change", this._onChangePrimaryActor.bind(this));
     $content.find(".rmu-primary-skill-select").on("change", this._onChangePrimarySkill.bind(this));
     $content.find(".rmu-primary-comp-add").on("click", this._onAddPrimaryComp.bind(this));
@@ -79,6 +105,11 @@ export class BoostSkillApp extends BaseCalculatorApp {
     $content.closest(".window-app").find(".rmu-send-chat").on("click", this._onSendToChat.bind(this));
   }
   
+  /**
+   * Handles changing the primary actor.
+   * @param {Event} event - The change event.
+   * @private
+   */
   _onChangePrimaryActor(event) {
     this.calcState.primaryActorId = event.currentTarget.value;
     this.calcState.primarySkillName = null;
@@ -87,16 +118,31 @@ export class BoostSkillApp extends BaseCalculatorApp {
     this.render();
   }
 
+  /**
+   * Handles changing the primary skill.
+   * @param {Event} event - The change event.
+   * @private
+   */
   _onChangePrimarySkill(event) {
     this.calcState.primarySkillName = event.currentTarget.value;
     this.render();
   }
 
+  /**
+   * Handles adding a new complementary skill for the primary actor.
+   * @param {Event} event - The click event.
+   * @private
+   */
   _onAddPrimaryComp(event) {
     this.calcState.primaryActorSkills.push({ name: null, ranks: 0 });
     this.render();
   }
 
+  /**
+   * Handles changing a complementary skill for the primary actor.
+   * @param {Event} event - The change event.
+   * @private
+   */
   _onChangePrimaryComp(event) {
     const index = event.currentTarget.dataset.index;
     const skillName = event.currentTarget.value;
@@ -110,12 +156,22 @@ export class BoostSkillApp extends BaseCalculatorApp {
     this.render();
   }
   
+  /**
+   * Handles deleting a complementary skill for the primary actor.
+   * @param {Event} event - The click event.
+   * @private
+   */
   _onDeletePrimaryComp(event) {
     const index = event.currentTarget.dataset.index;
     this.calcState.primaryActorSkills.splice(index, 1);
     this.render();
   }
   
+  /**
+   * Handles changing a complementary skill for another actor.
+   * @param {Event} event - The change event.
+   * @private
+   */
   _onChangeOtherComp(event) {
     const actorId = event.currentTarget.dataset.id;
     const skillName = event.currentTarget.value;
@@ -123,6 +179,11 @@ export class BoostSkillApp extends BaseCalculatorApp {
     this.render();
   }
   
+  /**
+   * Sends the calculated bonus to the chat.
+   * @param {Event} event - The click event.
+   * @private
+   */
   _onSendToChat(event) {
      const calc = this._calculateBonus();
      if (!calc.primaryBonus) {
@@ -148,6 +209,12 @@ export class BoostSkillApp extends BaseCalculatorApp {
      });
   }
   
+  /**
+   * Calculates the total skill bonus including complementary skills.
+   * @param {Array<object>} [primarySkillOptions] - Pre-calculated skill options for the primary actor.
+   * @returns {object} An object containing the bonus breakdown.
+   * @private
+   */
   _calculateBonus(primarySkillOptions) {
     const primaryActor = this.participants.get(this.calcState.primaryActorId);
     if (!primaryActor) return {};

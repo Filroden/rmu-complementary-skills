@@ -1,27 +1,51 @@
 import { BaseCalculatorApp } from "./BaseCalculatorApp.js";
 import { RmuSkillParser } from "../utils/RmuSkillParser.js";
 
+/**
+ * An application for calculating the total bonus for a group task, factoring in participant skills and leadership.
+ * @extends {BaseCalculatorApp}
+ */
 export class GroupTaskApp extends BaseCalculatorApp {
+  /**
+   * Initializes the application and sets up the initial state for the group task calculation.
+   * @param {Array<Token>} tokens - The initial array of tokens to include in the calculator.
+   * @param {object} [options={}] - Application rendering options.
+   */
   constructor(tokens, options = {}) {
     super(tokens, options);
 
+    /**
+     * The internal state of the calculator, tracking the selected leader and task skill.
+     * @type {object}
+     */
     this.calcState = {
       leaderId: null,
       taskSkillName: null,
     };
   }
 
-  static get title() {
-    return "Calculate Group Task";
-  }
+  /**
+   * The title of the application window.
+   * @returns {string}
+   */
+  static get title() { return "Calculate Group Task"; }
 
-  static get template() {
-    return "modules/rmu-complementary-skills/templates/group-task-app.hbs";
-  }
+  /**
+   * The path to the Handlebars template for the application.
+   * @returns {string}
+   */
+  static get template() { return "modules/rmu-complementary-skills/templates/group-task-app.hbs"; }
   
+  /**
+   * Prepares the data context for rendering, setting a default leader if not already chosen.
+   * @param {object} options - Context preparation options.
+   * @returns {Promise<object>} The context object for the Handlebars template.
+   * @override
+   */
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
     
+    // Set the default leader if one is available and not already set.
     if (this._defaultLeaderId && !this.calcState.leaderId) {
       this.calcState.leaderId = this._defaultLeaderId;
     }
@@ -29,15 +53,21 @@ export class GroupTaskApp extends BaseCalculatorApp {
     return context;
   }
 
+  /**
+   * Prepares the UI-specific context for the Group Task application.
+   * @param {object} options - Context preparation options.
+   * @returns {Promise<object>} The UI context object.
+   * @override
+   */
   async getSpecificUiContext(options) {
     const participants = this.getEnabledParticipants();
 
+    // If the current leader is disabled, select a new one.
     if (!this.participants.get(this.calcState.leaderId)?.enabled) {
       this.calcState.leaderId = participants.find(p => p.leadershipRanks > 0)?.id || participants[0]?.id || null;
     }
     
-    // --- THIS IS THE FIX ---
-    // Use a Map to get a unique list of *skill objects*
+    // Create a unified list of all available skills from all participants.
     const skillMap = new Map();
     for (const p of this.participants.values()) {
       const allSkills = p.actor.system._skills.map(RmuSkillParser.getSkillData);
@@ -45,14 +75,14 @@ export class GroupTaskApp extends BaseCalculatorApp {
         skillMap.set(skill.name, skill);
       }
     }
-    // Sort the skill objects, *then* map to their names
+
     const allSkillOptions = Array.from(skillMap.values())
       .sort(RmuSkillParser.sortSkills)
       .map(skill => skill.name);
-    // --- END FIX ---
     
     const selectedSkillName = this.calcState.taskSkillName;
     
+    // For each participant, find their bonus for the selected task skill.
     for (const p of this.participants.values()) {
       const allSkills = p.actor.system._skills.map(RmuSkillParser.getSkillData);
       const skill = allSkills.find(s => s.name === selectedSkillName);
@@ -70,27 +100,42 @@ export class GroupTaskApp extends BaseCalculatorApp {
     };
   }
 
+  /**
+   * Attaches event listeners specific to the Group Task application.
+   * @param {jQuery} $content - The jQuery object for the content element.
+   * @override
+   */
   attachSubclassListeners($content) {
-    // --- State-changing listeners ---
     $content.find(".rmu-leader-select").on("change", this._onChangeLeader.bind(this));
     $content.find(".rmu-task-skill-select").on("change", this._onChangeTaskSkill.bind(this));
-    
-    // --- Send to Chat ---
     $content.closest(".window-app").find(".rmu-send-chat").on("click", this._onSendToChat.bind(this));
   }
   
-  // --- All helper methods below are unchanged ---
-
+  /**
+   * Handles changing the group leader.
+   * @param {Event} event - The change event.
+   * @private
+   */
   _onChangeLeader(event) {
     this.calcState.leaderId = event.currentTarget.value;
     this.render();
   }
 
+  /**
+   * Handles changing the task skill.
+   * @param {Event} event - The change event.
+   * @private
+   */
   _onChangeTaskSkill(event) {
     this.calcState.taskSkillName = event.currentTarget.value;
     this.render();
   }
   
+  /**
+   * Sends the calculated group task bonus to the chat.
+   * @param {Event} event - The click event.
+   * @private
+   */
   _onSendToChat(event) {
      const calc = this._calculateBonus();
      if (!calc.taskSkillName) {
@@ -117,6 +162,11 @@ export class GroupTaskApp extends BaseCalculatorApp {
      });
   }
   
+  /**
+   * Calculates the total bonus for the group task.
+   * @returns {object} An object containing the bonus breakdown.
+   * @private
+   */
   _calculateBonus() {
     const participants = this.getEnabledParticipants();
     if (participants.length === 0) return {};
@@ -124,6 +174,7 @@ export class GroupTaskApp extends BaseCalculatorApp {
     let totalBonus = 0;
     const participantBonuses = [];
 
+    // Sum the bonuses from all enabled participants for the selected skill.
     for (const p of participants) {
       const bonus = p.bonusForSelectedSkill || 0;
       totalBonus += bonus;
@@ -132,6 +183,7 @@ export class GroupTaskApp extends BaseCalculatorApp {
     
     const averageBonus = (participants.length > 0) ? (totalBonus / participants.length) : 0;
 
+    // Get the leadership bonus from the selected leader.
     const leader = this.participants.get(this.calcState.leaderId);
     const leadershipBonus = (leader && leader.enabled) ? leader.leadershipRanks : 0;
     
