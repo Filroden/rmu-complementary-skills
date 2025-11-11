@@ -27,9 +27,6 @@ export class AddParticipantDialog extends foundry.applications.api.DialogV2 {
     );
     console.log(`RMU COMP SKILLS | Found ${availableTokens.length} available tokens.`);
 
-    // --- THIS IS THE FIX (Part 1) ---
-    // We build the HTML content string manually, just like
-    // the documentation example.
     let content = "";
     if (availableTokens.length > 0) {
       content = `
@@ -48,26 +45,24 @@ export class AddParticipantDialog extends foundry.applications.api.DialogV2 {
     } else {
       content = `<p class="rmu-notes">No other tokens with actors are available on the scene.</p>`;
     }
-    // --- END FIX ---
 
     // Call super() with the correct DialogV2 configuration
     super({
       id: "rmu-add-participant-dialog",
-      title: "Add Participants",
+      // --- THIS IS THE FIX (Part 1) ---
+      // The title must be in a 'window' object
+      window: { title: "Add Participants" },
+      // --- END FIX ---
       classes: ["rmu-calc-app"],
       width: 300,
-      content: content, // Pass the raw HTML string
+      content: content,
       buttons: [
         {
-          action: "add", // We give it an action
+          action: "add",
           label: "Add",
           icon: "fa-solid fa-plus",
-          default: true, // This makes it the default submit button
+          default: true,
           disabled: availableTokens.length === 0,
-          
-          // --- THIS IS THE FIX (Part 2) ---
-          // This callback's *only* job is to *return* the data.
-          // We get the form from 'button.form'.
           callback: (event, button, dialog) => {
             console.log("RMU COMP SKILLS | Button callback fired. Returning form data.");
             const elements = button.form.elements;
@@ -77,25 +72,18 @@ export class AddParticipantDialog extends foundry.applications.api.DialogV2 {
                 addedTokenIds.push(el.name);
               }
             }
-            return addedTokenIds; // This array is sent to 'submit'
+            return addedTokenIds;
           }
-          // --- END FIX ---
         },
         {
           action: "cancel",
           label: "Cancel",
           icon: "fa-solid fa-times"
-          // No callback, so it just returns its action ("cancel")
         }
       ],
-      
-      // --- THIS IS THE FIX (Part 3) ---
-      // This 'submit' function *receives* the 'result'
-      // returned by the button's callback.
       submit: (result) => {
         console.log("RMU COMP SKILLS | 'submit' function fired.");
         
-        // 'result' is the 'addedTokenIds' array from our callback
         if (result && result.length > 0) {
           console.log("RMU COMP SKILLS | Token IDs to add:", result);
           const addedTokens = allTokens.filter(token => result.includes(token.id));
@@ -110,7 +98,6 @@ export class AddParticipantDialog extends foundry.applications.api.DialogV2 {
           }
         }
       }
-      // --- END FIX ---
     });
 
     this.render(true);
