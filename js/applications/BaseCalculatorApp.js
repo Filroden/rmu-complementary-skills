@@ -89,14 +89,18 @@ export class BaseCalculatorApp extends foundry.applications.api.HandlebarsApplic
         if (newParticipants.has(token.id)) continue; 
         
         // Fetch all skills and leadership ranks for the token.
-        const allSkills = await RmuSkillParser.getSkillsForToken(token);
-        const leadershipRanks = RmuSkillParser.getLeadershipRanks(allSkills);
+        const allSkills = await RmuSkillParser.getSkillsForToken(token); //
+        const leadershipRanks = RmuSkillParser.getLeadershipRanks(allSkills); //
         
         // Filter and sort skills to show only those with ranks.
         const skillsWithRanks = allSkills
-          .map(RmuSkillParser.getSkillData)
-          .filter(sk => sk.ranks > 0)
-          .sort(RmuSkillParser.sortSkills); 
+          .map(RmuSkillParser.getSkillData) //
+          .filter(sk => sk.ranks > 0 && !sk.disabledBySystem)
+          .sort(RmuSkillParser.sortSkills); //
+        
+        // --- NEW ---
+        const skillsWithRanksGrouped = RmuSkillParser.groupSkills(skillsWithRanks);
+        // --- END ---
           
         newParticipants.set(token.id, {
           id: token.id,
@@ -105,7 +109,8 @@ export class BaseCalculatorApp extends foundry.applications.api.HandlebarsApplic
           actor: token.actor,
           enabled: true, 
           leadershipRanks: leadershipRanks,
-          allSkills: skillsWithRanks, 
+          allSkills: skillsWithRanks, // Keep for lookups
+          allSkillsGrouped: skillsWithRanksGrouped, // Add this for dropdowns
         });
 
         // Determine the default leader based on the highest leadership rank.

@@ -70,15 +70,20 @@ export class GroupTaskApp extends BaseCalculatorApp {
     // Create a unified list of all available skills from all participants.
     const skillMap = new Map();
     for (const p of this.participants.values()) {
-      const allSkills = p.actor.system._skills.map(RmuSkillParser.getSkillData);
+      const allSkills = p.actor.system._skills
+        .map(RmuSkillParser.getSkillData)
+        .filter(sk => !sk.disabledBySystem);
       for (const skill of allSkills) {
         skillMap.set(skill.name, skill);
       }
     }
 
-    const allSkillOptions = Array.from(skillMap.values())
-      .sort(RmuSkillParser.sortSkills)
-      .map(skill => skill.name);
+    // --- UPDATE ---
+    const allSkillOptionsFlat = Array.from(skillMap.values())
+      .sort(RmuSkillParser.sortSkills);
+      
+    const allSkillOptionsGrouped = RmuSkillParser.groupSkills(allSkillOptionsFlat);
+    // --- END ---
     
     const selectedSkillName = this.calcState.taskSkillName;
     
@@ -94,7 +99,7 @@ export class GroupTaskApp extends BaseCalculatorApp {
     return {
       participants: Array.from(this.participants.values()),
       leaderId: this.calcState.leaderId,
-      allSkillOptions: allSkillOptions,
+      allSkillOptions: allSkillOptionsGrouped, // Pass grouped data
       taskSkillName: this.calcState.taskSkillName,
       calculation: calculation,
     };
