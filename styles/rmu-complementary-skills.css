@@ -201,13 +201,7 @@ button.control.tool.rmu-skill-button-icon {
   background: var(--filroden-color-bg-darkest);
   color: var(--filroden-color-text-main);
 }
-.application.rmu-calc-app select optgroup {
-  background-color: var(--filroden-color-bg-darkest);
-  color: var(--filroden-color-text-accent);
-  font-weight: bold;
-  font-style: italic;
-  padding: 3px 0 1px 0;
-}
+
 .application.rmu-calc-app input[type="radio"],
 .application.rmu-calc-app input[type="checkbox"] {
   accent-color: var(--filroden-color-text-accent);

@@ -58,16 +58,11 @@ export class BoostSkillApp extends BaseCalculatorApp {
     const primaryActor = this.participants.get(this.calcState.primaryActorId);
     
     // Get the list of skills for the primary actor's dropdown.
-    const allPrimarySkills = primaryActor ? 
+    const primarySkillOptions = primaryActor ? 
       primaryActor.actor.system._skills
         .map(RmuSkillParser.getSkillData)
-        .filter(sk => !sk.disabledBySystem)
         .sort(RmuSkillParser.sortSkills)
       : [];
-    
-    // --- NEW ---
-    const primarySkillOptionsGrouped = RmuSkillParser.groupSkills(allPrimarySkills);
-    // --- END ---
     
     const selectedSkillName = this.calcState.primarySkillName;
     
@@ -78,23 +73,16 @@ export class BoostSkillApp extends BaseCalculatorApp {
       p.bonusForSelectedSkill = skill ? skill.bonus : 0;
     }
     
-    // --- UPDATE ---
-    // Group the complementary skill options as well
-    const primaryComplementOptions = RmuSkillParser.groupSkills(primaryActor ? primaryActor.allSkills : []);
-    // --- END ---
-    
+    const primaryComplementOptions = primaryActor ? primaryActor.allSkills : [];
     const otherParticipants = participants.filter(p => p.id !== this.calcState.primaryActorId);
-    
-    // --- UPDATE ---
-    const calculation = this._calculateBonus(allPrimarySkills); // Pass flat list
-    // --- END ---
+    const calculation = this._calculateBonus(primarySkillOptions);
 
     return {
       participants: Array.from(this.participants.values()),
       primaryActorId: this.calcState.primaryActorId,
-      primarySkillOptions: primarySkillOptionsGrouped, // Pass grouped data
+      primarySkillOptions: primarySkillOptions,
       primarySkillName: this.calcState.primarySkillName,
-      primaryComplementOptions: primaryComplementOptions, // Pass grouped data
+      primaryComplementOptions: primaryComplementOptions,
       primaryActorSkills: this.calcState.primaryActorSkills,
       otherParticipants: otherParticipants,
       otherActorSkills: this.calcState.otherActorSkills,
@@ -197,18 +185,7 @@ export class BoostSkillApp extends BaseCalculatorApp {
    * @private
    */
   _onSendToChat(event) {
-     // --- UPDATE ---
-     // Need to pass the flat list to _calculateBonus
-     const primaryActor = this.participants.get(this.calcState.primaryActorId);
-     const allPrimarySkills = primaryActor ? 
-      primaryActor.actor.system._skills
-        .map(RmuSkillParser.getSkillData)
-        .filter(sk => !sk.disabledBySystem)
-        .sort(RmuSkillParser.sortSkills)
-      : [];
-     const calc = this._calculateBonus(allPrimarySkills);
-     // --- END ---
-     
+     const calc = this._calculateBonus();
      if (!calc.primaryBonus) {
        ui.notifications.warn("Please select a Primary Skill first.");
        return;
@@ -234,16 +211,16 @@ export class BoostSkillApp extends BaseCalculatorApp {
   
   /**
    * Calculates the total skill bonus including complementary skills.
-   * @param {Array<object>} [allPrimarySkills] - Pre-calculated FLAT array of skill options for the primary actor.
+   * @param {Array<object>} [primarySkillOptions] - Pre-calculated skill options for the primary actor.
    * @returns {object} An object containing the bonus breakdown.
    * @private
    */
-  _calculateBonus(allPrimarySkills) { //
+  _calculateBonus(primarySkillOptions) {
     const primaryActor = this.participants.get(this.calcState.primaryActorId);
     if (!primaryActor) return {};
 
     // 1. Get Primary Skill Bonus
-    const primarySkill = (allPrimarySkills || primaryActor.actor.system._skills.map(RmuSkillParser.getSkillData)) // Use flat list
+    const primarySkill = (primarySkillOptions || primaryActor.actor.system._skills.map(RmuSkillParser.getSkillData))
       .find(s => s.name === this.calcState.primarySkillName);
     const primaryBonus = primarySkill?.bonus || 0;
 
@@ -261,7 +238,7 @@ export class BoostSkillApp extends BaseCalculatorApp {
     for (const [actorId, skillName] of Object.entries(this.calcState.otherActorSkills)) {
       const participant = this.participants.get(actorId);
       if (participant && participant.enabled && skillName) {
-        const skillData = participant.allSkills.find(s => s.name === skillName); // allSkills is flat list
+        const skillData = participant.allSkills.find(s => s.name === skillName);
         if (skillData && skillData.ranks > 0) {
           complementRanks.push({ name: `${participant.name}'s ${skillName}`, ranks: skillData.ranks });
         }

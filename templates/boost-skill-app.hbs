@@ -9,13 +9,9 @@
           <select class="rmu-primary-skill-select" name="primarySkillName">
             <option value="">Select Primary Skill...</option>
             {{#each primarySkillOptions}}
-            <optgroup label="{{label}}">
-              {{#each skills}}
-              <option value="{{name}}" {{selected (eq name ../../primarySkillName)}}>
+              <option value="{{name}}" {{selected (eq name ../primarySkillName)}}>
                 {{name}} (Bonus: {{bonus}})
               </option>
-              {{/each}}
-            </optgroup>
             {{/each}}
           </select>
         </div>
@@ -32,12 +28,12 @@
           <span>Skill Bonus</span>
         </div>
         {{#each participants}}
-        <div class="rmu-participant-row">
-          <input type="checkbox" class="rmu-participant-enable" data-id="{{id}}" {{checked enabled}}/>
-          <input type="radio" class="rmu-primary-actor-select" name="primaryActor" value="{{id}}" {{checked (eq id ../primaryActorId)}} {{disabled (not enabled)}}/>
-          <label>{{name}}</label>
-          <span class="rmu-participant-bonus">{{bonusForSelectedSkill}}</span>
-        </div>
+          <div class="rmu-participant-row">
+            <input type="checkbox" class="rmu-participant-enable" data-id="{{id}}" {{checked enabled}}/>
+            <input type="radio" class="rmu-primary-actor-select" name="primaryActor" value="{{id}}" {{checked (eq id ../primaryActorId)}} {{disabled (not enabled)}}/>
+            <label>{{name}}</label>
+            <span class="rmu-participant-bonus">{{bonusForSelectedSkill}}</span>
+          </div>
         {{/each}}
       </div>
       <div class="rmu-add-wrapper">
@@ -48,96 +44,88 @@
     </fieldset>
 
     {{#if primaryActorId}}
-    <fieldset class="rmu-calc-fieldset">
-      <legend>Complementary Skills</legend>
-      <div class="rmu-sub-fieldset">
-        <legend>From Primary Participant</legend>
-        <div class="rmu-dynamic-list">
-          {{#each primaryActorSkills}}
-          <div class="rmu-dynamic-row">
-            <select class="rmu-primary-comp-skill" data-index="{{@index}}">
-              <option value="">Select Skill...</option>
-              {{#each ../primaryComplementOptions}}
-              <optgroup label="{{label}}">
-                {{#each skills}}
-                <option value="{{name}}" {{selected (eq name ../../name)}}>
-                  {{name}} (Ranks: {{ranks}})
-                </option>
-                {{/each}}
-              </optgroup>
-              {{/each}}
-            </select>
-            <button type="button" class="rmu-icon-button rmu-primary-comp-delete" data-index="{{@index}}" title="Remove Skill">
-              <img src="modules/rmu-complementary-skills/assets/icon-trash.svg" width="14" height="14"/>
-            </button>
-          </div>
-          {{/each}}
-        </div>
-        <button type="button" class="rmu-primary-comp-add">
-          <i class="fas fa-plus"></i> Add Skill
-        </button>
-      </div>
-
-      <div class="rmu-sub-fieldset">
-        <legend>From Other Participants</legend>
-        {{#each otherParticipants}}
-        {{#if enabled}}
-        <div class="form-group">
-          <label>{{name}}</label>
-          <div class="form-fields">
-            <select class="rmu-other-comp-skill" data-id="{{id}}">
-              <option value="">None</option>
-              {{#each allSkillsGrouped}}
-              <optgroup label="{{label}}">
-                {{#each skills}}
-                <option value="{{name}}" {{selected (eq name (lookup ../../../otherActorSkills ../id))}}>
-                  {{name}} (Ranks: {{ranks}})
-                </option>
-                {{/each}}
-              </optgroup>
-              {{/each}}
-            </select>
-          </div>
-        </div>
-        {{/if}}
-        {{/each}}
-        {{#if (eq otherParticipants.length 0)}}
-        <span class="rmu-notes">No other participants are enabled.</span>
-        {{/if}}
-      </div>
-    </fieldset>
-
-    <fieldset class="rmu-calc-fieldset">
-      <legend>Calculation</legend>
-      <div class="rmu-output-box">
-        <div class="rmu-output-row">
-          <span>Primary Skill Bonus:</span>
-          <span class="rmu-output-value">+{{calculation.primaryBonus}}</span>
-        </div>
-        <div class="rmu-output-row">
-          <span>Complementary Bonus:</span>
-          <span class="rmu-output-value">+{{calculation.complementBonus}}</span>
-        </div>
-        <div class="rmu-output-row rmu-output-total">
-          <span>Total Bonus:</span>
-          <span class="rmu-output-value">+{{calculation.total}}</span>
-        </div>
-
-        {{#if calculation.breakdown}}
-        <div class="rmu-output-breakdown">
-          <span class="rmu-notes">Breakdown:</span>
-          <ul>
-            {{#each calculation.breakdown}}
-            <li>
-              <strong>+{{bonus}}</strong>
-              (from {{name}} - {{ranks}} Ranks)
-            </li>
+      <fieldset class="rmu-calc-fieldset">
+        <legend>Complementary Skills</legend>
+        <div class="rmu-sub-fieldset">
+          <legend>From Primary Participant</legend>
+          <div class="rmu-dynamic-list">
+            {{#each primaryActorSkills}}
+              <div class="rmu-dynamic-row">
+                <select class="rmu-primary-comp-skill" data-index="{{@index}}">
+                  <option value="">Select Skill...</option>
+                  {{#each ../primaryComplementOptions}}
+                    <option value="{{name}}" {{selected (eq name ../name)}}>
+                      {{name}} (Ranks: {{ranks}})
+                    </option>
+                  {{/each}}
+                </select>
+                <button type="button" class="rmu-icon-button rmu-primary-comp-delete" data-index="{{@index}}" title="Remove Skill">
+                  <img src="modules/rmu-complementary-skills/assets/icon-trash.svg" width="14" height="14"/>
+                </button>
+              </div>
             {{/each}}
-          </ul>
+          </div>
+          <button type="button" class="rmu-primary-comp-add">
+            <i class="fas fa-plus"></i> Add Skill
+          </button>
         </div>
-        {{/if}}
-      </div>
-    </fieldset>
+
+        <div class="rmu-sub-fieldset">
+          <legend>From Other Participants</legend>
+          {{#each otherParticipants}}
+            {{#if enabled}}
+              <div class="form-group">
+                <label>{{name}}</label>
+                <div class="form-fields">
+                  <select class="rmu-other-comp-skill" data-id="{{id}}">
+                    <option value="">None</option>
+                    {{#each allSkills}}
+                      <option value="{{name}}" {{selected (eq name (lookup ../../otherActorSkills ../id))}}>
+                        {{name}} (Ranks: {{ranks}})
+                      </option>
+                    {{/each}}
+                  </select>
+                </div>
+              </div>
+            {{/if}}
+          {{/each}}
+          {{#if (eq otherParticipants.length 0)}}
+            <span class="rmu-notes">No other participants are enabled.</span>
+          {{/if}}
+        </div>
+      </fieldset>
+
+      <fieldset class="rmu-calc-fieldset">
+        <legend>Calculation</legend>
+        <div class="rmu-output-box">
+          <div class="rmu-output-row">
+            <span>Primary Skill Bonus:</span>
+            <span class="rmu-output-value">+{{calculation.primaryBonus}}</span>
+          </div>
+          <div class="rmu-output-row">
+            <span>Complementary Bonus:</span>
+            <span class="rmu-output-value">+{{calculation.complementBonus}}</span>
+          </div>
+          <div class="rmu-output-row rmu-output-total">
+            <span>Total Bonus:</span>
+            <span class="rmu-output-value">+{{calculation.total}}</span>
+          </div>
+
+          {{#if calculation.breakdown}}
+            <div class="rmu-output-breakdown">
+              <span class="rmu-notes">Breakdown:</span>
+              <ul>
+                {{#each calculation.breakdown}}
+                  <li>
+                    <strong>+{{bonus}}</strong>
+                    (from {{name}} - {{ranks}} Ranks)
+                  </li>
+                {{/each}}
+              </ul>
+            </div>
+          {{/if}}
+        </div>
+      </fieldset>
     {{/if}}
   </div>
 </form>

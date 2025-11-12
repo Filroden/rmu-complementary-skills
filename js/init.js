@@ -4,18 +4,6 @@
  */
 
 /**
- * Registers Handlebars helpers.
- */
-Hooks.once("init", () => {
-  Handlebars.registerHelper("selected", function (condition) { return condition ? "selected" : ""; });
-  Handlebars.registerHelper("checked", function (condition) { return condition ? "checked" : ""; });
-  Handlebars.registerHelper("disabled", function (condition) { return condition ? "disabled" : ""; });
-  Handlebars.registerHelper("eq", function (a, b) { return a === b; });
-  Handlebars.registerHelper("not", function (a) { return !a; });
-});
-
-
-/**
  * Registers the application classes with the game object after the "ready" hook.
  * This ensures that the classes are available for use throughout Foundry VTT.
  */

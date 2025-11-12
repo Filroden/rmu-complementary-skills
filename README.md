@@ -1,4 +1,4 @@
-# Complementary Skills Calculator for Rolemaster Unified (RMU)
+# RMU Complementary Skills Calculator
 
 This module provides Gamemasters with a quick and easy-to-use calculator to automate the RMU complementary skills rules. After selecting one or more tokens on the scene, the GM can click the new icon in the Token Controls palette to open a launcher window. This launcher presents two distinct options: "Boost Skill Check", which is used when multiple skills are combined to help a single roll, and "Calculate Group Task", which is used when a group works together to shorten the time needed for a task.
 
