@@ -1,6 +1,6 @@
 {
   "id": "rmu-complementary-skills",
-  "title": "Complementary Skills Calculator for Rolemaster Unified (RMU)",
+  "title": "RMU Complementary Skills Calculator",
   "description": "A GM-only tool to calculate complementary skill checks for RMU, supporting both 'Boost Skill' and 'Group Task' scenarios.",
   "version": "0.0.3",
   "compatibility": {
