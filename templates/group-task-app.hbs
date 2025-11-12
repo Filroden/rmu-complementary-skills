@@ -9,7 +9,11 @@
           <select class="rmu-task-skill-select" name="taskSkillName">
             <option value="">Select Task Skill...</option>
             {{#each allSkillOptions}}
-              <option value="{{this}}" {{selected (eq this ../taskSkillName)}}>{{this}}</option>
+            <optgroup label="{{label}}">
+              {{#each skills}}
+              <option value="{{name}}" {{selected (eq name ../../taskSkillName)}}>{{name}}</option>
+              {{/each}}
+            </optgroup>
             {{/each}}
           </select>
         </div>
@@ -27,25 +31,13 @@
           <span>Skill Bonus</span>
         </div>
         {{#each participants}}
-          <div class="rmu-participant-row">
-            <input
-              type="checkbox"
-              class="rmu-participant-enable"
-              data-id="{{id}}"
-              {{checked enabled}}
-            />
-            <input
-              type="radio"
-              class="rmu-leader-select"
-              name="leader"
-              value="{{id}}"
-              {{checked (eq id ../leaderId)}}
-              {{disabled (not enabled)}}
-            />
-            <label>{{name}}</label>
-            <span class="rmu-participant-ranks">{{leadershipRanks}}</span>
-            <span class="rmu-participant-bonus">{{bonusForSelectedSkill}}</span>
-          </div>
+        <div class="rmu-participant-row">
+          <input type="checkbox" class="rmu-participant-enable" data-id="{{id}}" {{checked enabled}} />
+          <input type="radio" class="rmu-leader-select" name="leader" value="{{id}}" {{checked (eq id ../leaderId)}} {{disabled (not enabled)}} />
+          <label>{{name}}</label>
+          <span class="rmu-participant-ranks">{{leadershipRanks}}</span>
+          <span class="rmu-participant-bonus">{{bonusForSelectedSkill}}</span>
+        </div>
         {{/each}}
       </div>
       <div class="rmu-add-wrapper">
@@ -72,16 +64,16 @@
         </div>
 
         {{#if calculation.participants}}
-          <div class="rmu-output-breakdown">
-            <span class="rmu-notes">Participant Bonuses:</span>
-            <ul>
-              {{#each calculation.participants}}
-                <li>
-                  <strong>+{{bonus}}</strong> ({{name}})
-                </li>
-              {{/each}}
-            </ul>
-          </div>
+        <div class="rmu-output-breakdown">
+          <span class="rmu-notes">Participant Bonuses:</span>
+          <ul>
+            {{#each calculation.participants}}
+            <li>
+              <strong>+{{bonus}}</strong> ({{name}})
+            </li>
+            {{/each}}
+          </ul>
+        </div>
         {{/if}}
       </div>
     </fieldset>
