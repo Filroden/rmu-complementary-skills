@@ -1,0 +1,41 @@
+<div class="rmucsc-chat-card">
+  
+  <div class="rmucsc-card-sidebar">
+    <span>BOOST SKILL</span>
+  </div>
+
+  <div class="rmucsc-card-content">
+    
+    <div class="rmucsc-card-panel">
+      <span class="rmucsc-panel-header">Primary Actor</span>
+      <div>{{primaryActorName}}</div>
+      <ul>
+        <li>
+          <span><strong>{{primarySkillName}}</strong></span>
+          <span class="rmucsc-val">+{{primaryBonus}}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="rmucsc-card-panel">
+      <span class="rmucsc-panel-header">Breakdown</span>
+      <ul>
+        {{#each breakdown}}
+          <li>
+            <span>{{name}} ({{ranks}})</span>
+            <span class="rmucsc-val">+{{bonus}}</span>
+          </li>
+        {{/each}}
+      </ul>
+      <div class="rmucsc-complementary-sum">
+         <span>Complementary Sum: +{{complementBonus}}</span>
+      </div>
+    </div>
+
+    <div class="rmucsc-card-panel result">
+      <span class="rmucsc-total-label">Total Bonus</span>
+      <span class="rmucsc-total-value">+{{total}}</span>
+    </div>
+
+  </div>
+</div>

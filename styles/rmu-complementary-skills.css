@@ -412,3 +412,158 @@ button.control.tool.rmu-skill-button-icon {
   color: var(--filroden-color-text-main);
   font-weight: normal;
 }
+
+/* =====================================
+   --- CHAT CARD STYLES ---
+   ===================================== */
+
+/* Target the top-level list item */
+.chat-message.rmu-calc-message {
+  background: transparent;
+  border: none;
+  padding: var(--filroden-space-s);
+  box-shadow: none;
+}
+
+.chat-message.rmu-calc-message :is(.message-sender, .whisper-to, .message-timestamp) {
+  color: var(--filroden-color-text-muted);
+  font-size: var(--filroden-font-size-xs);
+}
+
+.chat-message.rmu-calc-message .message-header {
+  background: var(--filroden-color-bg-medium-solid);
+  padding: var(--filroden-space-xs);
+  border-radius: var(--filroden-radius-medium);
+  margin: var(--filroden-space-xs);
+  border: var(--filroden-border-main);
+}
+
+/* Main container for the chat message */
+.rmucsc-chat-card {
+  display: flex;
+  flex-direction: row;
+  gap: var(--filroden-space-xs);
+  font-family: var(--filroden-font-family);
+  font-size: var(--filroden-font-size-xs);
+  color: var(--filroden-color-text-main);
+}
+
+/* Left Sidebar (Vertical Title) */
+.rmucsc-chat-card .rmucsc-card-sidebar {
+  flex: 0 0 1.8rem; 
+  background-color: var(--filroden-color-text-accent);
+  color: var(--filroden-color-text-main);
+  border-radius: var(--filroden-radius-medium);
+  box-shadow: var(--filroden-shadow-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: var(--filroden-space-xs);
+}
+
+.rmucsc-chat-card .rmucsc-card-sidebar span {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  text-transform: uppercase;
+  letter-spacing: var(--filroden-letter-spacing-wide);
+  font-size: var(--filroden-font-size-xs);
+  white-space: nowrap;
+}
+
+/* Right Content Area */
+.rmucsc-chat-card .rmucsc-card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--filroden-space-m);
+}
+
+/* The "Raised Card" Panels */
+.rmucsc-chat-card .rmucsc-card-panel {
+  background-color: var(--filroden-color-bg-light-solid);
+  border: var(--filroden-border-main);
+  border-radius: var(--filroden-radius-medium);
+  box-shadow: var(--filroden-shadow-card);
+  padding: var(--filroden-space-s);
+  display: flex;
+  flex-direction: column;
+  gap: var(--filroden-space-xs);
+  margin: var(--filroden-space-xs);
+}
+
+/* Panel Headers */
+.rmucsc-chat-card .rmucsc-panel-header {
+  color: var(--filroden-color-text-accent);
+  font-weight: bold;
+  border-bottom: var(--filroden-border-dashed);
+  margin-bottom: var(--filroden-space-xs);
+  padding-bottom: var(--filroden-space-xxs);
+  display: block;
+}
+
+/* Lists inside panels */
+.rmucsc-chat-card ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  line-height: 1.2rem;
+}
+
+.rmucsc-chat-card li {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--filroden-space-xs);
+}
+
+.rmucsc-chat-card li > span:first-child {
+  flex: 1;
+  margin-right: var(--filroden-space-s);
+  word-break: break-word;
+  line-height: 1.2;
+}
+
+/* Highlighting values */
+.rmucsc-chat-card .rmucsc-val {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  text-align: right;
+  font-weight: bold;
+  color: var(--filroden-color-text-main);
+}
+
+/* The Participants Panel */
+.rmucsc-chat-card .rmucsc-name-list {
+  font-style: italic;
+  color: var(--filroden-color-text-muted);
+  font-size: var(--filroden-font-size-xs);
+}
+
+/* The Complementary Skill Result */
+.rmucsc-chat-card .rmucsc-complementary-sum,
+.rmucsc-chat-card .rmucsc-complementary-average {
+  margin-top: var(--filroden-space-xs);
+  border-top: 1px dashed rgba(255,255,255,0.2);
+  padding-top: var(--filroden-space-xxs);
+  text-align: right;
+}
+
+/* The Final Result Panel */
+.rmucsc-chat-card .rmucsc-card-panel.result {
+  background-color: var(--filroden-color-bg-medium-solid);
+  border-color: var(--filroden-color-text-accent);
+  text-align: center;
+}
+
+.rmucsc-chat-card .rmucsc-total-label {
+  text-transform: uppercase;
+  color: var(--filroden-color-text-muted);
+  font-size: var(--filroden-font-size-xs);
+}
+
+.rmucsc-chat-card .rmucsc-total-value {
+  display: block;
+  font-size: var(--filroden-font-size-l);
+  font-weight: var(--filroden-font-weight-bold);
+  color: var(--filroden-color-text-accent);
+}

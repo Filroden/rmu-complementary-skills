@@ -4,7 +4,6 @@
  * @extends {foundry.applications.api.DialogV2}
  */
 export class AddParticipantDialog extends foundry.applications.api.DialogV2 {
-
   /**
    * Initializes the dialog by filtering out existing participants and preparing the list of available tokens.
    * @param {Set<string>} existingParticipants - A set of token IDs that are already in the calculation.
@@ -19,22 +18,27 @@ export class AddParticipantDialog extends foundry.applications.api.DialogV2 {
       ui.notifications.error("Cannot add participants: No active canvas found.");
       super({
         title: "Error",
-        content: "<p class='rmu-notes'>Cannot add participants: No active canvas found.</p>",
+        content:
+          "<p class='rmu-notes'>Cannot add participants: No active canvas found.</p>",
         buttons: [{ label: "Close", action: "close" }],
-        classes: ["rmu-calc-app"]
+        classes: ["rmu-calc-app"],
       });
       this.render(true);
       return;
     }
 
     const allTokens = canvas.tokens.placeables;
-    console.log(`RMU COMP SKILLS | Found ${allTokens.length} total tokens on scene.`);
+    console.log(
+      `RMU COMP SKILLS | Found ${allTokens.length} total tokens on scene.`
+    );
 
     // Filter out tokens that are already participants or don't have an actor.
-    const availableTokens = allTokens.filter(token => 
-      token.actor && !existingParticipants.has(token.id)
+    const availableTokens = allTokens.filter(
+      (token) => token.actor && !existingParticipants.has(token.id)
     );
-    console.log(`RMU COMP SKILLS | Found ${availableTokens.length} available tokens.`);
+    console.log(
+      `RMU COMP SKILLS | Found ${availableTokens.length} available tokens.`
+    );
 
     let content = "";
     if (availableTokens.length > 0) {
@@ -77,7 +81,9 @@ export class AddParticipantDialog extends foundry.applications.api.DialogV2 {
            * @returns {Array<string>} An array of selected token IDs.
            */
           callback: (event, button, dialog) => {
-            console.log("RMU COMP SKILLS | Button callback fired. Returning form data.");
+            console.log(
+              "RMU COMP SKILLS | Button callback fired. Returning form data."
+            );
             const elements = button.form.elements;
             const addedTokenIds = [];
             for (const el of elements) {
@@ -86,13 +92,13 @@ export class AddParticipantDialog extends foundry.applications.api.DialogV2 {
               }
             }
             return addedTokenIds;
-          }
+          },
         },
         {
           action: "cancel",
           label: "Cancel",
-          icon: "fa-solid fa-times"
-        }
+          icon: "fa-solid fa-times",
+        },
       ],
       /**
        * Processes the selected tokens and passes them to the callback.
@@ -100,14 +106,19 @@ export class AddParticipantDialog extends foundry.applications.api.DialogV2 {
        */
       submit: (result) => {
         console.log("RMU COMP SKILLS | 'submit' function fired.");
-        
+
         if (result && result.length > 0) {
           console.log("RMU COMP SKILLS | Token IDs to add:", result);
-          const addedTokens = allTokens.filter(token => result.includes(token.id));
-          console.log("RMU COMP SKILLS | Token objects to add:", addedTokens.length);
+          const addedTokens = allTokens.filter((token) =>
+            result.includes(token.id)
+          );
+          console.log(
+            "RMU COMP SKILLS | Token objects to add:",
+            addedTokens.length
+          );
 
           // Execute the provided callback with the newly added tokens.
-          if (typeof onAddCallback === 'function') {
+          if (typeof onAddCallback === "function") {
             console.log("RMU COMP SKILLS | Calling onAddCallback...");
             onAddCallback(addedTokens);
             console.log("RMU COMP SKILLS | onAddCallback finished.");
@@ -115,7 +126,7 @@ export class AddParticipantDialog extends foundry.applications.api.DialogV2 {
             console.error("RMU COMP SKILLS | onAddCallback is not a function!");
           }
         }
-      }
+      },
     });
 
     this.render(true);

@@ -54,6 +54,11 @@ Both calculator windows share these features:
 
   * **Send to Chat (GM):** Click the "Send to Chat (GM)" button in the footer to post a formatted summary of the calculation, visible only to you in the chat log.
 
+<div style="display: flex; justify-content: center; align-items: flex-start; gap: 2rem;">
+<img src="images/boost-skill-chat.png" alt="Chat output for Boost Skill Calculator" width="200" style="display: block; margin: 2rem auto;">
+<img src="images/group-task-chat.png" alt="Chat output for Group Task Calculator" width="200" style="display: block; margin: 2rem auto;">
+</div>
+
 ## Version History
 
 [Version History](https://www.google.com/search?q=VERSION.md)

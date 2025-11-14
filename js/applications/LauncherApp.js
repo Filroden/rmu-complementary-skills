@@ -2,71 +2,86 @@
  * A launcher application that provides buttons to open either the Boost Skill or Group Task calculators.
  * @extends {foundry.applications.api.HandlebarsApplicationMixin(foundry.applications.api.ApplicationV2)}
  */
-export class LauncherApp extends foundry.applications.api.HandlebarsApplicationMixin(foundry.applications.api.ApplicationV2) {
-  
+export class LauncherApp extends foundry.applications.api.HandlebarsApplicationMixin(
+  foundry.applications.api.ApplicationV2
+) {
   /**
    * Initializes the launcher with the selected tokens.
    * @param {Array<Token>} tokens - The tokens to be passed to the calculator applications.
    * @param {object} [options={}] - Application rendering options.
    */
   constructor(tokens, options = {}) {
-    super(options); 
+    super(options);
     /**
      * The tokens that will be used in the calculator applications.
      * @type {Array<Token>}
      */
     this.tokens = tokens;
   }
-  
+
   /**
    * The title of the application window.
    * @returns {string}
    */
-  static get title() { return "Complementary Skills Launcher"; }
+  static get title() {
+    return "Complementary Skills Launcher";
+  }
 
   /**
    * The path to the Handlebars template for the application.
    * @returns {string}
    */
-  static get template() { return "modules/rmu-complementary-skills/templates/launcher-app.hbs"; }
+  static get template() {
+    return "modules/rmu-complementary-skills/templates/launcher-app.hbs";
+  }
 
   /**
    * The CSS classes to apply to the application window.
    * @returns {Array<string>}
    */
-  static get classes() { return ["rmu-calc-app"]; }
+  static get classes() {
+    return ["rmu-calc-app"];
+  }
 
   /**
    * The unique ID of the application window.
    * @returns {string}
    */
-  static get id() { return "rmu-skills-launcher"; }
+  static get id() {
+    return "rmu-skills-launcher";
+  }
 
   /**
    * The width of the application window.
    * @returns {number}
    */
-  static get width() { return 400; }
+  static get width() {
+    return 400;
+  }
 
   /**
    * The height of the application window.
    * @returns {string}
    */
-  static get height() { return "auto"; }
+  static get height() {
+    return "auto";
+  }
 
   /**
    * The window controls to be displayed in the application header.
    * @returns {Array<object>}
    */
   static get controls() {
-    return [{
-      "name": "close",
-      "label": "Close Window",
-      "icon": "fa-solid fa-xmark",
-      "action": "close"
-    }];
+    return [
+      {
+        name: "close",
+        label: "Close Window",
+        icon: "fa-solid fa-xmark",
+        action: "close",
+      },
+    ];
   }
-  
+
   /**
    * Prepares the data context for rendering the application.
    * @param {object} options - Context preparation options.
@@ -86,9 +101,9 @@ export class LauncherApp extends foundry.applications.api.HandlebarsApplicationM
    */
   async _renderHTML(context, options) {
     const renderContext = await this._prepareContext(options);
-    
+
     return foundry.applications.handlebars.renderTemplate(
-      this.constructor.template, 
+      this.constructor.template,
       renderContext
     );
   }

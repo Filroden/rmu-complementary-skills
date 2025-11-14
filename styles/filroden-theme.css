@@ -8,8 +8,8 @@
 :root {
 
   /* ===================================
-     --- 1. Color Palette ---
-     Defines the core background and UI colors for all components.
+     --- 1. Colour Palettes ---
+     Defines the core background and UI colours for all components.
   =================================== */
   
   /** The darkest background, typically for main windows and content areas. */
@@ -17,41 +17,48 @@
   
   /** A medium-dark background, often used for inputs or secondary panels. */
   --filroden-color-bg-medium: rgba(0, 0, 0, 0.3);
+  --filroden-color-bg-medium-solid: #12110d;
   
   /** A light background, used for subtle UI elements or list items. */
   --filroden-color-bg-light: rgba(255, 255, 255, 0.1);
-  
-  /** The background color for interactive elements on hover. */
+  --filroden-color-bg-light-solid: #302f2b;
+
+  /** The background colour for interactive elements on hover. */
   --filroden-color-bg-hover: rgba(255, 255, 255, 0.2);
-
-
-  /* ===================================
-     --- 2. Text Palette ---
-     Defines the colors for text and accent/branding elements.
-  =================================== */
+  --filroden-color-bg-hover-solid: #474642;
   
-  /** The primary color for all body and UI text. */
+  /** The primary colour for all body and UI text. */
   --filroden-color-text-main: rgba(255, 255, 255, 0.85);
+  --filroden-color-text-main-solid: #dddcdc;
   
-  /** A slightly faded text color for notes, hints, or disabled elements. */
+  /** A slightly faded text colour for notes, hints, or disabled elements. */
   --filroden-color-text-muted: rgba(255, 255, 255, 0.75);
+  --filroden-color-text-muted-solid: #c6c5c4;
   
-  /** The main "gold" accent color, used for buttons, links, and highlights. */
+  /** Very faint text for placeholders, empty states, or watermark-style labels. */
+  --filroden-color-text-placeholder: rgba(255, 255, 255, 0.5);
+  --filroden-color-text-placeholder-solid: #8c8b89;
+
+  /** The main "gold" accent colour, used for buttons, links, and highlights. */
   --filroden-color-text-accent: #a99335;
   
-  /** A brighter version of the accent color, used for hover states. */
+  /** A brighter version of the accent colour, used for hover states. */
   --filroden-color-text-accent-hover: #cbb047;
   
-  /** The color of text placed on top of an accent-colored background. */
+  /** The colour of text placed on top of an accent-coloured background. */
   --filroden-color-text-on-accent: #191813;
 
+  /** Colours to show success, warnings or failures/warnings. */
+  --filroden-color-success: #50be62;
+  --filroden-color-warning: #fb8c00;
+  --filroden-color-danger: #f44336;
 
   /* ===================================
-     --- 3. Borders & Radii ---
+     --- 2. Borders & Radii ---
      Standardizes borders, outlines, and corner rounding.
   =================================== */
   
-  /** The standard color for all borders and rules. */
+  /** The standard colour for all borders and rules. */
   --filroden-color-border: rgba(255, 255, 255, 0.2);
   
   /** A standard 1px solid border. */
@@ -59,7 +66,13 @@
   
   /** A standard 1px dashed border, for sub-sections or fieldsets. */
   --filroden-border-dashed: 1px dashed var(--filroden-color-border);
-  
+
+  /** A border that uses the darkest background color. */
+  --filroden-border-dark: 1px solid var(--filroden-color-bg-darkest);
+
+  /** A subtle text shadow for legibility on complex backgrounds. */
+  --filroden-shadow-text: 1px 1px 1px var(--filroden-color-bg-darkest);
+
   /** Small radius for buttons, inputs, and inline elements. */
   --filroden-radius-small: 3px;
   
@@ -69,12 +82,14 @@
   /** Large radius for main application windows or pop-up dialogs. */
   --filroden-radius-large: 12px;
 
-
   /* ===================================
-     --- 4. Font Sizes ---
+     --- 3. Fonts and letter spacing ---
      Defines a consistent typographic scale.
   =================================== */
   
+  /** Default fonts. */
+   --filroden-font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
   /** Extra-small text, for tile names, chips, or fine print. (e.g., ~11px) */
   --filroden-font-size-xs: 0.75rem; 
   
@@ -87,12 +102,20 @@
   /** Large text, for main titles, legends, or headers. */
   --filroden-font-size-l: 1.2rem;
 
+  /** Heavy font weight for overlays or titles. */
+  --filroden-font-weight-bold: 800;
+
+  /** Wide letter spacing for titles. */
+  --filroden-letter-spacing-wide: 0.05em;
 
   /* ===================================
-     --- 5. Spacing Scale ---
+     --- 4. Spacing Scale ---
      A spatial scale for consistent padding, margins, and gaps.
   =================================== */
   
+  /** The smallest space, for tight gutters. (e.g., 2px) */
+  --filroden-space-xxs: 0.125rem;
+
   /** Extra-small space. (e.g., 4px) */
   --filroden-space-xs: 0.25rem;
   
@@ -107,8 +130,8 @@
 
 
   /* ===================================
-     --- 6. Effects (Shadows) ---
-     Standardizes shadows for depth, focus, and elevation.
+     --- 5. Effects (Shadows) ---
+     Standardises shadows for depth, focus, and elevation.
   =================================== */
   
   /** A subtle shadow for pop-out menus or elevated elements. */
@@ -117,6 +140,11 @@
   /** A larger shadow for main application windows. */
   --filroden-shadow-window: 0 0 10px rgba(0, 0, 0, 0.7);
   
-  /** The accent-colored glow for focused inputs or buttons. */
+  /** A smaller shadow for cards. */
+  --filroden-shadow-card:  inset 0 1px 2px #ffffff30, /* top highlight */ 
+                           0 1px 2px #00000030, /* dark shadow */ 
+                           0 2px 4px #00000015; /* soft shadow */
+
+  /** The accent-coloured glow for focused inputs or buttons. */
   --filroden-shadow-focus: 0 0 5px var(--filroden-color-text-accent);
 }
