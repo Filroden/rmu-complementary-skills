@@ -90,7 +90,7 @@
               {{#each allSkillsGrouped}}
               <optgroup label="{{label}}">
                 {{#each skills}}
-                <option value="{{name}}" {{selected (eq name (lookup ../../../otherActorSkills ../id))}}>
+                <option value="{{name}}" {{selected (eq name (lookup ../../../otherActorSkills ../../id))}}>
                   {{name}} (Ranks: {{ranks}})
                 </option>
                 {{/each}}

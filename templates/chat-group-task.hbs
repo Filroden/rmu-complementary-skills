@@ -1,0 +1,33 @@
+<div class="rmucsc-chat-card">
+  
+  <div class="rmucsc-card-sidebar">
+    <span>GROUP TASK</span>
+  </div>
+
+  <div class="rmucsc-card-content">
+
+    <div class="rmucsc-card-panel">
+      <span class="rmucsc-panel-header">Skill: {{taskSkillName}}</span>
+      <ul>
+        {{#each participants}}
+          <li>
+            <span>{{name}}</span>
+            <span class="rmucsc-val">+{{bonus}}</span>
+          </li>
+        {{/each}}
+      </ul>
+      <div class="rmucsc-complementary-average">
+      <ul>
+         <li><span>Average Bonus</span> <span class="rmucsc-val">+{{averageBonus}}</span></li>
+         <li><span>Leader ({{leaderName}})</span> <span class="rmucsc-val">+{{leadershipBonus}}</span></li>
+      </ul>
+      </div>
+    </div>
+
+    <div class="rmucsc-card-panel result">
+      <span class="rmucsc-total-label">Total Bonus</span>
+      <span class="rmucsc-total-value">+{{total}}</span>
+    </div>
+
+  </div>
+</div>

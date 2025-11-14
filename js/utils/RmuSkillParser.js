@@ -2,7 +2,7 @@
  * A utility class to interface with the RMU system's skill data.
  * All logic is based on the data model provided in skill-model.md.
  */
-export class RmuSkillParser {
+export class RMUSkillParser {
   /**
    * Initializes a token's actor and fetches a flat array of all its skills.
    * @param {Token} token - The token to read.
@@ -17,23 +17,28 @@ export class RmuSkillParser {
 
     // Check if the RMU system's extended data is already prepared.
     if (actor.system?._hudInitialized !== true) {
-      const doc = token?.document ?? token; 
+      const doc = token?.document ?? token;
 
       if (doc && typeof doc.hudDeriveExtendedData === "function") {
         try {
           await doc.hudDeriveExtendedData();
         } catch (e) {
-          console.error(`[RMU Comp Skills] hudDeriveExtendedData failed for ${actor.name}`, e);
+          console.error(
+            `[RMU Comp Skills] hudDeriveExtendedData failed for ${actor.name}`,
+            e
+          );
           return [];
         }
       } else {
-        console.warn(`[RMU Comp Skills] Token ${token.name} does not have hudDeriveExtendedData.`);
+        console.warn(
+          `[RMU Comp Skills] Token ${token.name} does not have hudDeriveExtendedData.`
+        );
       }
     }
-    
+
     return this._getAllActorSkills(actor);
   }
-  
+
   /**
    * Recursively traverses the actor's skill data to produce a flat array.
    * Logic directly from skill-model.md.
@@ -51,7 +56,8 @@ export class RmuSkillParser {
       if (Array.isArray(v)) {
         for (const it of v) pushMaybeSkill(it);
       } else if (typeof v === "object") {
-        if (v.system && (typeof v.system === "object")) { //
+        if (v.system && typeof v.system === "object") {
+          //
           out.push(v);
         } else {
           for (const val of Object.values(v)) pushMaybeSkill(val);
@@ -69,13 +75,14 @@ export class RmuSkillParser {
    */
   static getSkillData(rawSkill) {
     const s = rawSkill?.system ?? {};
-    
+
     const baseName = s.name ?? "Unknown Skill";
-    const specialization = s.specialization ?? null; 
-    
-    const fullName = (specialization && specialization.trim() !== "")
-      ? `${baseName} (${specialization})`
-      : baseName;
+    const specialization = s.specialization ?? null;
+
+    const fullName =
+      specialization && specialization.trim() !== ""
+        ? `${baseName} (${specialization})`
+        : baseName;
 
     return {
       name: fullName,
@@ -93,7 +100,9 @@ export class RmuSkillParser {
    * @returns {number} The total ranks in Leadership.
    */
   static getLeadershipRanks(rawSkills) {
-    const leadershipSkill = rawSkills.find(sk => sk?.system?.name === "Leadership"); //
+    const leadershipSkill = rawSkills.find(
+      (sk) => sk?.system?.name === "Leadership"
+    ); //
     return leadershipSkill?.system?._totalRanks ?? 0; //
   }
 
