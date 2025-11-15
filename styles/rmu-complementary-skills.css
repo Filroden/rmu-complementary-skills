@@ -512,7 +512,7 @@ button.control.tool.rmu-skill-button-icon {
 .rmucsc-chat-card li {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: var(--filroden-space-xs);
 }
 
