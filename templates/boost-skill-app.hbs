@@ -11,7 +11,7 @@
             {{#each primarySkillOptions}}
             <optgroup label="{{label}}">
               {{#each skills}}
-              <option value="{{name}}" {{selected (eq name ../../primarySkillName)}}>
+              <option value="{{uuid}}" {{selected (eq uuid ../../primarySkillUuid)}}>
                 {{name}} (Bonus: {{bonus}})
               </option>
               {{/each}}
@@ -60,7 +60,7 @@
               {{#each ../primaryComplementOptions}}
               <optgroup label="{{label}}">
                 {{#each skills}}
-                <option value="{{name}}" {{selected (eq name ../../name)}}>
+                <option value="{{uuid}}" {{selected (eq ../../uuid uuid)}}>
                   {{name}} (Ranks: {{ranks}})
                 </option>
                 {{/each}}
@@ -90,7 +90,7 @@
               {{#each allSkillsGrouped}}
               <optgroup label="{{label}}">
                 {{#each skills}}
-                <option value="{{name}}" {{selected (eq name (lookup ../../../otherActorSkills ../../id))}}>
+                <option value="{{uuid}}" {{selected (eq (lookup ../../../otherActorSkills ../../id) uuid)}}>
                   {{name}} (Ranks: {{ranks}})
                 </option>
                 {{/each}}

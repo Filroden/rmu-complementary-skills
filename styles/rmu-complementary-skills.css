@@ -567,3 +567,37 @@ button.control.tool.rmu-skill-button-icon {
   font-weight: var(--filroden-font-weight-bold);
   color: var(--filroden-color-text-accent);
 }
+
+/* --- Chat Card Roll Button --- */
+.rmucsc-chat-card .rmucsc-roll-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.rmucsc-chat-card .rmu-roll-skill-button {
+  background: var(--filroden-color-bg-light-solid);
+  border: var(--filroden-border-main);
+  border-radius: var(--filroden-radius-small);
+  box-shadow: var(--filroden-shadow-card);
+  color: var(--filroden-color-text-muted);
+  margin: var(--filroden-space-xs);
+  padding: var(--filroden-space-xs) var(--filroden-space-l);  
+  font-size: var(--filroden-font-size-xs);
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color 0.1s, border-color 0.1s, color 0.1s;
+}
+
+.rmucsc-chat-card .rmu-roll-skill-button:hover {
+  background: var(--filroden-color-bg-hover-solid);
+  border-color: var(--filroden-color-text-accent);
+  color: var(--filroden-color-text-main);
+}
+
+.rmucsc-chat-card .rmu-roll-skill-button:disabled {
+  background: var(--filroden-color-bg-medium-solid);
+  border-color: var(--filroden-border-main);
+  color: var(--filroden-color-text-muted);
+  opacity: 0.5;
+  cursor: not-allowed;
+}

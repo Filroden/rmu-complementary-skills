@@ -11,7 +11,7 @@
             {{#each allSkillOptions}}
             <optgroup label="{{label}}">
               {{#each skills}}
-              <option value="{{name}}" {{selected (eq name ../../taskSkillName)}}>{{name}}</option>
+              <option value="{{uuid}}" {{selected (eq name ../../taskSkillName)}}>{{name}}</option>
               {{/each}}
             </optgroup>
             {{/each}}

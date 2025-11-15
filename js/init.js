@@ -41,18 +41,77 @@ Hooks.once("ready", () => {
 });
 
 /**
- * Hooks into chat message rendering to add a custom class to the top-level <li>
- * for messages created by this module.
+ * Hooks into chat message rendering to add custom styling and attach roll logic
+ * to messages created by this module.
  */
 Hooks.on("renderChatMessageHTML", (message, html) => {
   // Check for our specific flag
   const flags = message.flags?.["rmu-complementary-skills"];
+  if (!flags?.isCalc) return;
+
+  // 'html' can be either an HTMLElement or a jQuery object.
+  const $html = $(html);
   
-  if (flags?.isCalc) {
-    // 'html' can be either an HTMLElement or a jQuery object.
-    // Wrapping in $() and using .addClass() safely handles both cases.
-    $(html).addClass("rmu-calc-message");
+  // 1. Add styling class
+  $html.addClass("rmu-calc-message");
+
+  // 2. Find the new roll button
+  const $button = $html.find(".rmu-roll-skill-button");
+  if ($button.length === 0) return; // No button, exit
+
+  // 3. Check for valid data
+  const { rollType, actorId, skillUuid, bonus } = flags;
+  if (!rollType || !actorId || !skillUuid) {
+    $button.prop("disabled", true);
+    return;
   }
+
+  // 4. Check permissions
+  const actor = game.actors.get(actorId);
+  const currentUser = game.user;
+  const isGM = currentUser.isGM;
+  // Check if the user is an OWNER of the rolling actor
+  const isOwner = actor ? actor.testUserPermission(currentUser, CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) : false;
+
+  if (!isGM && !isOwner) {
+    // User is not allowed, disable the button and stop
+    $button.prop("disabled", true);
+    return;
+  }
+
+  // 5. User is allowed, attach the click event
+  $button.on("click", async (ev) => {
+    // 5.1. Find the Token on the current scene
+    const token = canvas.tokens.ownedTokens.find(t => t.actor?.id === actorId);
+    if (!token) {
+      ui.notifications.warn(`The token for ${actor.name} must be on the current scene to roll.`);
+      return;
+    }
+
+    // 5.2. Find the Skill Item from its UUID
+    const skillItem = await fromUuid(skillUuid);
+    if (!skillItem) {
+      ui.notifications.error(`Could not find the skill item (UUID: ${skillUuid}).`);
+      return;
+    }
+
+    // 5.3. Prepare the API maneuverOptions
+    const maneuverOptions = {}; 
+
+    if (rollType === "boost") {
+      maneuverOptions.otherBonus = Number(bonus);
+    } else if (rollType === "group") {
+      maneuverOptions.overrideSkillBonus = Number(bonus);
+    }
+
+    // 5.4. Call the API using the correct path
+    if (game.system?.api?.rmuTokenSkillAction) {
+      game.system.api.rmuTokenSkillAction(token, skillItem, maneuverOptions);
+    } else {
+      console.error("RMU COMP SKILLS | Could not find API at game.system.api.rmuTokenSkillAction");
+      ui.notifications.error("RMU System API not found.");
+    }
+  });
 });
 
 /**
