@@ -71,24 +71,24 @@ export class RMUSkillParser {
   /**
    * Extracts the relevant data points from a raw skill object.
    * @param {Object} rawSkill - A skill object from _getAllActorSkills
-   * @returns {{name: string, category: string, ranks: number, bonus: number, raw: Object}}
+   * @returns {{uuid: string, name: string, category: string, ranks: number, bonus: number, raw: Object}}
    */
   static getSkillData(rawSkill) {
     const s = rawSkill?.system ?? {};
-
+    
     const baseName = s.name ?? "Unknown Skill";
-    const specialization = s.specialization ?? null;
-
-    const fullName =
-      specialization && specialization.trim() !== ""
-        ? `${baseName} (${specialization})`
-        : baseName;
+    const specialization = s.specialization ?? null; 
+    
+    const fullName = (specialization && specialization.trim() !== "")
+      ? `${baseName} (${specialization})`
+      : baseName;
 
     return {
+      uuid: rawSkill.uuid,
       name: fullName,
-      category: s.category ?? "Unknown", //
-      ranks: s._totalRanks ?? 0, //
-      bonus: s._bonus ?? 0, //
+      category: s.category ?? "Unknown", 
+      ranks: s._totalRanks ?? 0, 
+      bonus: s._bonus ?? 0, 
       disabledBySystem: s._disableSkillRoll === true,
       raw: rawSkill,
     };

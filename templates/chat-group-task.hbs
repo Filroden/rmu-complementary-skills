@@ -5,7 +5,7 @@
   </div>
 
   <div class="rmucsc-card-content">
-
+    
     <div class="rmucsc-card-panel">
       <span class="rmucsc-panel-header">Skill: {{taskSkillName}}</span>
       <ul>
@@ -17,16 +17,22 @@
         {{/each}}
       </ul>
       <div class="rmucsc-complementary-average">
-      <ul>
-         <li><span>Average Bonus</span> <span class="rmucsc-val">+{{averageBonus}}</span></li>
-         <li><span>Leader ({{leaderName}})</span> <span class="rmucsc-val">+{{leadershipBonus}}</span></li>
-      </ul>
+         <ul>
+           <li><span>Average Bonus</span> <span class="rmucsc-val">+{{averageBonus}}</span></li>
+           <li><span>Leader ({{leaderName}})</span> <span class="rmucsc-val">+{{leadershipBonus}}</span></li>
+         </ul>
       </div>
     </div>
 
     <div class="rmucsc-card-panel result">
       <span class="rmucsc-total-label">Total Bonus</span>
       <span class="rmucsc-total-value">+{{total}}</span>
+    </div>
+
+    <div class="rmucsc-roll-footer">
+      <button type="button" class="rmu-roll-skill-button">
+        Roll with {{total}} override
+      </button>
     </div>
 
   </div>
