@@ -26,6 +26,18 @@
     "styles/filroden-theme.css",
     "styles/rmu-complementary-skills.css"
   ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "languages/en.json"
+    },
+    {
+      "lang": "fr",
+      "name": "Français",
+      "path": "languages/fr.json"
+    }
+  ],
   
   "url": "https://github.com/Filroden/rmu-complementary-skills",
   "manifest": "https://github.com/Filroden/rmu-complementary-skills/releases/latest/download/module.json",

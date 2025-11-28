@@ -15,16 +15,32 @@ export class BoostSkillApp extends BaseCalculatorApp {
     super(tokens, options);
     this.calcState = {
       primaryActorId: tokens[0]?.id || null,
-      primarySkillUuid: null,
+      primarySkillUuid: null, // This stores the UUID (or stable ID)
       primarySkillName: null,
       primaryActorSkills: [],
       otherActorSkills: {},
     };
   }
 
-  static get title() { return "Boost Skill Check"; }
+  static get title() { return "RMU_CS.Boost.Title"; }
   static get template() { return "modules/rmu-complementary-skills/templates/boost-skill-app.hbs"; }
   
+  /**
+   * Helper to get the full skill list for an actor, including 0-rank/negative bonus skills.
+   * @param {object} participant - The participant object from this.participants
+   * @returns {Array<object>} Processed skill objects
+   * @private
+   */
+  _getActorAllSkills(participant) {
+    if (!participant || !participant.actor) return [];
+    // Always use the recursive parser to find nested skills
+    const rawSkills = RMUSkillParser._getAllActorSkills(participant.actor);
+    return rawSkills
+        .map(RMUSkillParser.getSkillData)
+        .filter(sk => !sk.disabledBySystem)
+        .sort(RMUSkillParser.sortSkills);
+  }
+
   /**
    * Prepares the UI-specific context for the Boost Skill application.
    * @param {object} options - Context preparation options.
@@ -45,13 +61,8 @@ export class BoostSkillApp extends BaseCalculatorApp {
 
     const primaryActor = this.participants.get(this.calcState.primaryActorId);
     
-    // Get all skills (including disabled) for the primary skill dropdown
-    const allPrimarySkills = primaryActor ? 
-      primaryActor.actor.system._skills
-        .map(RMUSkillParser.getSkillData)
-        .filter(sk => !sk.disabledBySystem)
-        .sort(RMUSkillParser.sortSkills)
-      : [];
+    // Get ALL skills (including 0 rank/negative bonus)
+    const allPrimarySkills = this._getActorAllSkills(primaryActor);
     
     const primarySkillOptionsGrouped = RMUSkillParser.groupSkills(allPrimarySkills);
     const selectedSkillUuid = this.calcState.primarySkillUuid;
@@ -59,12 +70,13 @@ export class BoostSkillApp extends BaseCalculatorApp {
     
     // Find the bonus for the selected skill for all participants (for display)
     for (const p of this.participants.values()) {
-      const allSkills = p.actor.system._skills.map(RMUSkillParser.getSkillData);
-      const skill = allSkills.find(s => s.name === selectedSkillName);
+      // Re-fetch clean list to ensure we can see 0-rank bonuses
+      const allPSkills = this._getActorAllSkills(p);
+      const skill = allPSkills.find(s => s.name === selectedSkillName);
       p.bonusForSelectedSkill = skill ? skill.bonus : 0;
     }
     
-    // Get only skills with ranks for the complementary dropdown
+    // Get only skills with ranks for the complementary dropdown (this remains unchanged, as comp skills need ranks)
     const primaryComplementOptions = RMUSkillParser.groupSkills(primaryActor ? primaryActor.allSkills : []);
     const otherParticipants = participants.filter(p => p.id !== this.calcState.primaryActorId);
     const calculation = this._calculateBonus(allPrimarySkills);
@@ -98,11 +110,6 @@ export class BoostSkillApp extends BaseCalculatorApp {
     $content.find(".rmu-send-chat").on("click", this._onSendToChat.bind(this));
   }
   
-  /**
-   * Handles changing the primary actor.
-   * @param {Event} event - The change event.
-   * @private
-   */
   _onChangePrimaryActor(event) {
     this.calcState.primaryActorId = event.currentTarget.value;
     this.calcState.primarySkillUuid = null;
@@ -112,17 +119,16 @@ export class BoostSkillApp extends BaseCalculatorApp {
     this.render();
   }
 
-  /**
-   * Handles changing the primary skill.
-   * @param {Event} event - The change event.
-   * @private
-   */
   _onChangePrimarySkill(event) {
-    const selectedIndex = event.currentTarget.selectedIndex;
-    const selectedOption = event.currentTarget.options[selectedIndex];
+    const uuid = event.currentTarget.value;
+    const primaryActor = this.participants.get(this.calcState.primaryActorId);
     
-    this.calcState.primarySkillUuid = event.currentTarget.value;
-    this.calcState.primarySkillName = selectedOption.text.trim();
+    // Use the exact same fetch method as getSpecificUiContext to ensure UUIDs match
+    const allSkills = this._getActorAllSkills(primaryActor);
+    const skillData = allSkills.find(s => s.uuid === uuid);
+
+    this.calcState.primarySkillUuid = uuid;
+    this.calcState.primarySkillName = skillData ? skillData.name : null;
     this.render();
   }
 
@@ -131,71 +137,43 @@ export class BoostSkillApp extends BaseCalculatorApp {
     this.render();
   }
 
-  /**
-   * Handles changing a complementary skill for the primary actor.
-   * @param {Event} event - The change event.
-   * @private
-   */
   _onChangePrimaryComp(event) {
     const index = event.currentTarget.dataset.index;
-    const skillUuid = event.currentTarget.value; // This is now a UUID
+    const skillUuid = event.currentTarget.value;
     const primaryActor = this.participants.get(this.calcState.primaryActorId);
     
-    // Find the skill by its UUID
     const skillData = primaryActor?.allSkills.find(s => s.uuid === skillUuid);
 
     this.calcState.primaryActorSkills[index] = {
-      uuid: skillUuid, // Store the UUID for the 'selected' helper
-      name: skillData?.name || "Unknown", // Store name for calculation breakdown
+      uuid: skillUuid, 
+      name: skillData?.name || game.i18n.localize("RMU_CS.Common.UnknownSkill"),
       ranks: skillData?.ranks || 0,
     };
     this.render();
   }
 
-  /**
-   * Handles deleting a complementary skill row for the primary actor.
-   * @param {Event} event - The click event.
-   * @private
-   */
   _onDeletePrimaryComp(event) {
     const index = event.currentTarget.dataset.index;
     this.calcState.primaryActorSkills.splice(index, 1);
     this.render();
   }
 
-  /**
-   * Handles changing a complementary skill for another participant.
-   * @param {Event} event - The change event.
-   * @private
-   */
   _onChangeOtherComp(event) {
     const actorId = event.currentTarget.dataset.id;
-    const skillUuid = event.currentTarget.value; // This is now a UUID
+    const skillUuid = event.currentTarget.value;
     
-    // Store the UUID, not the name
     this.calcState.otherActorSkills[actorId] = skillUuid;
     this.render();
   }
   
-  /**
-   * Sends the calculated skill boost to the chat.
-   * @param {Event} event - The click event.
-   * @private
-   */
   async _onSendToChat(event) {
      const primaryActor = this.participants.get(this.calcState.primaryActorId);
-     
-     const allPrimarySkills = primaryActor ? 
-      primaryActor.actor.system._skills
-        .map(RMUSkillParser.getSkillData)
-        .filter(sk => !sk.disabledBySystem)
-        .sort(RMUSkillParser.sortSkills)
-      : [];
+     const allPrimarySkills = this._getActorAllSkills(primaryActor);
      
      const calc = this._calculateBonus(allPrimarySkills);
      
-     if (!calc.primaryBonus) {
-       ui.notifications.warn("Please select a Primary Skill first.");
+     if (!this.calcState.primarySkillUuid) {
+       ui.notifications.warn(game.i18n.localize("RMU_CS.Notifications.SelectPrimary"));
        return;
      }
 
@@ -208,7 +186,6 @@ export class BoostSkillApp extends BaseCalculatorApp {
        total: calc.total
      };
 
-     // Get all enabled participants in the calculation
      const participants = this.getEnabledParticipants();
      const ownerIds = [];
      for (const p of participants) {
@@ -237,7 +214,7 @@ export class BoostSkillApp extends BaseCalculatorApp {
            rollType: "boost",
            actorId: primaryActor.actor.id,
            skillUuid: this.calcState.primarySkillUuid,
-           bonus: calc.complementBonus // Send the "additional bonus"
+           bonus: calc.complementBonus 
          } 
        }
      });
@@ -245,36 +222,24 @@ export class BoostSkillApp extends BaseCalculatorApp {
      this.close();
   }
   
-  /**
-   * Calculates the total bonus for the skill boost.
-   * @param {Array<object>} allPrimarySkills - The pre-processed skills for the primary actor.
-   * @returns {object} An object containing the bonus breakdown.
-   * @private
-   */
   _calculateBonus(allPrimarySkills) {
     const primaryActor = this.participants.get(this.calcState.primaryActorId);
     if (!primaryActor) return {};
 
-    // Use UUID to find the primary skill
-    const primarySkill = (
-      allPrimarySkills ||
-      primaryActor.actor.system._skills.map(RMUSkillParser.getSkillData)
-    ).find((s) => s.uuid === this.calcState.primarySkillUuid);
+    const primarySkill = allPrimarySkills.find((s) => s.uuid === this.calcState.primarySkillUuid);
     const primaryBonus = primarySkill?.bonus || 0;
 
     let complementRanks = [];
 
-    // Add complementary ranks from the primary actor
     for (const skill of this.calcState.primaryActorSkills) {
       if (skill.ranks > 0) {
         complementRanks.push({
-          name: `${primaryActor.name}'s ${skill.name}`,
+          name: game.i18n.format("RMU_CS.Boost.BreakdownNameFormat", {actorName: primaryActor.name, skillName: skill.name}),
           ranks: skill.ranks,
         });
       }
     }
 
-    // Add complementary ranks from other participants
     for (const [actorId, skillUuid] of Object.entries(
       this.calcState.otherActorSkills
     )) {
@@ -285,20 +250,18 @@ export class BoostSkillApp extends BaseCalculatorApp {
         );
         if (skillData && skillData.ranks > 0) {
           complementRanks.push({
-            name: `${participant.name}'s ${skillData.name}`,
+            name: game.i18n.format("RMU_CS.Boost.BreakdownNameFormat", {actorName: participant.name, skillName: skillData.name}),
             ranks: skillData.ranks,
           });
         }
       }
     }
 
-    // Sort by ranks, descending, for diminishing returns
     complementRanks.sort((a, b) => b.ranks - a.ranks);
 
     let complementBonus = 0;
     const breakdown = [];
 
-    // Apply diminishing returns calculation
     complementRanks.forEach((item, index) => {
       let bonus = 0;
       if (index === 0) {

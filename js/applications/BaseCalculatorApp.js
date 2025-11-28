@@ -16,7 +16,7 @@ export class BaseCalculatorApp extends foundry.applications.api.HandlebarsApplic
   }
 
   static get title() {
-    return "RMU Calculator";
+    return "RMU Calculator"; // Fallback
   }
   static get classes() {
     return ["rmu-calc-app"];
@@ -26,7 +26,7 @@ export class BaseCalculatorApp extends foundry.applications.api.HandlebarsApplic
     return [
       {
         name: "close",
-        label: "Close Window",
+        label: "RMU_CS.Common.Close",
         icon: "fa-solid fa-xmark",
         action: "close",
       },
@@ -104,7 +104,7 @@ export class BaseCalculatorApp extends foundry.applications.api.HandlebarsApplic
 
     $app.attr("id", this.constructor.id);
     $app.addClass(this.constructor.classes.join(" "));
-    $app.find(".window-title").text(this.constructor.title);
+    $app.find(".window-title").text(game.i18n.localize(this.constructor.title));
 
     $content
       .find(".rmu-participant-enable")

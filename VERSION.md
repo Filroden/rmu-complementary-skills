@@ -2,7 +2,7 @@
 
 | Version | Changes |
 | :--- | :--- |
-| **Version 0.0.7** | * Feat: Add internationalisation<br>* Internal: Convert theme colours to HSL values. |
+| **Version 0.0.7** | * Feat: Add internationalisation<br>* Fix: Fixed bug preventing selection of primary skill with negative skill bonus (however unlikely it is to be used!).<br>* Internal: Convert theme colours to HSL values. |
 | **Version 0.0.6** | * Add ability for lead participant or GM to roll the complementary skill from the chat card.<br>* Close Skill Boost or Group Task window when the results are sent to chat.<br>* Fix filename of RmuSkillParser.js to RMUSkillParser.js (which broke v0.0.5). |
 | **Version 0.0.5** | * Fix for module initialisation error on hosted services.<br>* Minor styling fixes to chat cards. |
 | **Version 0.0.4** | * Add "Send to Chat" for calculator results, whispered to all participants and GMs. |

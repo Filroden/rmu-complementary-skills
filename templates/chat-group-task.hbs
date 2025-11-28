@@ -1,37 +1,38 @@
 <div class="rmucsc-chat-card">
   
   <div class="rmucsc-card-sidebar">
-    <span>GROUP TASK</span>
+    <span>{{localize "RMU_CS.Chat.GroupSidebar"}}</span>
   </div>
 
   <div class="rmucsc-card-content">
     
     <div class="rmucsc-card-panel">
-      <span class="rmucsc-panel-header">Skill: {{taskSkillName}}</span>
+      <span class="rmucsc-panel-header">{{localize "RMU_CS.Common.Skill"}}: {{taskSkillName}}</span>
       <ul>
         {{#each participants}}
           <li>
             <span>{{name}}</span>
-            <span class="rmucsc-val">+{{bonus}}</span>
+            <span class="rmucsc-val">{{signed bonus}}</span>
           </li>
+       
         {{/each}}
       </ul>
       <div class="rmucsc-complementary-average">
          <ul>
-           <li><span>Average Bonus</span> <span class="rmucsc-val">+{{averageBonus}}</span></li>
-           <li><span>Leader ({{leaderName}})</span> <span class="rmucsc-val">+{{leadershipBonus}}</span></li>
+           <li><span>{{localize "RMU_CS.Chat.AverageBonus"}}</span> <span class="rmucsc-val">{{signed averageBonus}}</span></li>
+           <li><span>{{localize "RMU_CS.Chat.Leader" name=leaderName}}</span> <span class="rmucsc-val">{{signed leadershipBonus}}</span></li>
          </ul>
       </div>
     </div>
 
     <div class="rmucsc-card-panel result">
-      <span class="rmucsc-total-label">Total Bonus</span>
-      <span class="rmucsc-total-value">+{{total}}</span>
+      <span class="rmucsc-total-label">{{localize "RMU_CS.Common.TotalBonus"}}</span>
+      <span class="rmucsc-total-value">{{signed total}}</span>
     </div>
 
     <div class="rmucsc-roll-footer">
       <button type="button" class="rmu-roll-skill-button">
-        Roll with {{total}} override
+        {{localize "RMU_CS.Chat.RollOverride" total=(signed total)}}
       </button>
     </div>
 

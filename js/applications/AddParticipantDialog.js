@@ -15,12 +15,12 @@ export class AddParticipantDialog extends foundry.applications.api.DialogV2 {
     // Ensure the canvas and tokens are available before proceeding.
     if (!canvas || !canvas.tokens) {
       console.error("RMU COMP SKILLS | 'canvas.tokens' is not available.");
-      ui.notifications.error("Cannot add participants: No active canvas found.");
+      ui.notifications.error(game.i18n.localize("RMU_CS.AddDialog.ErrorCanvas"));
       super({
-        title: "Error",
+        title: game.i18n.localize("RMU_CS.AddDialog.ErrorTitle"),
         content:
-          "<p class='rmu-notes'>Cannot add participants: No active canvas found.</p>",
-        buttons: [{ label: "Close", action: "close" }],
+          `<p class='rmu-notes'>${game.i18n.localize("RMU_CS.AddDialog.ErrorCanvas")}</p>`,
+        buttons: [{ label: game.i18n.localize("RMU_CS.Common.Close"), action: "close" }],
         classes: ["rmu-calc-app"],
       });
       this.render(true);
@@ -43,7 +43,7 @@ export class AddParticipantDialog extends foundry.applications.api.DialogV2 {
     let content = "";
     if (availableTokens.length > 0) {
       content = `
-        <p class="rmu-notes">Select tokens to add to the calculation:</p>
+        <p class="rmu-notes">${game.i18n.localize("RMU_CS.AddDialog.Select")}</p>
         <div class="rmu-add-list">
       `;
       // Create a checkbox for each available token.
@@ -57,19 +57,19 @@ export class AddParticipantDialog extends foundry.applications.api.DialogV2 {
       }
       content += "</div>";
     } else {
-      content = `<p class="rmu-notes">No other tokens with actors are available on the scene.</p>`;
+      content = `<p class="rmu-notes">${game.i18n.localize("RMU_CS.AddDialog.NoTokens")}</p>`;
     }
 
     super({
       id: "rmu-add-participant-dialog",
-      window: { title: "Add Participants" },
+      window: { title: game.i18n.localize("RMU_CS.AddDialog.Title") },
       classes: ["rmu-calc-app"],
       width: 300,
       content: content,
       buttons: [
         {
           action: "add",
-          label: "Add",
+          label: game.i18n.localize("RMU_CS.Common.Add"),
           icon: "fa-solid fa-plus",
           default: true,
           disabled: availableTokens.length === 0,
@@ -96,7 +96,7 @@ export class AddParticipantDialog extends foundry.applications.api.DialogV2 {
         },
         {
           action: "cancel",
-          label: "Cancel",
+          label: game.i18n.localize("RMU_CS.Common.Cancel"),
           icon: "fa-solid fa-times",
         },
       ],

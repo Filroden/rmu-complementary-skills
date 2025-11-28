@@ -17,6 +17,14 @@ Hooks.once("init", () => {
   Handlebars.registerHelper("disabled", function (condition) { return condition ? "disabled" : ""; });
   Handlebars.registerHelper("eq", function (a, b) { return a === b; });
   Handlebars.registerHelper("not", function (a) { return !a; });
+  
+  // NEW: Formats a number to always show a sign (+5, -2, +0)
+  Handlebars.registerHelper("signed", function (value) {
+    const num = Number(value);
+    if (isNaN(num)) return value;
+    // Uses the game's current language for formatting (e.g., commas vs dots)
+    return new Intl.NumberFormat(game.i18n.lang, { signDisplay: "always" }).format(num);
+  });
 });
 
 /**
@@ -84,14 +92,14 @@ Hooks.on("renderChatMessageHTML", (message, html) => {
     // 5.1. Find the Token on the current scene
     const token = canvas.tokens.ownedTokens.find(t => t.actor?.id === actorId);
     if (!token) {
-      ui.notifications.warn(`The token for ${actor.name} must be on the current scene to roll.`);
+      ui.notifications.warn(game.i18n.format("RMU_CS.Notifications.TokenRequired", {name: actor.name}));
       return;
     }
 
     // 5.2. Find the Skill Item from its UUID
     const skillItem = await fromUuid(skillUuid);
     if (!skillItem) {
-      ui.notifications.error(`Could not find the skill item (UUID: ${skillUuid}).`);
+      ui.notifications.error(game.i18n.format("RMU_CS.Notifications.SkillNotFound", {uuid: skillUuid}));
       return;
     }
 
@@ -109,7 +117,7 @@ Hooks.on("renderChatMessageHTML", (message, html) => {
       game.system.api.rmuTokenSkillAction(token, skillItem, maneuverOptions);
     } else {
       console.error("RMU COMP SKILLS | Could not find API at game.system.api.rmuTokenSkillAction");
-      ui.notifications.error("RMU System API not found.");
+      ui.notifications.error(game.i18n.localize("RMU_CS.Notifications.ApiNotFound"));
     }
   });
 });
@@ -136,7 +144,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
     // Add the new button to the token controls.
     tokenControls.tools["rmu-complementary-skills"] = {
       name: "rmu-complementary-skills",
-      title: "RMU Complementary Skills",
+      title: "RMU_CS.Title", // Foundry automatically localizes tool titles if matches a key
       icon: "rmu-skill-button-icon",
       /**
        * Handles the click event for the control button.
@@ -146,14 +154,14 @@ Hooks.on("getSceneControlButtons", (controls) => {
         // Ensure the application classes have been registered.
         if (!game.rmuComplementarySkills?.LauncherApp) {
           console.error("RMU COMP SKILLS | Button clicked, but apps are not registered.");
-          ui.notifications.error("RMU Complementary Skills module is not yet initialized.");
+          ui.notifications.error(game.i18n.localize("RMU_CS.Notifications.NotInitialized"));
           return;
         }
 
         const controlledTokens = canvas.tokens.controlled;
         // Ensure at least one token is selected.
         if (controlledTokens.length === 0) {
-          ui.notifications.warn("Please select at least one token to use the Complementary Skills calculator.");
+          ui.notifications.warn(game.i18n.localize("RMU_CS.Notifications.SelectOne"));
           return;
         }
 

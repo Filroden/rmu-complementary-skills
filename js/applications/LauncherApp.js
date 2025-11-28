@@ -24,7 +24,7 @@ export class LauncherApp extends foundry.applications.api.HandlebarsApplicationM
    * @returns {string}
    */
   static get title() {
-    return "Complementary Skills Launcher";
+    return "RMU_CS.Launcher.Title";
   }
 
   /**
@@ -75,7 +75,7 @@ export class LauncherApp extends foundry.applications.api.HandlebarsApplicationM
     return [
       {
         name: "close",
-        label: "Close Window",
+        label: "RMU_CS.Common.Close",
         icon: "fa-solid fa-xmark",
         action: "close",
       },
@@ -131,7 +131,7 @@ export class LauncherApp extends foundry.applications.api.HandlebarsApplicationM
     // Apply dynamic properties to the application window.
     $app.attr("id", this.constructor.id);
     $app.addClass(this.constructor.classes.join(" "));
-    $app.find(".window-title").text(this.constructor.title);
+    $app.find(".window-title").text(game.i18n.localize(this.constructor.title));
 
     // Attach listeners to the launch buttons.
     $content.find("[data-action='open-rule1']").on("click", () => {
