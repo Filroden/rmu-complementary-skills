@@ -3,11 +3,15 @@
 =====================================
 */
 
+.application.rmu-calc-app:not(.dialog) {
+  min-width: 680px;
+}
+
 .application.rmu-calc-app,
 .application.rmu-calc-app .window-header {
   background-image: unset;
   background-color: var(--filroden-color-bg-darkest);
-  color: var(--filroden-color-text-main);
+  color: var(--filroden-color-text-main-solid);
 }
 
 .application.rmu-calc-app .window-header {
@@ -15,37 +19,37 @@
 }
 
 .application.rmu-calc-app .window-header .window-title {
-  color: var(--filroden-color-text-main);
+  color: var(--filroden-color-text-main-solid);
 }
 
 .application.rmu-calc-app .rmu-notes {
-  color: var(--filroden-color-text-muted);
+  color: var(--filroden-color-text-muted-solid);
 }
 
 .application.rmu-calc-app button {
-  background: var(--filroden-color-bg-light);
+  background: var(--filroden-color-bg-light-solid);
   border: var(--filroden-border-main);
   border-radius: var(--filroden-radius-small);
-  color: var(--filroden-color-text-muted);
+  color: var(--filroden-color-text-muted-solid);
   transition: background-color 0.1s, border-color 0.1s, color 0.1s;
 }
 
 .application.rmu-calc-app .rmu-button-title {
   color: var(--filroden-color-text-accent);
-  font-size: var(--filroden-font-size-l); /* 1.2rem */
+  font-size: var(--filroden-font-size-l);
   font-weight: bold;
 }
 
 .application.rmu-calc-app .rmu-button-note {
-  color: var(--filroden-color-text-muted);
-  font-size: var(--filroden-font-size-s); /* 0.9rem */
+  color: var(--filroden-color-text-muted-solid);
+  font-size: var(--filroden-font-size-s);
   font-weight: normal;
 }
 
 .application.rmu-calc-app button:hover {
-  background: var(--filroden-color-bg-hover);
+  background: var(--filroden-color-bg-hover-solid);
   border-color: var(--filroden-color-text-accent);
-  color: var(--filroden-color-text-main);
+  color: var(--filroden-color-text-main-solid);
 }
 
 /* =====================================
@@ -64,8 +68,8 @@ button.control.tool.rmu-skill-button-icon {
 .application.rmu-calc-app .window-content {
   background: none;
   background-color: var(--filroden-color-bg-darkest);
-  color: var(--filroden-color-text-main);
-  padding: var(--filroden-space-m); /* 0.625rem (10px) */
+  color: var(--filroden-color-text-main-solid);
+  padding: var(--filroden-space-m);
   overflow: auto;
   height: auto;
 }
@@ -74,7 +78,7 @@ button.control.tool.rmu-skill-button-icon {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--filroden-space-m); /* 10px */
+  gap: var(--filroden-space-m);
 }
 
 .rmu-notes {
@@ -89,16 +93,16 @@ button.control.tool.rmu-skill-button-icon {
 .rmu-launcher-buttons {
   display: flex;
   flex-direction: row;
-  gap: var(--filroden-space-m); /* 10px */
-  margin-top: var(--filroden-space-m); /* 10px */
+  gap: var(--filroden-space-m);
+  margin-top: var(--filroden-space-m);
 }
 
 .rmu-launcher-buttons button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem var(--filroden-space-l); /* 1rem */
-  gap: var(--filroden-space-l); /* 1rem */
+  padding: 2rem var(--filroden-space-l);
+  gap: var(--filroden-space-l);
   text-align: center;
 }
 
@@ -112,7 +116,7 @@ button.control.tool.rmu-skill-button-icon {
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
-  gap: var(--filroden-space-m); /* 0.625rem (10px) */
+  gap: var(--filroden-space-m);
 }
 
 .rmu-launcher-icon {
@@ -128,10 +132,10 @@ button.control.tool.rmu-skill-button-icon {
 
 /* --- Fieldsets --- */
 .application.rmu-calc-app .rmu-calc-fieldset {
-  padding: var(--filroden-space-l); /* 1rem */
-  gap: var(--filroden-space-s); /* 0.5rem (8px) */
+  padding: var(--filroden-space-l);
+  gap: var(--filroden-space-s);
   border: var(--filroden-border-main);
-  border-radius: var(--filroden-radius-medium); /* 5px */
+  border-radius: var(--filroden-radius-medium);
   width: 100%;
 }
 
@@ -142,33 +146,33 @@ button.control.tool.rmu-skill-button-icon {
 
 .application.rmu-calc-app .rmu-sub-fieldset {
   border: var(--filroden-border-dashed);
-  padding: var(--filroden-space-m); /* 10px */
-  margin-top: var(--filroden-space-m); /* 10px */
-  border-radius: var(--filroden-radius-small); /* 3px */
+  padding: var(--filroden-space-m);
+  margin-top: var(--filroden-space-m);
+  border-radius: var(--filroden-radius-small);
   
   display: grid;
   grid-template-columns: max-content 1fr;
-  gap: var(--filroden-space-s) var(--filroden-space-l); /* 0.5rem 1rem */
+  gap: var(--filroden-space-s) var(--filroden-space-l);
   align-items: center;
 }
 
 .application.rmu-calc-app .rmu-sub-fieldset legend {
   grid-column: 1 / 3; 
-  font-size: var(--filroden-font-size-xs); /* 0.75rem */
+  font-size: var(--filroden-font-size-xs);
   font-weight: normal;
-  padding: 0 var(--filroden-space-xs); /* 4px */
+  padding: 0 var(--filroden-space-xs);
   text-transform: uppercase;
-  color: var(--filroden-color-text-muted);
-  margin-bottom: var(--filroden-space-xs); /* 4px */
+  color: var(--filroden-color-text-muted-solid);
+  margin-bottom: var(--filroden-space-xs);
 }
 
 /* --- Form Inputs & Selects --- */
 
 .application.rmu-calc-app .form-group {
   display: grid;
-  grid-template-columns: max-content 1fr; 
+  grid-template-columns: max-content minmax(0, 1fr); 
   align-items: center;
-  gap: var(--filroden-space-l); /* 1rem */
+  gap: var(--filroden-space-l);
 }
 
 .application.rmu-calc-app .rmu-sub-fieldset .form-group {
@@ -183,13 +187,18 @@ button.control.tool.rmu-skill-button-icon {
   white-space: nowrap;
 }
 
+.application.rmu-calc-app select {
+  width: 100%;
+  text-overflow: ellipsis;
+}
+
 .application.rmu-calc-app input[type="text"],
 .application.rmu-calc-app input[type="number"],
 .application.rmu-calc-app select {
-  background: var(--filroden-color-bg-medium);
+  background: var(--filroden-color-bg-medium-solid);
   border: var(--filroden-border-main);
-  color: var(--filroden-color-text-main);
-  border-radius: var(--filroden-radius-small); /* 3px */
+  color: var(--filroden-color-text-main-solid);
+  border-radius: var(--filroden-radius-small);
 }
 .application.rmu-calc-app input[type="text"]:focus,
 .application.rmu-calc-app input[type="number"]:focus,
@@ -199,7 +208,7 @@ button.control.tool.rmu-skill-button-icon {
 }
 .application.rmu-calc-app select option {
   background: var(--filroden-color-bg-darkest);
-  color: var(--filroden-color-text-main);
+  color: var(--filroden-color-text-main-solid);
 }
 .application.rmu-calc-app select optgroup {
   background-color: var(--filroden-color-bg-darkest);
@@ -218,28 +227,28 @@ button.control.tool.rmu-skill-button-icon {
 .application.rmu-calc-app .rmu-participant-list {
   display: flex;
   flex-direction: column;
-  gap: var(--filroden-space-xs); /* 4px */
+  gap: var(--filroden-space-xs);
 }
 
 .application.rmu-calc-app #boost-skill-participants .rmu-participant-row {
   display: grid;
   grid-template-columns: 60px 60px 1fr 80px; /* 4 columns */
   align-items: center;
-  gap: var(--filroden-space-m); /* 10px */
+  gap: var(--filroden-space-m);
 }
 .application.rmu-calc-app #group-task-participants .rmu-participant-row {
   display: grid;
   grid-template-columns: 60px 60px 1fr 80px 80px; /* 5 columns */
   align-items: center;
-  gap: var(--filroden-space-m); /* 10px */
+  gap: var(--filroden-space-m);
 }
 
 .application.rmu-calc-app .rmu-participant-row.rmu-participant-header {
   font-weight: bold;
-  font-size: var(--filroden-font-size-xs); /* 0.75rem (~11px) */
+  font-size: var(--filroden-font-size-xs);
   text-transform: uppercase;
   border-bottom: var(--filroden-border-main);
-  padding-bottom: var(--filroden-space-xs); /* 4px */
+  padding-bottom: var(--filroden-space-xs);
 }
 .application.rmu-calc-app .rmu-participant-row.rmu-participant-header span:last-child {
   text-align: center;
@@ -253,23 +262,23 @@ button.control.tool.rmu-skill-button-icon {
 .application.rmu-calc-app .rmu-participant-row .rmu-participant-bonus {
   text-align: center;
   font-style: italic;
-  font-size: var(--filroden-font-size-s); /* 0.9rem */
-  color: var(--filroden-color-text-muted);
+  font-size: var(--filroden-font-size-s);
+  color: var(--filroden-color-text-muted-solid);
 }
 .application.rmu-calc-app .rmu-add-wrapper {
-  margin-top: var(--filroden-space-m); /* 10px */
+  margin-top: var(--filroden-space-m);
 }
 
-/* --- Dynamic Skill List (Rule 1) --- */
+/* --- Dynamic Skill List --- */
 .application.rmu-calc-app .rmu-dynamic-list {
   display: flex;
   flex-direction: column;
-  gap: var(--filroden-space-xs); /* 4px */
+  gap: var(--filroden-space-xs);
 }
 .application.rmu-calc-app .rmu-dynamic-row {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: var(--filroden-space-xs); /* 4px */
+  gap: var(--filroden-space-xs);
   align-items: center;
 }
 .application.rmu-calc-app .rmu-icon-button {
@@ -287,8 +296,8 @@ button.control.tool.rmu-skill-button-icon {
 .application.rmu-calc-app .rmu-output-box {
   display: flex;
   flex-direction: column;
-  gap: var(--filroden-space-xs); /* 4px */
-  font-size: var(--filroden-font-size-s); /* 0.9rem */
+  gap: var(--filroden-space-xs);
+  font-size: var(--filroden-font-size-s);
 }
 .application.rmu-calc-app .rmu-output-row {
   display: flex;
@@ -297,70 +306,83 @@ button.control.tool.rmu-skill-button-icon {
 }
 .application.rmu-calc-app .rmu-output-row .rmu-output-value {
   font-weight: bold;
-  font-size: var(--filroden-font-size-s); /* 0.9rem */
+  font-size: var(--filroden-font-size-s);
 }
 .application.rmu-calc-app .rmu-output-total {
-  font-size: var(--filroden-font-size-m); /* 1.0rem */
+  font-size: var(--filroden-font-size-m);
   font-weight: bold;
   border-top: var(--filroden-border-main);
-  padding-top: var(--filroden-space-xs); /* 4px */
+  padding-top: var(--filroden-space-xs);
 }
 .application.rmu-calc-app .rmu-output-total .rmu-output-value {
-  font-size: var(--filroden-font-size-m); /* 1.0rem */
+  font-size: var(--filroden-font-size-m);
   font-weight: bold;
   color: var(--filroden-color-text-accent);
   font-weight: bold;
 }
 .application.rmu-calc-app .rmu-output-breakdown {
-  margin-top: var(--filroden-space-m); /* 10px */
+  margin-top: var(--filroden-space-m);
   border-top: var(--filroden-border-dashed);
-  padding-top: var(--filroden-space-m); /* 10px */
+  padding-top: var(--filroden-space-m);
 }
 .application.rmu-calc-app .rmu-output-breakdown .rmu-notes {
   font-weight: bold;
 }
 .application.rmu-calc-app .rmu-output-breakdown ul {
-  margin: var(--filroden-space-xs) 0 0 0; /* 4px */
+  margin: var(--filroden-space-xs) 0 0 0;
   padding-left: 20px;
-  font-size: var(--filroden-font-size-s); /* 0.9rem */
+  font-size: var(--filroden-font-size-s);
 }
 
 /* --- Footer --- */
 .application.rmu-calc-app .rmu-calc-footer {
   flex: none;
   border-top: var(--filroden-border-main);
-  padding: var(--filroden-space-m); /* 10px */
+  padding: var(--filroden-space-m);
   display: flex;
   justify-content: flex-end;
 }
 .application.rmu-calc-app .rmu-send-chat {
   background: var(--filroden-color-text-accent);
   border-color: var(--filroden-color-text-accent);
-  color: var(--filroden-color-text-main);
+  color: var(--filroden-color-text-on-accent);
   font-weight: normal;
 }
 .application.rmu-calc-app .rmu-send-chat:hover {
   background: var(--filroden-color-text-accent-hover);
   border-color: var(--filroden-color-text-accent-hover);
-  color: var(--filroden-color-text-main);
+  color: var(--filroden-color-text-on-accent);
 }
 
 /* --- Scrollbar --- */
+/* 1. Standard Syntax (Firefox & Modern Browsers) 
+   This overrides the system's * selector because classes have higher specificity. 
+*/
+.application.rmu-calc-app .window-content {
+  scrollbar-width: thin;
+  scrollbar-color: var(--filroden-color-text-accent) var(--filroden-color-bg-darkest);
+}
+
+/* 2. Webkit Syntax (Chrome, Edge, Foundry App) */
 .application.rmu-calc-app .window-content::-webkit-scrollbar {
-  width: 8px !important;
+  width: 8px;
 }
+
 .application.rmu-calc-app .window-content::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2) !important;
-  border-radius: 10px !important;
+  background: var(--filroden-color-bg-darkest); 
+  border-radius: var(--filroden-radius-large);
 }
+
 .application.rmu-calc-app .window-content::-webkit-scrollbar-thumb {
-  background-color: var(--filroden-color-text-accent) !important;
-  border-radius: 10px !important;
-  border: 1px solid rgba(0, 0, 0, 0.6) !important;
+  background-color: var(--filroden-color-text-accent);
+  border-radius: var(--filroden-radius-large);
+  border: 1px solid var(--filroden-color-bg-darkest); 
 }
+
 .application.rmu-calc-app .window-content::-webkit-scrollbar-thumb:hover {
-  background-color: var(--filroden-color-text-accent-hover) !important;
+  background-color: var(--filroden-color-text-accent-hover);
 }
+
 .application.rmu-calc-app .window-content::-webkit-scrollbar-button {
   display: none;
 }
@@ -371,33 +393,33 @@ button.control.tool.rmu-skill-button-icon {
 */
 
 .application.dialog.rmu-calc-app form.dialog-form {
-  gap: var(--filroden-space-s); /* 0.5rem (8px) */
+  gap: var(--filroden-space-s);
 }
 
 .application.dialog.rmu-calc-app footer.form-footer {
-  padding: 0;
+  padding: var(--filroden-space-m) 0 0 0;
   border-top: var(--filroden-border-main);
-  margin-top: var(--filroden-space-m); /* 10px */
+  margin-top: var(--filroden-space-m);
 }
 
 .application.dialog.rmu-calc-app .rmu-add-list {
   display: flex;
   flex-direction: column;
-  gap: var(--filroden-space-xs); /* 4px */
-  margin-top: var(--filroden-space-m); /* 10px */
+  gap: var(--filroden-space-xs);
+  margin-top: var(--filroden-space-m);
 }
 
 .application.dialog.rmu-calc-app .rmu-add-list .form-group {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: var(--filroden-space-xs); /* 4px */
+  gap: var(--filroden-space-xs);
 }
 
 .application.dialog.rmu-calc-app .rmu-add-list .form-group input[type="checkbox"] {
   margin: 0;
   flex: none;
-  background: var(--filroden-color-bg-medium);
+  background: inherit;
   border: none;
   accent-color: var(--filroden-color-text-accent);
   cursor: pointer;
@@ -409,7 +431,7 @@ button.control.tool.rmu-skill-button-icon {
 }
 
 .application.dialog.rmu-calc-app .rmu-add-list .form-group label {
-  color: var(--filroden-color-text-main);
+  color: var(--filroden-color-text-main-solid);
   font-weight: normal;
 }
 
@@ -426,7 +448,7 @@ button.control.tool.rmu-skill-button-icon {
 }
 
 .chat-message.rmu-calc-message :is(.message-sender, .whisper-to, .message-timestamp) {
-  color: var(--filroden-color-text-muted);
+  color: var(--filroden-color-text-muted-solid);
   font-size: var(--filroden-font-size-xs);
 }
 
@@ -445,14 +467,14 @@ button.control.tool.rmu-skill-button-icon {
   gap: var(--filroden-space-xs);
   font-family: var(--filroden-font-family);
   font-size: var(--filroden-font-size-xs);
-  color: var(--filroden-color-text-main);
+  color: var(--filroden-color-text-main-solid);
 }
 
 /* Left Sidebar (Vertical Title) */
 .rmucsc-chat-card .rmucsc-card-sidebar {
   flex: 0 0 1.8rem; 
   background-color: var(--filroden-color-text-accent);
-  color: var(--filroden-color-text-main);
+  color: var(--filroden-color-text-on-accent);
   border-radius: var(--filroden-radius-medium);
   box-shadow: var(--filroden-shadow-card);
   display: flex;
@@ -529,13 +551,13 @@ button.control.tool.rmu-skill-button-icon {
   white-space: nowrap;
   text-align: right;
   font-weight: bold;
-  color: var(--filroden-color-text-main);
+  color: var(--filroden-color-text-main-solid);
 }
 
 /* The Participants Panel */
 .rmucsc-chat-card .rmucsc-name-list {
   font-style: italic;
-  color: var(--filroden-color-text-muted);
+  color: var(--filroden-color-text-muted-solid);
   font-size: var(--filroden-font-size-xs);
 }
 
@@ -557,7 +579,7 @@ button.control.tool.rmu-skill-button-icon {
 
 .rmucsc-chat-card .rmucsc-total-label {
   text-transform: uppercase;
-  color: var(--filroden-color-text-muted);
+  color: var(--filroden-color-text-muted-solid);
   font-size: var(--filroden-font-size-xs);
 }
 
@@ -579,7 +601,7 @@ button.control.tool.rmu-skill-button-icon {
   border: var(--filroden-border-main);
   border-radius: var(--filroden-radius-small);
   box-shadow: var(--filroden-shadow-card);
-  color: var(--filroden-color-text-muted);
+  color: var(--filroden-color-text-muted-solid);
   margin: var(--filroden-space-xs);
   padding: var(--filroden-space-xs) var(--filroden-space-l);  
   font-size: var(--filroden-font-size-xs);
@@ -591,13 +613,13 @@ button.control.tool.rmu-skill-button-icon {
 .rmucsc-chat-card .rmu-roll-skill-button:hover {
   background: var(--filroden-color-bg-hover-solid);
   border-color: var(--filroden-color-text-accent);
-  color: var(--filroden-color-text-main);
+  color: var(--filroden-color-text-main-solid);
 }
 
 .rmucsc-chat-card .rmu-roll-skill-button:disabled {
   background: var(--filroden-color-bg-medium-solid);
   border-color: var(--filroden-border-main);
-  color: var(--filroden-color-text-muted);
+  color: var(--filroden-color-text-muted-solid);
   opacity: 0.5;
   cursor: not-allowed;
 }

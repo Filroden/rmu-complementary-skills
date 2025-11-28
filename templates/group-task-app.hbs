@@ -2,12 +2,12 @@
   <div class="rmu-calc-pane">
 
     <fieldset class="rmu-calc-fieldset">
-      <legend>Task Skill</legend>
+      <legend>{{localize "RMU_CS.Group.TaskSkill"}}</legend>
       <div class="form-group">
-        <label>Skill</label>
+        <label>{{localize "RMU_CS.Common.Skill"}}</label>
         <div class="form-fields">
           <select class="rmu-task-skill-select" name="taskSkillName">
-            <option value="">Select Task Skill...</option>
+            <option value="">{{localize "RMU_CS.Group.SelectTask"}}</option>
             {{#each allSkillOptions}}
             <optgroup label="{{label}}">
               {{#each skills}}
@@ -21,14 +21,14 @@
     </fieldset>
 
     <fieldset class="rmu-calc-fieldset">
-      <legend>Participants</legend>
+      <legend>{{localize "RMU_CS.Boost.Participants"}}</legend>
       <div class="rmu-participant-list" id="group-task-participants">
         <div class="rmu-participant-row rmu-participant-header">
-          <span>Enabled</span>
-          <span>Leader</span>
-          <span>Participant</span>
-          <span>Ldr. Ranks</span>
-          <span>Skill Bonus</span>
+          <span>{{localize "RMU_CS.Common.Enabled"}}</span>
+          <span>{{localize "RMU_CS.Group.Leader"}}</span>
+          <span>{{localize "RMU_CS.Common.Participant"}}</span>
+          <span>{{localize "RMU_CS.Group.LeaderRanks"}}</span>
+          <span>{{localize "RMU_CS.Common.SkillBonus"}}</span>
         </div>
         {{#each participants}}
         <div class="rmu-participant-row">
@@ -36,40 +36,40 @@
           <input type="radio" class="rmu-leader-select" name="leader" value="{{id}}" {{checked (eq id ../leaderId)}} {{disabled (not enabled)}} />
           <label>{{name}}</label>
           <span class="rmu-participant-ranks">{{leadershipRanks}}</span>
-          <span class="rmu-participant-bonus">{{bonusForSelectedSkill}}</span>
+          <span class="rmu-participant-bonus">{{signed bonusForSelectedSkill}}</span>
         </div>
         {{/each}}
       </div>
       <div class="rmu-add-wrapper">
         <button type="button" class="rmu-add-participant">
-          <i class="fas fa-plus"></i> Add Participant
+          <i class="fas fa-plus"></i> {{localize "RMU_CS.Common.AddParticipant"}}
         </button>
       </div>
     </fieldset>
 
     <fieldset class="rmu-calc-fieldset">
-      <legend>Calculation</legend>
+      <legend>{{localize "RMU_CS.Common.Calculation"}}</legend>
       <div class="rmu-output-box">
         <div class="rmu-output-row">
-          <span>Average Skill Bonus:</span>
-          <span class="rmu-output-value">+{{calculation.averageBonus}}</span>
+          <span>{{localize "RMU_CS.Group.AvgBonus"}}</span>
+          <span class="rmu-output-value">{{signed calculation.averageBonus}}</span>
         </div>
         <div class="rmu-output-row">
-          <span>Leadership Ranks ({{calculation.leaderName}}):</span>
-          <span class="rmu-output-value">+{{calculation.leadershipBonus}}</span>
+          <span>{{localize "RMU_CS.Group.LeadershipRanks" name=calculation.leaderName}}</span>
+          <span class="rmu-output-value">{{signed calculation.leadershipBonus}}</span>
         </div>
         <div class="rmu-output-row rmu-output-total">
-          <span>Total Bonus:</span>
-          <span class="rmu-output-value">+{{calculation.total}}</span>
+          <span>{{localize "RMU_CS.Common.TotalBonus"}}:</span>
+          <span class="rmu-output-value">{{signed calculation.total}}</span>
         </div>
 
         {{#if calculation.participants}}
         <div class="rmu-output-breakdown">
-          <span class="rmu-notes">Participant Bonuses:</span>
+          <span class="rmu-notes">{{localize "RMU_CS.Group.PartBonuses"}}</span>
           <ul>
             {{#each calculation.participants}}
             <li>
-              <strong>+{{bonus}}</strong> ({{name}})
+              <strong>{{signed bonus}}</strong> ({{name}})
             </li>
             {{/each}}
           </ul>
@@ -82,6 +82,6 @@
 
 <footer class="rmu-calc-footer">
   <button type="button" class="rmu-send-chat">
-    <i class="fas fa-comment-alt"></i> Send to Chat (GM)
+    <i class="fas fa-comment-alt"></i> {{localize "RMU_CS.Common.SendChat"}}
   </button>
 </footer>

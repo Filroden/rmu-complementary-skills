@@ -76,17 +76,25 @@ export class RMUSkillParser {
   static getSkillData(rawSkill) {
     const s = rawSkill?.system ?? {};
     
-    const baseName = s.name ?? "Unknown Skill";
+    const baseName = s.name ?? game.i18n.localize("RMU_CS.Common.UnknownSkill");
     const specialization = s.specialization ?? null; 
     
     const fullName = (specialization && specialization.trim() !== "")
       ? `${baseName} (${specialization})`
       : baseName;
 
+    // FIX: Robust ID resolution.
+    // 1. Try standard Document UUID.
+    // 2. Try _id (common in nested data).
+    // 3. Fallback to name (risky but better than empty string for display-only logic).
+    let stableId = rawSkill.uuid;
+    if (!stableId) stableId = rawSkill._id;
+    if (!stableId) stableId = fullName; // Last resort fallback
+
     return {
-      uuid: rawSkill.uuid,
+      uuid: stableId,
       name: fullName,
-      category: s.category ?? "Unknown", 
+      category: s.category ?? game.i18n.localize("RMU_CS.Common.Unknown"), 
       ranks: s._totalRanks ?? 0, 
       bonus: s._bonus ?? 0, 
       disabledBySystem: s._disableSkillRoll === true,
@@ -128,7 +136,7 @@ export class RMUSkillParser {
 
     const groups = new Map();
     for (const sk of skills) {
-      const category = sk.category || "Other";
+      const category = sk.category || game.i18n.localize("RMU_CS.Common.Other");
       if (!groups.has(category)) {
         groups.set(category, []);
       }

@@ -21,7 +21,7 @@ export class GroupTaskApp extends BaseCalculatorApp {
     };
   }
 
-  static get title() { return "Calculate Group Task"; }
+  static get title() { return "RMU_CS.Group.Title"; }
   static get template() { return "modules/rmu-complementary-skills/templates/group-task-app.hbs"; }
   
   /**
@@ -136,7 +136,7 @@ export class GroupTaskApp extends BaseCalculatorApp {
   async _onSendToChat(event) {
     const calc = this._calculateBonus();
     if (!calc.taskSkillName) {
-      ui.notifications.warn("Please select a Task Skill first.");
+      ui.notifications.warn(game.i18n.localize("RMU_CS.Notifications.SelectTask"));
       return;
     }
     
@@ -217,7 +217,7 @@ export class GroupTaskApp extends BaseCalculatorApp {
       participants: participantBonuses,
       averageBonus: Math.round(averageBonus),
       leadershipBonus: leadershipBonus,
-      leaderName: leader?.name || "None",
+      leaderName: leader?.name || game.i18n.localize("RMU_CS.Group.LeaderNone"),
       total: Math.round(averageBonus) + leadershipBonus
     };
   }
