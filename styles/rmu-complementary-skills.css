@@ -494,6 +494,7 @@ button.control.tool.rmu-skill-button-icon {
   text-transform: uppercase;
   letter-spacing: var(--filroden-letter-spacing-wide);
   font-size: var(--filroden-font-size-xs);
+  font-weight: bold;
   white-space: nowrap;
 }
 
