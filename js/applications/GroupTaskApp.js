@@ -57,39 +57,42 @@ export class GroupTaskApp extends BaseCalculatorApp {
     // Create a unified list of all available skills from all participants.
     const skillMap = new Map();
     for (const p of this.participants.values()) {
-      // Get all skills (including disabled) for the task skill dropdown
-      const allSkills = p.actor.system._skills
-        .map(RMUSkillParser.getSkillData)
-        .filter(sk => !sk.disabledBySystem);
-      for (const skill of allSkills) {
-        skillMap.set(skill.name, skill);
-      }
+        const allRawSkills = RMUSkillParser._getAllActorSkills(p.actor);
+        for (const raw of allRawSkills) {
+            const data = RMUSkillParser.getSkillData(raw);
+            if (data.disabledBySystem) continue;
+
+            if (!skillMap.has(data.name)) {
+                skillMap.set(data.name, data);
+            }
+        }
     }
 
-    const allSkillOptionsFlat = Array.from(skillMap.values())
-      .sort(RMUSkillParser.sortSkills);
-      
-    const allSkillOptionsGrouped = RMUSkillParser.groupSkills(allSkillOptionsFlat);
-    
-    const selectedSkillUuid = this.calcState.taskSkillUuid;
-    const selectedSkillName = this.calcState.taskSkillName;
-    
-    // For each participant, find their bonus for the selected task skill.
+    const allSkillOptionsGrouped = RMUSkillParser.groupSkills(
+        Array.from(skillMap.values()).sort(RMUSkillParser.sortSkills)
+    );
+
+    const selectedName = this.calcState.taskSkillName;
+
+    // Calculate bonuses by finding the named skill on each participant
     for (const p of this.participants.values()) {
-      const allSkills = p.actor.system._skills.map(RMUSkillParser.getSkillData);
-      const skill = allSkills.find(s => s.name === selectedSkillName);
-      p.bonusForSelectedSkill = skill ? skill.bonus : 0;
+      if (!selectedName) {
+          p.bonusForSelectedSkill = 0;
+          continue;
+      }
+
+      const match = RMUSkillParser.getBestSkillMatch(p.actor, selectedName);
+      const skillData = match ? RMUSkillParser.getSkillData(match) : null;
+      
+      p.bonusForSelectedSkill = skillData ? skillData.bonus : 0;
     }
-    
-    const calculation = this._calculateBonus();
 
     return {
-      participants: Array.from(this.participants.values()),
-      leaderId: this.calcState.leaderId,
-      allSkillOptions: allSkillOptionsGrouped,
-      taskSkillUuid: selectedSkillUuid,
-      taskSkillName: selectedSkillName,
-      calculation: calculation,
+        participants: Array.from(this.participants.values()),
+        leaderId: this.calcState.leaderId,
+        allSkillOptions: allSkillOptionsGrouped,
+        taskSkillName: selectedName,
+        calculation: this._calculateBonus()
     };
   }
 
@@ -135,10 +138,16 @@ export class GroupTaskApp extends BaseCalculatorApp {
    */
   async _onSendToChat(event) {
     const calc = this._calculateBonus();
-    if (!calc.taskSkillName) {
-      ui.notifications.warn(game.i18n.localize("RMU_CS.Notifications.SelectTask"));
-      return;
+    const leader = this.participants.get(this.calcState.leaderId);
+    
+    if (!leader || !this.calcState.taskSkillName) {
+        ui.notifications.warn(game.i18n.localize("RMU_CS.Notifications.SelectTask"));
+        return;
     }
+
+    const leaderRaw = RMUSkillParser.getBestSkillMatch(leader.actor, this.calcState.taskSkillName);
+    const leaderData = leaderRaw ? RMUSkillParser.getSkillData(leaderRaw) : null;
+    const leaderSkillUuid = leaderData ? leaderData.uuid : this.calcState.taskSkillUuid;
     
     const templateData = {
       taskSkillName: calc.taskSkillName,
@@ -167,8 +176,6 @@ export class GroupTaskApp extends BaseCalculatorApp {
       templateData
     );
 
-    const leader = this.participants.get(this.calcState.leaderId);
-
     ChatMessage.create({
       user: game.user.id,
       content: content, 
@@ -178,12 +185,11 @@ export class GroupTaskApp extends BaseCalculatorApp {
           isCalc: true,
           rollType: "group",
           actorId: leader?.actor.id,
-          skillUuid: this.calcState.taskSkillUuid,
+          skillUuid: leaderSkillUuid,
           bonus: calc.total
         } 
       }
     });
-
     this.close();
   }
 
