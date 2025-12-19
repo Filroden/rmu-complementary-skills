@@ -446,7 +446,7 @@ button.control.tool.rmu-skill-button-icon {
 
 /* Target the top-level list item */
 .chat-message.rmu-calc-message {
-  background: transparent;
+  background: var(--filroden-color-bg-darkest);
   border: none;
   padding: var(--filroden-space-s);
   box-shadow: none;
