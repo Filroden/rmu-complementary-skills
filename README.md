@@ -1,5 +1,14 @@
 # Complementary Skills Calculator for Rolemaster Unified (RMU)
 
+![Latest Version](https://img.shields.io/badge/Version-1.0.0-blue)
+![Foundry Version](https://img.shields.io/badge/Foundry_VTT-v13_%7C_v13-orange)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+![Languages](https://img.shields.io/badge/Languages-3-blueviolet)
+![Download Count](https://img.shields.io/github/downloads/Filroden/rmu-complementary-skills/rmu-complementary-skills.zip)
+![Download Count](https://img.shields.io/github/downloads/Filroden/rmu-complementary-skills/latest/rmu-complementary-skills.zip)
+![Last Commit](https://img.shields.io/github/last-commit/Filroden/rmu-complementary-skills)
+![Issues](https://img.shields.io/github/issues/Filroden/rmu-complementary-skills)
+
 This module provides Gamemasters with a quick and easy-to-use calculator to automate the RMU complementary skills rules. After selecting one or more tokens on the scene, the GM can click the new icon in the Token Controls palette to open a launcher window. This launcher presents two distinct options: "Boost Skill Check", which is used when multiple skills are combined to help a single roll, and "Calculate Group Task", which is used when a group works together to shorten the time needed for a task.
 
 ## How to Use
@@ -63,7 +72,7 @@ Both calculator windows share these features:
 
 ## Version History
 
-[Version History](https://www.google.com/search?q=VERSION.md)
+[View Version History](VERSION.md)
 
 ## Licences
 
