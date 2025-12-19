@@ -52,12 +52,11 @@ export class RMUSkillParser {
     const out = [];
 
     const pushMaybeSkill = (v) => {
-      if (!v) return;
+      if (!v || typeof v !== "object") return;
       if (Array.isArray(v)) {
         for (const it of v) pushMaybeSkill(it);
       } else if (typeof v === "object") {
         if (v.system && typeof v.system === "object") {
-          //
           out.push(v);
         } else {
           for (const val of Object.values(v)) pushMaybeSkill(val);
@@ -75,21 +74,14 @@ export class RMUSkillParser {
    */
   static getSkillData(rawSkill) {
     const s = rawSkill?.system ?? {};
-    
     const baseName = s.name ?? game.i18n.localize("RMU_CS.Common.UnknownSkill");
-    const specialization = s.specialization ?? null; 
+    const specialization = s.specialization ?? null;
     
     const fullName = (specialization && specialization.trim() !== "")
       ? `${baseName} (${specialization})`
       : baseName;
 
-    // FIX: Robust ID resolution.
-    // 1. Try standard Document UUID.
-    // 2. Try _id (common in nested data).
-    // 3. Fallback to name (risky but better than empty string for display-only logic).
-    let stableId = rawSkill.uuid;
-    if (!stableId) stableId = rawSkill._id;
-    if (!stableId) stableId = fullName; // Last resort fallback
+    const stableId = rawSkill._id || s._groupSkillId || rawSkill.uuid || s.name;
 
     return {
       uuid: stableId,
@@ -103,6 +95,65 @@ export class RMUSkillParser {
   }
 
   /**
+   * Finds a specific raw skill object within an actor's system data by its ID or Name.
+   * @param {Actor} actor - The actor to search.
+   * @param {string} id - The _id, uuid, or name to find.
+   * @returns {Object|undefined} The raw system skill object.
+   */
+  static getRawSkillById(actor, id) {
+    if (!id) return undefined;
+    const allRaw = this._getAllActorSkills(actor);
+    
+    return allRaw.find(s => 
+        s._id === id ||                               // Match specific specialization instance
+        s.uuid === id ||                              // Match via Foundry UUID
+        s.system?._groupSkillId === id ||             // Match unspecialized base version (Rule 2)
+        s.system?._originUUID === id ||               // Match via RMU origin
+        s.system?.name === id ||                      // Match via internal system name
+        s.name === id                                 // Match via document name
+    );
+  }
+
+  /**
+   * Finds a specific raw skill object within an actor's system data by its name.
+   * @param {Actor} actor - The actor to search.
+   * @param {string} fullName - The full name of the skill to find.
+   * @returns {Object|undefined} The raw system skill object.
+   */
+  static getRawSkillByName(actor, fullName) {
+    if (!fullName) return undefined;
+    const allRaw = this._getAllActorSkills(actor);
+    return allRaw.find(s => {
+        const data = this.getSkillData(s);
+        return data.name === fullName;
+    });
+  }
+
+  /**
+   * Finds the best skill match on an actor. 
+   * If the exact specialized skill isn't found, falls back to the base skill.
+   * @param {Actor} actor - The actor to search.
+   * @param {string|null} fullName - The full name of the skill to find.
+   * @returns {Object|null} The raw system skill object or null.
+   */
+  static getBestSkillMatch(actor, fullName) {
+      if (!fullName) return null; 
+
+      const allRaw = this._getAllActorSkills(actor);
+
+      let match = allRaw.find(s => this.getSkillData(s).name === fullName);
+      if (match) return match;
+
+      const baseNameMatch = fullName.match(/^(.+?)\s*\(/);
+      const baseName = baseNameMatch ? baseNameMatch[1] : fullName;
+
+      return allRaw.find(s => 
+          s.system?.name === baseName && 
+          (!s.system?.specialization || s.system.specialization.trim() === "")
+      );
+  }
+
+  /**
    * Finds the "Leadership" skill and returns its total ranks.
    * @param {Array<Object>} rawSkills - An array of skills from _getAllActorSkills.
    * @returns {number} The total ranks in Leadership.
@@ -110,8 +161,8 @@ export class RMUSkillParser {
   static getLeadershipRanks(rawSkills) {
     const leadershipSkill = rawSkills.find(
       (sk) => sk?.system?.name === "Leadership"
-    ); //
-    return leadershipSkill?.system?._totalRanks ?? 0; //
+    );
+    return leadershipSkill?.system?._totalRanks ?? 0;
   }
 
   /**

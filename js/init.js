@@ -7,6 +7,7 @@ import { LauncherApp } from "./applications/LauncherApp.js";
 import { BoostSkillApp } from "./applications/BoostSkillApp.js";
 import { GroupTaskApp } from "./applications/GroupTaskApp.js";
 import { AddParticipantDialog } from "./applications/AddParticipantDialog.js";
+import { RMUSkillParser } from "./utils/RMUSkillParser.js";
 
 /**
  * Registers Handlebars helpers.
@@ -18,7 +19,7 @@ Hooks.once("init", () => {
   Handlebars.registerHelper("eq", function (a, b) { return a === b; });
   Handlebars.registerHelper("not", function (a) { return !a; });
   
-  // NEW: Formats a number to always show a sign (+5, -2, +0)
+  // Formats a number to always show a sign (+5, -2, +0)
   Handlebars.registerHelper("signed", function (value) {
     const num = Number(value);
     if (isNaN(num)) return value;
@@ -35,10 +36,11 @@ Hooks.once("ready", () => {
   try {
     // Assign the imported classes to a namespace within the game object.
     game.rmuComplementarySkills = {
-      LauncherApp: LauncherApp,
-      BoostSkillApp: BoostSkillApp,
-      GroupTaskApp: GroupTaskApp,
-      AddParticipantDialog: AddParticipantDialog
+      LauncherApp,
+      BoostSkillApp,
+      GroupTaskApp,
+      AddParticipantDialog,
+      RMUSkillParser
     };
   } catch (error) {
     console.error(
@@ -53,70 +55,42 @@ Hooks.once("ready", () => {
  * to messages created by this module.
  */
 Hooks.on("renderChatMessageHTML", (message, html) => {
-  // Check for our specific flag
   const flags = message.flags?.["rmu-complementary-skills"];
   if (!flags?.isCalc) return;
 
-  // 'html' can be either an HTMLElement or a jQuery object.
   const $html = $(html);
   
-  // 1. Add styling class
   $html.addClass("rmu-calc-message");
 
-  // 2. Find the new roll button
   const $button = $html.find(".rmu-roll-skill-button");
-  if ($button.length === 0) return; // No button, exit
+  if ($button.length === 0) return;
 
-  // 3. Check for valid data
   const { rollType, actorId, skillUuid, bonus } = flags;
-  if (!rollType || !actorId || !skillUuid) {
-    $button.prop("disabled", true);
-    return;
-  }
 
-  // 4. Check permissions
-  const actor = game.actors.get(actorId);
-  const currentUser = game.user;
-  const isGM = currentUser.isGM;
-  // Check if the user is an OWNER of the rolling actor
-  const isOwner = actor ? actor.testUserPermission(currentUser, CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) : false;
-
-  if (!isGM && !isOwner) {
-    // User is not allowed, disable the button and stop
-    $button.prop("disabled", true);
-    return;
-  }
-
-  // 5. User is allowed, attach the click event
   $button.on("click", async (ev) => {
-    // 5.1. Find the Token on the current scene
     const token = canvas.tokens.ownedTokens.find(t => t.actor?.id === actorId);
-    if (!token) {
-      ui.notifications.warn(game.i18n.format("RMU_CS.Notifications.TokenRequired", {name: actor.name}));
+    if (!token?.actor) {
+      ui.notifications.warn(game.i18n.format("RMU_CS.Notifications.TokenRequired", {name: actorId}));
       return;
     }
 
-    // 5.2. Find the Skill Item from its UUID
-    const skillItem = await fromUuid(skillUuid);
-    if (!skillItem) {
-      ui.notifications.error(game.i18n.format("RMU_CS.Notifications.SkillNotFound", {uuid: skillUuid}));
+    const skillObject = RMUSkillParser.getRawSkillById(token.actor, skillUuid);
+
+    if (!skillObject) {
+      ui.notifications.error(game.i18n.localize("RMU_CS.Notifications.SkillNotFound"));
       return;
     }
 
-    // 5.3. Prepare the API maneuverOptions
     const maneuverOptions = {}; 
-
     if (rollType === "boost") {
       maneuverOptions.otherBonus = Number(bonus);
     } else if (rollType === "group") {
       maneuverOptions.overrideSkillBonus = Number(bonus);
     }
 
-    // 5.4. Call the API using the correct path
     if (game.system?.api?.rmuTokenSkillAction) {
-      game.system.api.rmuTokenSkillAction(token, skillItem, maneuverOptions);
+      game.system.api.rmuTokenSkillAction(token, skillObject, maneuverOptions);
     } else {
-      console.error("RMU COMP SKILLS | Could not find API at game.system.api.rmuTokenSkillAction");
       ui.notifications.error(game.i18n.localize("RMU_CS.Notifications.ApiNotFound"));
     }
   });
@@ -128,7 +102,7 @@ Hooks.on("renderChatMessageHTML", (message, html) => {
  * When clicked, it opens the LauncherApp for the currently selected tokens.
  */
 Hooks.on("getSceneControlButtons", (controls) => {
-  // Only show the button to Game Masters.
+  // Only show the button to GMs.
   if (!game.user.isGM) return;
 
   // Find the token controls section.
