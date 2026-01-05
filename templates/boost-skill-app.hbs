@@ -11,7 +11,7 @@
             {{#each primarySkillOptions}}
             <optgroup label="{{label}}">
               {{#each skills}}
-              <option value="{{uuid}}" {{selected (eq uuid ../../primarySkillUuid)}}>
+              <option value="{{uuid}}" {{rmucsSelected (eq uuid ../../primarySkillUuid)}}>
                 {{name}} ({{localize "RMU_CS.Common.Bonus"}}: {{signed bonus}})
               </option>
               {{/each}}
@@ -60,7 +60,7 @@
               {{#each ../primaryComplementOptions}}
               <optgroup label="{{label}}">
                 {{#each skills}}
-                <option value="{{uuid}}" {{selected (eq ../../uuid uuid)}}>
+                <option value="{{uuid}}" {{rmucsSelected (eq ../../uuid uuid)}}>
                   {{name}} ({{localize "RMU_CS.Common.Ranks"}}: {{ranks}})
                 </option>
                 {{/each}}
@@ -90,7 +90,7 @@
               {{#each allSkillsGrouped}}
               <optgroup label="{{label}}">
                 {{#each skills}}
-                <option value="{{uuid}}" {{selected (eq (lookup ../../../otherActorSkills ../../id) uuid)}}>
+                <option value="{{uuid}}" {{rmucsSelected (eq (lookup ../../../otherActorSkills ../../id) uuid)}}>
                   {{name}} ({{localize "RMU_CS.Common.Ranks"}}: {{ranks}})
                 </option>
                 {{/each}}

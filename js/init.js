@@ -13,7 +13,7 @@ import { RMUSkillParser } from "./utils/RMUSkillParser.js";
  * Registers Handlebars helpers.
  */
 Hooks.once("init", () => {
-  Handlebars.registerHelper("selected", function (condition) { return condition ? "selected" : ""; });
+  Handlebars.registerHelper("rmucsSelected", function (condition) { return condition ? "selected" : ""; });
   Handlebars.registerHelper("checked", function (condition) { return condition ? "checked" : ""; });
   Handlebars.registerHelper("disabled", function (condition) { return condition ? "disabled" : ""; });
   Handlebars.registerHelper("eq", function (a, b) { return a === b; });
