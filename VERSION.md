@@ -2,6 +2,7 @@
 
 | Version | Changes |
 | :--- | :--- |
+| **Version 1.0.1** | * Fixed namespace collision causing an issue with filepicker.<br>* Updated theme styles.|
 | **Version 1.0.0** | **FULL RELEASE** * Added Swedish localisation.<br>* Updated theme styles.<br>* Fixed bug preventing unspecialised skills being rolled from the chat message.<br>* Updated documentation.|
 | **Version 0.0.7** | * Add internationalisation<br>* Fixed bug preventing selection of primary skill with negative skill bonus (however unlikely it is to be used!).<br>* Convert theme colours to HSL values.|
 | **Version 0.0.6** | * Add ability for lead participant or GM to roll the complementary skill from the chat card.<br>* Close Skill Boost or Group Task window when the results are sent to chat.<br>* Fix filename of RmuSkillParser.js to RMUSkillParser.js (which broke v0.0.5).|
