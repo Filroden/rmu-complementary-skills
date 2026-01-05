@@ -1,6 +1,6 @@
 # Complementary Skills Calculator for Rolemaster Unified (RMU)
 
-![Latest Version](https://img.shields.io/badge/Version-1.0.1-blue)
+![Latest Version](https://img.shields.io/badge/Version-1.0.2-blue)
 ![Foundry Version](https://img.shields.io/badge/Foundry_VTT-v13_%7C_v13-orange)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 ![Languages](https://img.shields.io/badge/Languages-3-blueviolet)

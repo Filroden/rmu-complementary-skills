@@ -2,6 +2,7 @@
 
 | Version | Changes |
 | :--- | :--- |
+| **Version 1.0.2** | * Fixed appearance of the Scene Tool icon if using Foundry was using OS's light mode.|
 | **Version 1.0.1** | * Fixed namespace collision causing an issue with filepicker.<br>* Updated theme styles.|
 | **Version 1.0.0** | **FULL RELEASE** * Added Swedish localisation.<br>* Updated theme styles.<br>* Fixed bug preventing unspecialised skills being rolled from the chat message.<br>* Updated documentation.|
 | **Version 0.0.7** | * Add internationalisation<br>* Fixed bug preventing selection of primary skill with negative skill bonus (however unlikely it is to be used!).<br>* Convert theme colours to HSL values.|
