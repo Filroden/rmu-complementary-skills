@@ -19,11 +19,11 @@ The calculator is designed for a fast, step-by-step workflow.
 
 2.  **Open the Launcher:** Click the new "Complementary Skills" icon in the Token Controls palette (on the left of the screen).
 
-<img src="images/skills-calculator-button.png" alt="Complementary Skills Button" width="250" style="display: block; margin: 2rem auto;">
+    <img src="images/skills-calculator-button.png" alt="Complementary Skills Button" width="250" style="display: block; margin: 2rem auto;">
 
 3.  **Choose a Rule:** A launcher window will appear, pre-loaded with your selected tokens. Choose which calculation you need to perform.
 
-<img src="images/launcher.png" alt="Complementary Skills Launcher" width="500" style="display: block; margin: 2rem auto;">
+    <img src="images/launcher.png" alt="Complementary Skills Launcher" width="500" style="display: block; margin: 2rem auto;">
 
 ## The Calculators
 
@@ -59,7 +59,7 @@ Both calculator windows share these features:
 
   * **Add Participant:** If you forgot to select a token, click the "+ Add Participant" button. A new dialogue will appear allowing you to add any other tokens from the scene to the calculator.
 
-<img src="images/add-participant.png" alt="Add Participant Dialogue" width="300" style="display: block; margin: 2rem auto;">
+    <img src="images/add-participant.png" alt="Add Participant Dialogue" width="300" style="display: block; margin: 2rem auto;">
 
   * **Send to Chat (GM):** Click the "Send to Chat (GM)" button in the footer to post a formatted summary of the calculation, visible only to you in the chat log.
 
