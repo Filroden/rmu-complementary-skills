@@ -1,6 +1,6 @@
 # Complementary Skills Calculator for Rolemaster Unified (RMU)
 
-![Latest Version](https://img.shields.io/badge/Version-1.0.2-blue)
+![Latest Version](https://img.shields.io/badge/Version-1.0.3-blue)
 ![Foundry Version](https://img.shields.io/badge/Foundry_VTT-v13_%7C_v13-orange)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 ![Languages](https://img.shields.io/badge/Languages-3-blueviolet)
@@ -15,13 +15,13 @@ This module provides Gamemasters with a quick and easy-to-use calculator to auto
 
 The calculator is designed for a fast, step-by-step workflow.
 
-1.  **Select Tokens:** On the main scene, select all the tokens you wish to include in the calculation.
+1. **Select Tokens:** On the main scene, select all the tokens you wish to include in the calculation.
 
-2.  **Open the Launcher:** Click the new "Complementary Skills" icon in the Token Controls palette (on the left of the screen).
+2. **Open the Launcher:** Click the new "Complementary Skills" icon in the Token Controls palette (on the left of the screen).
 
     <img src="images/skills-calculator-button.png" alt="Complementary Skills Button" width="250" style="display: block; margin: 2rem auto;">
 
-3.  **Choose a Rule:** A launcher window will appear, pre-loaded with your selected tokens. Choose which calculation you need to perform.
+3. **Choose a Rule:** A launcher window will appear, pre-loaded with your selected tokens. Choose which calculation you need to perform.
 
     <img src="images/launcher.png" alt="Complementary Skills Launcher" width="500" style="display: block; margin: 2rem auto;">
 
@@ -33,12 +33,12 @@ This calculator is used when a primary actor is making a skill check, and other 
 
 <img src="images/boost-skill.png" alt="Boost Skill Calculator" width="500" style="display: block; margin: 2rem auto;">
 
-1.  **Select the Primary Skill:** Use the top dropdown menu to choose the main skill being rolled (e.g., "Perception").
-2.  **Choose the Primary Actor:** The "Skill Bonus" column will update, showing each participant's total bonus in that skill. Select the "Primary" radio button next to the actor who is making the main roll. Their bonus will be used as the base.
-3.  **Add Complementary Skills:**
+1. **Select the Primary Skill:** Use the top dropdown menu to choose the main skill being rolled (e.g., "Perception").
+2. **Choose the Primary Actor:** The "Skill Bonus" column will update, showing each participant's total bonus in that skill. Select the "Primary" radio button next to the actor who is making the main roll. Their bonus will be used as the base.
+3. **Add Complementary Skills:**
       * **From Primary Actor:** If the main actor is using additional skills to help themselves, click the "+ Add Skill" button and select their skills from the dropdown.
       * **From Other Participants:** For each *other* participant, you can select one skill they are contributing from their respective dropdown.
-4.  **Get the Result:** The "Calculation" box at the bottom will update live, showing the base bonus, the total complementary bonus, and the final combined total.
+4. **Get the Result:** The "Calculation" box at the bottom will update live, showing the base bonus, the total complementary bonus, and the final combined total.
 
 ### 2\. Calculate Group Task
 
@@ -46,29 +46,29 @@ This calculator is used when the whole group is working together on a single tas
 
 <img src="images/group-task.png" alt="Group Task Calculator" width="500" style="display: block; margin: 2rem auto;">
 
-1.  **Select the Task Skill:** Use the top dropdown menu to choose the skill being used by the group (e.g., "Stealth").
-2.  **Review Participants:** The list will update, showing each participant's skill bonus and their total ranks in the "Leadership" skill.
-3.  **Select the Leader:** The participant with the highest "Ldr. Ranks" will be chosen by default, but you can change this by selecting any "Leader" radio button.
-4.  **Get the Result:** The "Calculation" box shows the average skill bonus, the leader's contribution, and the final combined total.
+1. **Select the Task Skill:** Use the top dropdown menu to choose the skill being used by the group (e.g., "Stealth").
+2. **Review Participants:** The list will update, showing each participant's skill bonus and their total ranks in the "Leadership" skill.
+3. **Select the Leader:** The participant with the highest "Ldr. Ranks" will be chosen by default, but you can change this by selecting any "Leader" radio button.
+4. **Get the Result:** The "Calculation" box shows the average skill bonus, the leader's contribution, and the final combined total.
 
 ## Common Features
 
 Both calculator windows share these features:
 
-  * **Enable/Disable Participants:** You can temporarily remove a participant from the calculation (to see how it affects the total) by unchecking the "Enabled" box next to their name.
+* **Enable/Disable Participants:** You can temporarily remove a participant from the calculation (to see how it affects the total) by unchecking the "Enabled" box next to their name.
 
-  * **Add Participant:** If you forgot to select a token, click the "+ Add Participant" button. A new dialogue will appear allowing you to add any other tokens from the scene to the calculator.
+* **Add Participant:** If you forgot to select a token, click the "+ Add Participant" button. A new dialogue will appear allowing you to add any other tokens from the scene to the calculator.
 
     <img src="images/add-participant.png" alt="Add Participant Dialogue" width="300" style="display: block; margin: 2rem auto;">
 
-  * **Send to Chat (GM):** Click the "Send to Chat (GM)" button in the footer to post a formatted summary of the calculation, visible only to you in the chat log.
+* **Send to Chat (GM):** Click the "Send to Chat (GM)" button in the footer to post a formatted summary of the calculation, visible only to you in the chat log.
 
 <div style="display: flex; justify-content: center; align-items: flex-start; gap: 2rem;">
 <img src="images/boost-skill-chat.png" alt="Chat output for Boost Skill Calculator" width="200" style="display: block; margin: 2rem auto;">
 <img src="images/group-task-chat.png" alt="Chat output for Group Task Calculator" width="200" style="display: block; margin: 2rem auto;">
 </div>
 
-  * **Roll Skill (lead participant or GM):** The lead participant or the GM can make the modified skill manueovre roll by clicking the button at the bottom of the chat card. The button will be visible to other participants but it will show as disabled. This will launch RMU's skill roll dialogue and show either the additional bonus (for Boost Task) or the override skill bonus (for Group Task). You can still apply any other modifiers as normal in this dialogue before rolling.
+* **Roll Skill (lead participant or GM):** The lead participant or the GM can make the modified skill manueovre roll by clicking the button at the bottom of the chat card. The button will be visible to other participants but it will show as disabled. This will launch RMU's skill roll dialogue and show either the additional bonus (for Boost Task) or the override skill bonus (for Group Task). You can still apply any other modifiers as normal in this dialogue before rolling.
 
 ## Version History
 
