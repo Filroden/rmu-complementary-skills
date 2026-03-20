@@ -1,33 +1,27 @@
 # Complementary Skills Calculator for Rolemaster Unified (RMU)
 
-![Latest Version](https://img.shields.io/badge/Version-1.0.3-blue)
+![Latest Version](https://img.shields.io/badge/Version-1.1.0-blue)
 ![Foundry Version](https://img.shields.io/badge/Foundry_VTT-v13_%7C_v13-orange)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
-![Languages](https://img.shields.io/badge/Languages-3-blueviolet)
+![RTL Support](https://img.shields.io/badge/RTL-Supported-green)
 ![Download Count](https://img.shields.io/github/downloads/Filroden/rmu-complementary-skills/rmu-complementary-skills.zip)
 ![Download Count](https://img.shields.io/github/downloads/Filroden/rmu-complementary-skills/latest/rmu-complementary-skills.zip)
 ![Last Commit](https://img.shields.io/github/last-commit/Filroden/rmu-complementary-skills)
 ![Issues](https://img.shields.io/github/issues/Filroden/rmu-complementary-skills)
 
-This module provides Gamemasters with a quick and easy-to-use calculator to automate the RMU complementary skills rules. After selecting one or more tokens on the scene, the GM can click the new icon in the Token Controls palette to open a launcher window. This launcher presents two distinct options: "Boost Skill Check", which is used when multiple skills are combined to help a single roll, and "Calculate Group Task", which is used when a group works together to shorten the time needed for a task.
+This module provides Gamemasters with a quick and easy-to-use calculator to automate the RMU complementary skills rules. After selecting one or more tokens on the scene, the GM can click the new icon in the Token Controls palette to open the application. This presents two tabs: "Boost Skill Check", which is used when multiple skills are combined to help a single roll, and "Calculate Group Task", which is used when a group works together to shorten the time needed for a task.
 
 ## How to Use
 
 The calculator is designed for a fast, step-by-step workflow.
 
 1. **Select Tokens:** On the main scene, select all the tokens you wish to include in the calculation.
-
-2. **Open the Launcher:** Click the new "Complementary Skills" icon in the Token Controls palette (on the left of the screen).
-
-    <img src="images/skills-calculator-button.png" alt="Complementary Skills Button" width="250" style="display: block; margin: 2rem auto;">
-
-3. **Choose a Rule:** A launcher window will appear, pre-loaded with your selected tokens. Choose which calculation you need to perform.
-
-    <img src="images/launcher.png" alt="Complementary Skills Launcher" width="500" style="display: block; margin: 2rem auto;">
+2. **Open the Application:** Click the new "Complementary Skills" icon in the Token Controls palette (on the left of the screen).
+3. **Choose a Rule:** A window will appear with two tabs, pre-loaded with your selected tokens. Choose which calculation you need to perform.
 
 ## The Calculators
 
-### 1\. Boost Skill Check
+### Boost Skill Check
 
 This calculator is used when a primary actor is making a skill check, and other participants (or the primary actor themselves) are using *different* skills to help. It automatically calculates the final bonus, applying the diminishing returns (half, quarter, etc.) for each added skill.
 
@@ -40,7 +34,7 @@ This calculator is used when a primary actor is making a skill check, and other 
       * **From Other Participants:** For each *other* participant, you can select one skill they are contributing from their respective dropdown.
 4. **Get the Result:** The "Calculation" box at the bottom will update live, showing the base bonus, the total complementary bonus, and the final combined total.
 
-### 2\. Calculate Group Task
+### Calculate Group Task
 
 This calculator is used when the whole group is working together on a single task (e.g., "Group Stealth"). It calculates the *average* skill bonus of all enabled participants and adds the *ranks* from the group's leader.
 
@@ -57,7 +51,7 @@ Both calculator windows share these features:
 
 * **Enable/Disable Participants:** You can temporarily remove a participant from the calculation (to see how it affects the total) by unchecking the "Enabled" box next to their name.
 
-* **Add Participant:** If you forgot to select a token, click the "+ Add Participant" button. A new dialogue will appear allowing you to add any other tokens from the scene to the calculator.
+* **Add Participant:** If you forgot to select a token, click the `+ Add Participant` button. A side panel will slide out, allowing you to  select and add any other tokens from the scene without leaving the calculator.
 
     <img src="images/add-participant.png" alt="Add Participant Dialogue" width="300" style="display: block; margin: 2rem auto;">
 
@@ -68,7 +62,7 @@ Both calculator windows share these features:
 <img src="images/group-task-chat.png" alt="Chat output for Group Task Calculator" width="200" style="display: block; margin: 2rem auto;">
 </div>
 
-* **Roll Skill (lead participant or GM):** The lead participant or the GM can make the modified skill manueovre roll by clicking the button at the bottom of the chat card. The button will be visible to other participants but it will show as disabled. This will launch RMU's skill roll dialogue and show either the additional bonus (for Boost Task) or the override skill bonus (for Group Task). You can still apply any other modifiers as normal in this dialogue before rolling.
+* **Roll Skill (lead participant or GM):** The lead participant or the GM can make the modified skill manoeuvre roll by clicking the button at the bottom of the chat card. The button will be visible to other participants but it will show as disabled. This will launch RMU's skill roll dialogue and show either the additional bonus (for Boost Task) or the override skill bonus (for Group Task). You can still apply any other modifiers as normal in this dialogue before rolling.
 
 ## Version History
 

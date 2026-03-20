@@ -1,10 +1,8 @@
 {
     "RMU_CS.Title": "RMU Complementary Skills",
 
-    "RMU_CS.Common.Close": "Close Window",
     "RMU_CS.Common.AddParticipant": "Add Participant",
     "RMU_CS.Common.SendChat": "Send to Chat (GM)",
-    "RMU_CS.Common.Cancel": "Cancel",
     "RMU_CS.Common.Add": "Add",
     "RMU_CS.Common.Skill": "Skill",
     "RMU_CS.Common.Bonus": "Bonus",
@@ -18,14 +16,9 @@
     "RMU_CS.Common.TotalBonus": "Total Bonus",
     "RMU_CS.Common.Calculation": "Calculation",
 
-    "RMU_CS.Launcher.Title": "Complementary Skills Launcher",
-    "RMU_CS.Launcher.Notes": "Please select the type of calculation you wish to perform.",
     "RMU_CS.Launcher.BoostTitle": "Boost Skill Check",
-    "RMU_CS.Launcher.BoostNote": "Calculate a bonus from multiple skills.",
     "RMU_CS.Launcher.GroupTitle": "Calculate Group Task",
-    "RMU_CS.Launcher.GroupNote": "Calculate an average bonus for a group.",
 
-    "RMU_CS.Boost.Title": "Boost Skill Check",
     "RMU_CS.Boost.PrimarySkill": "Primary Skill",
     "RMU_CS.Boost.SelectPrimary": "Select Primary Skill...",
     "RMU_CS.Boost.Participants": "Participants",
@@ -44,7 +37,6 @@
     "RMU_CS.Boost.BreakdownFrom": "from {name} - {ranks} Ranks",
     "RMU_CS.Boost.BreakdownNameFormat": "{actorName}'s {skillName}",
 
-    "RMU_CS.Group.Title": "Calculate Group Task",
     "RMU_CS.Group.TaskSkill": "Task Skill",
     "RMU_CS.Group.SelectTask": "Select Task Skill...",
     "RMU_CS.Group.Leader": "Leader",
@@ -57,8 +49,6 @@
     "RMU_CS.AddDialog.Title": "Add Participants",
     "RMU_CS.AddDialog.Select": "Select tokens to add to the calculation:",
     "RMU_CS.AddDialog.NoTokens": "No other tokens with actors are available on the scene.",
-    "RMU_CS.AddDialog.ErrorCanvas": "Cannot add participants: No active canvas found.",
-    "RMU_CS.AddDialog.ErrorTitle": "Error",
 
     "RMU_CS.Chat.BoostSidebar": "BOOST SKILL",
     "RMU_CS.Chat.GroupSidebar": "GROUP TASK",

@@ -1,10 +1,8 @@
 {
     "RMU_CS.Title": "RMU Compétences Complémentaires",
 
-    "RMU_CS.Common.Close": "Fermer la fenêtre",
     "RMU_CS.Common.AddParticipant": "Ajouter un participant",
     "RMU_CS.Common.SendChat": "Envoyer au Chat (MJ)",
-    "RMU_CS.Common.Cancel": "Annuler",
     "RMU_CS.Common.Add": "Ajouter",
     "RMU_CS.Common.Skill": "Compétence",
     "RMU_CS.Common.Bonus": "Bonus",
@@ -18,14 +16,9 @@
     "RMU_CS.Common.TotalBonus": "Bonus Total",
     "RMU_CS.Common.Calculation": "Calcul",
 
-    "RMU_CS.Launcher.Title": "Lanceur de Compétences Complémentaires",
-    "RMU_CS.Launcher.Notes": "Veuillez sélectionner le type de calcul à effectuer.",
     "RMU_CS.Launcher.BoostTitle": "Renforcer un Jet de Compétence",
-    "RMU_CS.Launcher.BoostNote": "Calculer un bonus à partir de plusieurs compétences.",
     "RMU_CS.Launcher.GroupTitle": "Calculer une Tâche de Groupe",
-    "RMU_CS.Launcher.GroupNote": "Calculer un bonus moyen pour un groupe.",
 
-    "RMU_CS.Boost.Title": "Renforcer un Jet de Compétence",
     "RMU_CS.Boost.PrimarySkill": "Compétence Principale",
     "RMU_CS.Boost.SelectPrimary": "Sélectionner la compétence principale...",
     "RMU_CS.Boost.Participants": "Participants",
@@ -44,7 +37,6 @@
     "RMU_CS.Boost.BreakdownFrom": "de {name} - {ranks} Rangs",
     "RMU_CS.Boost.BreakdownNameFormat": "{skillName} de {actorName}",
 
-    "RMU_CS.Group.Title": "Calculer une Tâche de Groupe",
     "RMU_CS.Group.TaskSkill": "Compétence de la Tâche",
     "RMU_CS.Group.SelectTask": "Sélectionner la compétence de tâche...",
     "RMU_CS.Group.Leader": "Meneur",
@@ -57,8 +49,6 @@
     "RMU_CS.AddDialog.Title": "Ajouter des Participants",
     "RMU_CS.AddDialog.Select": "Sélectionnez les jetons à ajouter au calcul :",
     "RMU_CS.AddDialog.NoTokens": "Aucun autre jeton lié à un acteur n'est disponible sur la scène.",
-    "RMU_CS.AddDialog.ErrorCanvas": "Impossible d'ajouter des participants : Aucune scène active trouvée.",
-    "RMU_CS.AddDialog.ErrorTitle": "Erreur",
 
     "RMU_CS.Chat.BoostSidebar": "RENFORCER COMP.",
     "RMU_CS.Chat.GroupSidebar": "TÂCHE GROUPE",
