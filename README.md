@@ -57,10 +57,10 @@ Both calculator windows share these features:
 
 * **Send to Chat (GM):** Click the "Send to Chat (GM)" button in the footer to post a formatted summary of the calculation, visible only to you in the chat log.
 
-<div style="display: flex; justify-content: center; align-items: flex-start; gap: 2rem;">
-<img src="images/boost-skill-chat.png" alt="Chat output for Boost Skill Calculator" width="200" style="display: block; margin: 2rem auto;">
-<img src="images/group-task-chat.png" alt="Chat output for Group Task Calculator" width="200" style="display: block; margin: 2rem auto;">
-</div>
+  <div style="display: flex; justify-content: center; align-items: flex-start; gap: 2rem;">
+  <img src="images/boost-skill-chat.png" alt="Chat output for Boost Skill Calculator" width="200" style="display: block; margin: 2rem auto;">
+  <img src="images/group-task-chat.png" alt="Chat output for Group Task Calculator" width="200" style="display: block; margin: 2rem auto;">
+  </div>
 
 * **Roll Skill (lead participant or GM):** The lead participant or the GM can make the modified skill manoeuvre roll by clicking the button at the bottom of the chat card. The button will be visible to other participants but it will show as disabled. This will launch RMU's skill roll dialogue and show either the additional bonus (for Boost Task) or the override skill bonus (for Group Task). You can still apply any other modifiers as normal in this dialogue before rolling.
 
