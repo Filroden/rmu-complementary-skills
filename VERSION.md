@@ -2,6 +2,7 @@
 
 | Version | Changes |
 | :--- | :--- |
+| **Version 1.1.0** | **IMPROVEMENTS**<br>- **Unified Application:** Removed the Launcher and the separate Boost and Group applications, and created a single application with tabs for each complementary skill type, including a side panel to add additional participants.<br><br>**UNDER THE HOOD**<br>- Replaced all Font Awesome icons with Google Material Design icons.<br>- Refactored the previous code, which supported the four deprecated application and dialogues, into a single, unified `ComplementarySkillsApp.js` file.<br><br>**REMOVED:**<br>- Removed the Swedish translation file (`sv.json`) to make module compliant with Foundry's new AI Content Policy. This can be re-instated if a Swedish speaker can confirm to me that its contents are correct.|
 | **Version 1.0.3** | - Fixed to prevent module trying to add actors of other types than characters or creatures.<br>- Removed many console log messages.|
 | **Version 1.0.2** | - Fixed appearance of the Scene Tool icon if using Foundry was using OS's light mode.|
 | **Version 1.0.1** | - Fixed namespace collision causing an issue with filepicker.<br>- Updated theme styles.|

@@ -1,10 +1,8 @@
 {
     "RMU_CS.Title": "RMU Komplementära Färdigheter",
 
-    "RMU_CS.Common.Close": "Stäng fönster",
     "RMU_CS.Common.AddParticipant": "Lägg till deltagare",
     "RMU_CS.Common.SendChat": "Skicka till chatt (SL)",
-    "RMU_CS.Common.Cancel": "Avbryt",
     "RMU_CS.Common.Add": "Lägg till",
     "RMU_CS.Common.Skill": "Färdighet",
     "RMU_CS.Common.Bonus": "Bonus",
@@ -18,14 +16,9 @@
     "RMU_CS.Common.TotalBonus": "Total bonus",
     "RMU_CS.Common.Calculation": "Beräkning",
 
-    "RMU_CS.Launcher.Title": "Startare för komplementära färdigheter",
-    "RMU_CS.Launcher.Notes": "Välj vilken typ av beräkning du vill utföra.",
     "RMU_CS.Launcher.BoostTitle": "Förstärk färdighetsslag",
-    "RMU_CS.Launcher.BoostNote": "Beräkna en bonus från flera färdigheter.",
     "RMU_CS.Launcher.GroupTitle": "Beräkna gruppuppgift",
-    "RMU_CS.Launcher.GroupNote": "Beräkna en genomsnittlig bonus för en grupp.",
 
-    "RMU_CS.Boost.Title": "Förstärk färdighetsslag",
     "RMU_CS.Boost.PrimarySkill": "Primär färdighet",
     "RMU_CS.Boost.SelectPrimary": "Välj primär färdighet...",
     "RMU_CS.Boost.Participants": "Deltagare",
@@ -44,7 +37,6 @@
     "RMU_CS.Boost.BreakdownFrom": "från {name} - {ranks} Steg",
     "RMU_CS.Boost.BreakdownNameFormat": "{actorName}s {skillName}",
 
-    "RMU_CS.Group.Title": "Beräkna gruppuppgift",
     "RMU_CS.Group.TaskSkill": "Uppgiftsfärdighet",
     "RMU_CS.Group.SelectTask": "Välj uppgiftsfärdighet...",
     "RMU_CS.Group.Leader": "Ledare",
@@ -57,8 +49,6 @@
     "RMU_CS.AddDialog.Title": "Lägg till deltagare",
     "RMU_CS.AddDialog.Select": "Välj tokens att lägga till i beräkningen:",
     "RMU_CS.AddDialog.NoTokens": "Inga andra tokens med karaktärer är tillgängliga i scenen.",
-    "RMU_CS.AddDialog.ErrorCanvas": "Kunde inte lägga till deltagare: Ingen aktiv canvas hittades.",
-    "RMU_CS.AddDialog.ErrorTitle": "Fel",
 
     "RMU_CS.Chat.BoostSidebar": "FÖRSTÄRK FÄRDIGHET",
     "RMU_CS.Chat.GroupSidebar": "GRUPPUPPGIFT",
