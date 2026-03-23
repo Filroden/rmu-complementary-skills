@@ -64,7 +64,7 @@
     "RMU_CS.Notifications.SkillNotFound": "Kunde inte hitta färdigheten (UUID: {uuid}).",
     "RMU_CS.Notifications.ApiNotFound": "RMU System API hittades inte.",
     "RMU_CS.Notifications.NotInitialized": "Modulen RMU Complementary Skills är inte initierad ännu.",
-    "RMU_CS.Notifications.SelectOne": "Vänligen välj minst en karaktärs- eller varelsetoken för att använda kalkylatorn för kompletterande färdigheter.",
+    "RMU_CS.Notifications.SelectOne": "Vänligen välj minst en karaktär- eller varelsetoken för att använda kalkylatorn för kompletterande färdigheter.",
     "RMU_CS.Notifications.SelectPrimary": "Välj en primär färdighet först.",
     "RMU_CS.Notifications.SelectTask": "Välj en uppgiftsfärdighet först."
 }
