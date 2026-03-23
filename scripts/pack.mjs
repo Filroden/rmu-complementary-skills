@@ -12,7 +12,7 @@ copyFiles(
     ["js", "json", "css", "hbs", "svg", "md", "html"],
     [],
     ["dist", "node_modules", ".git", ".github", "scripts"],
-    ["package.json", "package-lock.json", ".DS_Store", ".gitignore", ".gitattributes", "sv.json"],
+    ["package.json", "package-lock.json", ".DS_Store", ".gitignore", ".gitattributes"],
 )
     .then(() => {
         console.log("File copy operation completed successfully!");
