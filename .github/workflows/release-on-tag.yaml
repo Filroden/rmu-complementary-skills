@@ -65,42 +65,30 @@ jobs:
           cd dist
           zip -r ../${{ env.MODULE_ZIP_NAME }} .
 
-      - name: Generate Changelog from VERSION.md
+      - name: name: Generate Changelog from VERSION.md
         run: |
-          # 1. Find the previous tag (e.g. v3.1.0) for the "Changes since..." line
-          # We silence errors (2>/dev/null) just in case this is the very first release
-          PREV_TAG=$(git describe --tags --abbrev=0 $(git rev-list --tags --skip=1 --max-count=1) 2>/dev/null || echo "start")
+            TAG_VERSION="${{ github.ref_name }}"
+            CLEAN_VERSION=${TAG_VERSION#v}
 
-          # 2. Write the formatted Header
-          echo "## Release ${{ github.ref_name }}" > changelog.md
-          echo "" >> changelog.md
-          echo "**Build Details:**" >> changelog.md
-          echo "- **Commit:** ${{ github.sha }}" >> changelog.md
-          echo "- **Author:** ${{ github.actor }}" >> changelog.md
-          echo "" >> changelog.md
-          echo "---" >> changelog.md
-          echo "" >> changelog.md
-          echo "## Changelog" >> changelog.md
-          echo "Changes since $PREV_TAG" >> changelog.md
-          echo "" >> changelog.md
+            # 1. Write the Build Details Header
+            echo "## Release ${{ github.ref_name }}" > changelog.md
+            echo "" >> changelog.md
+            echo "**Build Details:**" >> changelog.md
+            echo "- **Commit:** ${{ github.sha }}" >> changelog.md
+            echo "- **Author:** ${{ github.actor }}" >> changelog.md
+            echo "" >> changelog.md
+            echo "---" >> changelog.md
+            echo "" >> changelog.md
 
-          # 3. Extract the Table Cell from VERSION.md
-          TAG_VERSION="${{ github.ref_name }}"
-          CLEAN_VERSION=${TAG_VERSION#v}
+            # 2. Extract ONLY the Table Cell from VERSION.md for this specific version
+            # Logic: Find row -> Cut 3rd column -> Trim spaces -> Convert <br> to newlines
+            CHANGELOG_CONTENT=$(grep -F "| **Version $CLEAN_VERSION** |" VERSION.md | \
+              cut -d'|' -f3 | \
+              sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' | \
+              sed 's/<br>/\n/g')
 
-          # Logic: Find row -> Cut 3rd column -> Trim spaces -> Convert <br> to newlines
-          CHANGELOG_CONTENT=$(grep -F "| **Version $CLEAN_VERSION** |" VERSION.md | \
-            cut -d'|' -f3 | \
-            sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' | \
-            sed 's/<br>/\n/g')
-          
-          # 4. Append content or fallback
-          if [ -z "$CHANGELOG_CONTENT" ]; then
-            echo "Manual changelog entry not found. Falling back to git log." >> changelog.md
-            git log -n 5 --pretty=format:"* %s (%h)" >> changelog.md
-          else
+            # 3. Append the exact content directly
             echo "$CHANGELOG_CONTENT" >> changelog.md
-          fi
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
