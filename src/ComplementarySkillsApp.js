@@ -1,5 +1,6 @@
-import { RMUSkillParser } from "./RMUSkillParser.js";
-import { VALID_ACTOR_TYPES } from "./config.js";
+import { RMUSkillParser, RMUActorParser } from "./RMUTokenParser.js";
+import { RitualCalculator } from "./utils/RitualCalculator.js";
+import { VALID_ACTOR_TYPES, RITUAL_OPTIONS } from "./config.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -33,6 +34,36 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             leaderId: null,
             taskSkillUuid: null,
             taskSkillName: null,
+
+            // Ritual State
+            ritualState: {
+                targetSpells: [{ id: foundry.utils.randomID(), level: 1, basePPCost: 1, listType: 0, listKnowledge: 0 }],
+                totalSpellLevel: 1,
+                totalBasePPCost: 1,
+
+                investingTime: 0,
+                auspiciousCircumstances: 0,
+                inauspiciousCircumstances: 0,
+
+                toolValue: 0,
+                sacrificeValue: 0,
+                itemAppropriateness: 0,
+
+                paramWeight: 0,
+                paramAoE: 0,
+                paramRange: 0,
+                paramDecreaseAoE: false,
+
+                paramCrit: 0,
+                paramHitMult: 0,
+
+                paramDurNoToRound: false,
+                paramDurConcToRndLvl: false,
+                paramDurRemoveConc: false,
+                paramDurBase: 0,
+                paramDurTarget: 0,
+            },
+            ritualParticipantData: {},
         };
 
         // Tracks if we are currently fetching data to prevent race conditions
@@ -41,14 +72,14 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
 
     static DEFAULT_OPTIONS = {
         id: "rmu-complementary-skills-app",
-        classes: ["rmu-calc-app", "rmu-unified-app"],
+        classes: ["rmucsc"],
         tag: "div",
         window: {
             title: "RMU_CS.Title",
             resizable: true,
             controls: [
                 {
-                    icon: "rmu-icon rmu-icon-group-skill",
+                    icon: "rmu-icon group-skill",
                     label: "RMU_CS.Common.AddParticipant",
                     action: "toggleSidePanel",
                 },
@@ -59,6 +90,9 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             toggleSidePanel: ComplementarySkillsApp.#toggleSidePanel,
             toggleCandidate: ComplementarySkillsApp.#toggleCandidate,
             confirmAddParticipants: ComplementarySkillsApp.#confirmAddParticipants,
+            addRitualSpell: ComplementarySkillsApp.#addRitualSpell,
+            removeSpell: ComplementarySkillsApp.#removeSpell,
+            removeParticipant: ComplementarySkillsApp.#removeParticipant,
         },
     };
 
@@ -66,6 +100,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         tabs: { template: "modules/rmu-complementary-skills/templates/tabs.hbs" },
         boost: { template: "modules/rmu-complementary-skills/templates/boost-tab.hbs" },
         group: { template: "modules/rmu-complementary-skills/templates/group-tab.hbs" },
+        ritual: { template: "modules/rmu-complementary-skills/templates/ritual-tab.hbs" },
         sidePanel: { template: "modules/rmu-complementary-skills/templates/add-participant-panel.hbs" },
     };
 
@@ -82,10 +117,11 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
 
             // Always look up the token instance on the canvas to support synthetic/unlinked actors
             const token = canvas.tokens.placeables.find((t) => t.id === id);
-            if (!token || !token.actor) continue;
+            if (!token?.actor) continue;
 
             const allSkills = await RMUSkillParser.getSkillsForToken(token);
             const leadershipRanks = RMUSkillParser.getLeadershipRanks(allSkills);
+            const attributes = RMUActorParser.getRitualAttributes(token);
 
             const skillsWithRanks = allSkills
                 .map(RMUSkillParser.getSkillData)
@@ -98,12 +134,19 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                 actor: token.actor,
                 enabled: true,
                 leadershipRanks: leadershipRanks,
+                attributes: attributes,
                 allSkills: skillsWithRanks,
                 allSkillsGrouped: RMUSkillParser.groupSkills(skillsWithRanks),
             });
+
+            // Initialise ritual data if it does not exist
+            if (!this.calcState.ritualParticipantData[id]) {
+                this.calcState.ritualParticipantData[id] = this.#getDefaultRitualData();
+            }
         }
 
         this._enforceDeterministicLeader();
+        this._enforceDeterministicPrimaryCaster();
         this._isHydrating = false;
     }
 
@@ -122,10 +165,44 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                 return current.id.localeCompare(prev.id) > 0 ? current : prev;
             }
             return prev;
-        });
+        }, enabledParticipants[0]); // Explicit initial value added here
 
         if (!this.calcState.leaderId || !this.participants.get(this.calcState.leaderId)?.enabled) {
             this.calcState.leaderId = bestLeader.id;
+        }
+    }
+
+    /**
+     * Guarantees exactly one enabled participant is assigned the "primary" role.
+     * Auto-assigns the highest level participant if none exists, using ID as a tie-breaker.
+     * Demotes any duplicate primaries to "major".
+     */
+    _enforceDeterministicPrimaryCaster() {
+        const enabledParticipants = Array.from(this.participants.values()).filter((p) => p.enabled);
+        if (enabledParticipants.length === 0) return;
+
+        const primaries = enabledParticipants.filter((p) => this.calcState.ritualParticipantData[p.id]?.role === "primary");
+
+        if (primaries.length === 1) return; // Exactly one primary, state is valid.
+
+        // Determine the best candidate (either from the duplicates, or from all if none exist)
+        const pool = primaries.length > 1 ? primaries : enabledParticipants;
+        const bestCandidate = pool.reduce((prev, current) => {
+            if (current.attributes.level > prev.attributes.level) return current;
+            if (current.attributes.level === prev.attributes.level) {
+                return current.id.localeCompare(prev.id) > 0 ? current : prev;
+            }
+            return prev;
+        }, pool[0]); // Explicit initial value added here
+
+        // Enforce the singleton primary rule
+        for (const p of enabledParticipants) {
+            const data = this.calcState.ritualParticipantData[p.id];
+            if (p.id === bestCandidate.id) {
+                data.role = "primary";
+            } else if (data.role === "primary") {
+                data.role = "major";
+            }
         }
     }
 
@@ -166,13 +243,12 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             const primaryActor = this.participants.get(this.calcState.primaryActorId);
 
             // Fetch all skills for the primary actor, including those with 0 ranks.
-            const allPrimarySkills =
-                primaryActor && primaryActor.actor
-                    ? RMUSkillParser._getAllActorSkills(primaryActor.actor)
-                          .map(RMUSkillParser.getSkillData)
-                          .filter((sk) => !sk.disabledBySystem)
-                          .sort(RMUSkillParser.sortSkills)
-                    : [];
+            const allPrimarySkills = primaryActor?.actor
+                ? RMUSkillParser._getAllActorSkills(primaryActor.actor)
+                      .map(RMUSkillParser.getSkillData)
+                      .filter((sk) => !sk.disabledBySystem)
+                      .sort(RMUSkillParser.sortSkills)
+                : [];
 
             // Update the display bonus for the selected skill across all participants.
             for (const p of this.participants.values()) {
@@ -196,8 +272,6 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         }
 
         if (partId === "group") {
-            const participants = Array.from(this.participants.values()).filter((p) => p.enabled);
-
             // Verify the leader is still enabled; recalculate if not.
             if (!this.participants.get(this.calcState.leaderId)?.enabled) {
                 this._enforceDeterministicLeader();
@@ -233,6 +307,41 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                 allSkillOptions: RMUSkillParser.groupSkills(Array.from(skillMap.values()).sort(RMUSkillParser.sortSkills)),
                 taskSkillName: this.calcState.taskSkillName,
                 calculation: this.#calculateGroupBonus(),
+            };
+        }
+
+        if (partId === "ritual") {
+            // Map the participants and isolate their ritual-specific data
+            const ritualParticipants = Array.from(this.participants.values()).map((p) => {
+                // Identify specifically ritualistic skills
+                const ritualSkills = p.allSkills.filter((sk) => {
+                    const search = (sk.name + " " + sk.category).toLowerCase();
+                    return search.includes("magical ritual");
+                });
+
+                const ritualData = this.calcState.ritualParticipantData[p.id];
+
+                return {
+                    ...p,
+                    maxPP: p.attributes.currentPP,
+                    ritualData: ritualData,
+                    ritualSkillsGrouped: RMUSkillParser.groupSkills(ritualSkills),
+                    canInvestBlood: p.enabled && ritualData.role !== "minor",
+                };
+            });
+
+            // Calculate the math (This is the crucial step that was missing!)
+            const enabledParticipants = ritualParticipants.filter((p) => p.enabled);
+            const calculation = RitualCalculator.calculateTotalRitualBonus(this.calcState.ritualState, enabledParticipants);
+
+            // Return the full context to the Handlebars template
+            return {
+                ...context,
+                targetSpells: this.calcState.ritualState.targetSpells,
+                ritualParticipants: ritualParticipants,
+                ritualOptions: RITUAL_OPTIONS,
+                ritualState: this.calcState.ritualState,
+                calculation: calculation,
             };
         }
 
@@ -305,6 +414,42 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         this.render({ force: true });
     }
 
+    static #addRitualSpell(event, target) {
+        this.calcState.ritualState.targetSpells.push({
+            id: foundry.utils.randomID(),
+            level: 1,
+            basePPCost: 1,
+            listType: 0,
+            listKnowledge: 0,
+        });
+        this.#updateRitualTotals();
+        this.render({ parts: ["ritual"] });
+    }
+
+    #updateRitualTotals() {
+        const spells = this.calcState.ritualState.targetSpells;
+        const totalLevel = spells.reduce((sum, s) => sum + s.level, 0);
+
+        this.calcState.ritualState.totalSpellLevel = totalLevel;
+        this.calcState.ritualState.totalBasePPCost = totalLevel;
+    }
+    static #removeSpell(event, target) {
+        if (this.calcState.ritualState.targetSpells.length <= 1) return; // Always keep one row
+        const id = target.dataset.id;
+        this.calcState.ritualState.targetSpells = this.calcState.ritualState.targetSpells.filter((s) => s.id !== id);
+        this.#updateRitualTotals();
+        this.render({ parts: ["ritual"] });
+    }
+
+    static #removeParticipant(event, target) {
+        const id = target.dataset.id;
+        this.participants.delete(id);
+        this.tokenIds.delete(id);
+        delete this.calcState.ritualParticipantData[id];
+        this._enforceDeterministicPrimaryCaster();
+        this.render({ force: true });
+    }
+
     /**
      * Attaches event listeners to the rendered HTML of a specific part.
      * @param {string} partId - The ID of the part being rendered.
@@ -346,7 +491,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             $html.find(".rmu-primary-skill-select").on("change", (e) => {
                 const uuid = e.currentTarget.value;
                 const primaryActor = this.participants.get(this.calcState.primaryActorId);
-                const allSkills = primaryActor && primaryActor.actor ? RMUSkillParser._getAllActorSkills(primaryActor.actor).map(RMUSkillParser.getSkillData) : [];
+                const allSkills = primaryActor?.actor ? RMUSkillParser._getAllActorSkills(primaryActor.actor).map(RMUSkillParser.getSkillData) : [];
                 const skillData = allSkills.find((s) => s.uuid === uuid);
 
                 this.calcState.primarySkillUuid = uuid;
@@ -409,6 +554,125 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
 
             $html.find(".rmu-send-chat").on("click", this.#onSendGroupToChat.bind(this));
         }
+
+        if (partId === "ritual") {
+            htmlElement.addEventListener("change", this.#onRitualTabChange.bind(this));
+        }
+    }
+
+    #onRitualTabChange(event) {
+        const target = event.target;
+        const ritualState = this.calcState.ritualState;
+        const pData = this.calcState.ritualParticipantData;
+        const id = target.dataset.id;
+
+        // 1. Handle Global Modifiers (using the 'name' attribute)
+        const globalNames = [
+            "investingTime",
+            "auspiciousCircumstances",
+            "inauspiciousCircumstances",
+            "toolValue",
+            "sacrificeValue",
+            "itemAppropriateness",
+            "paramWeight",
+            "paramAoE",
+            "paramRange",
+            "paramCrit",
+            "paramHitMult",
+            "paramDurBase",
+            "paramDurTarget",
+        ];
+        if (globalNames.includes(target.name)) {
+            ritualState[target.name] = Number.parseInt(target.value, 10) || 0;
+            return this.render({ parts: ["ritual"] });
+        }
+
+        const checkboxNames = ["paramDecreaseAoE", "paramDurNoToRound", "paramDurConcToRndLvl", "paramDurRemoveConc"];
+        if (checkboxNames.includes(target.name)) {
+            ritualState[target.name] = target.checked;
+            return this.render({ parts: ["ritual"] });
+        }
+
+        // 2. Handle Spell Grid
+        if (target.classList.contains("rmu-spell-level")) {
+            const spell = ritualState.targetSpells.find((s) => s.id === id);
+            if (spell) {
+                spell.level = Number.parseInt(target.value, 10) || 1;
+                this.#updateRitualTotals();
+            }
+            return this.render({ parts: ["ritual"] });
+        }
+        if (target.classList.contains("rmu-spell-type")) {
+            const spell = ritualState.targetSpells.find((s) => s.id === id);
+            if (spell) spell.listType = Number.parseInt(target.value, 10) || 0;
+            return this.render({ parts: ["ritual"] });
+        }
+        if (target.classList.contains("rmu-spell-knowledge")) {
+            const spell = ritualState.targetSpells.find((s) => s.id === id);
+            if (spell) spell.listKnowledge = Number.parseInt(target.value, 10) || 0;
+            return this.render({ parts: ["ritual"] });
+        }
+
+        // 3. Handle Participant Grid
+        if (target.classList.contains("rmu-participant-enable")) {
+            const participant = this.participants.get(id);
+            if (participant) participant.enabled = target.checked;
+            this._enforceDeterministicPrimaryCaster(); // Ensure primary wasn't disabled
+            return this.render({ parts: ["ritual"] });
+        }
+
+        if (target.classList.contains("rmu-ritual-role-select")) {
+            const newRole = target.value;
+
+            if (newRole === "primary") {
+                // Demote any existing primary caster to 'major'
+                for (const [pId, data] of Object.entries(pData)) {
+                    if (pId !== id && data.role === "primary") data.role = "major";
+                }
+            }
+
+            // Clear blood sacrifices upon demotion to 'minor'
+            if (newRole === "minor") {
+                pData[id].bloodDice = 0;
+                pData[id].bloodCrit = 0;
+            }
+
+            pData[id].role = newRole;
+            this._enforceDeterministicPrimaryCaster(); // Failsafe validation
+            return this.render({ parts: ["ritual"] });
+        }
+
+        if (target.classList.contains("rmu-ritual-skill-select")) {
+            pData[id].ritualSkillUuid = target.value;
+            return this.render({ parts: ["ritual"] });
+        }
+        if (target.classList.contains("rmu-ritual-additional-select")) {
+            pData[id].additionalSkillUuid = target.value;
+            return this.render({ parts: ["ritual"] });
+        }
+
+        if (target.classList.contains("rmu-ritual-pp-input")) {
+            const participant = this.participants.get(id);
+            const maxPP = participant ? participant.attributes.currentPP : 0;
+            let val = Number.parseInt(target.value, 10) || 0;
+
+            // Clamp the value between 0 and the actor's current max PP
+            if (val > maxPP) val = maxPP;
+            if (val < 0) val = 0;
+
+            pData[id].ppContributed = val;
+            target.value = val; // Force the DOM to reflect the clamp instantly
+            return this.render({ parts: ["ritual"] });
+        }
+
+        if (target.classList.contains("rmu-ritual-hits-select")) {
+            pData[id].bloodDice = Number.parseInt(target.value, 10) || 0;
+            return this.render({ parts: ["ritual"] });
+        }
+        if (target.classList.contains("rmu-ritual-crit-select")) {
+            pData[id].bloodCrit = Number.parseInt(target.value, 10) || 0;
+            return this.render({ parts: ["ritual"] });
+        }
     }
 
     /* ----------------------------------------- */
@@ -437,7 +701,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         // Gather other participants' complementary skills
         for (const [actorId, skillUuid] of Object.entries(this.calcState.otherActorSkills)) {
             const participant = this.participants.get(actorId);
-            if (participant && participant.enabled && skillUuid) {
+            if (participant?.enabled && skillUuid) {
                 const skillData = participant.allSkills.find((s) => s.uuid === skillUuid);
                 if (skillData && skillData.ranks > 0) {
                     complementRanks.push({
@@ -482,7 +746,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
 
         const averageBonus = participants.length > 0 ? totalBonus / participants.length : 0;
         const leader = this.participants.get(this.calcState.leaderId);
-        const leadershipBonus = leader && leader.enabled ? leader.leadershipRanks : 0;
+        const leadershipBonus = leader?.enabled ? leader.leadershipRanks : 0;
 
         return {
             taskSkillName: this.calcState.taskSkillName,
@@ -581,5 +845,20 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         }
         const gmUsers = ChatMessage.getWhisperRecipients("GM");
         return Array.from(new Set([...ownerIds, ...gmUsers]));
+    }
+
+    /**
+     * Generates the default ritual data schema for a new participant.
+     * @returns {object} Default ritual data state.
+     */
+    #getDefaultRitualData() {
+        return {
+            role: "minor", // Defaults to minor to prevent accidental Primary assignment
+            ritualSkillUuid: null,
+            additionalSkillUuid: null,
+            ppContributed: 0,
+            bloodDice: 0,
+            bloodCrit: 0,
+        };
     }
 }

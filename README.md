@@ -1,6 +1,6 @@
 # Complementary Skills Calculator for Rolemaster Unified (RMU)
 
-![Latest Version](https://img.shields.io/badge/Version-1.1.2-blue)
+![Latest Version](https://img.shields.io/badge/Version-1.2.0-blue)
 ![Foundry Version](https://img.shields.io/badge/Foundry_VTT-v13_%7C_v13-orange)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 ![RTL Support](https://img.shields.io/badge/RTL-Supported-green)
@@ -9,7 +9,7 @@
 ![Last Commit](https://img.shields.io/github/last-commit/Filroden/rmu-complementary-skills)
 ![Issues](https://img.shields.io/github/issues/Filroden/rmu-complementary-skills)
 
-This module provides Gamemasters with a quick and easy-to-use calculator to automate the RMU complementary skills rules. After selecting one or more tokens on the scene, the GM can click the new icon in the Token Controls palette to open the application. This presents two tabs: "Boost Skill Check", which is used when multiple skills are combined to help a single roll, and "Calculate Group Task", which is used when a group works together to shorten the time needed for a task.
+This module provides Gamemasters with a quick and easy-to-use calculator to automate the RMU complementary skills and magical ritual rules. After selecting one or more tokens on the scene, the GM can click the new icon in the Token Controls palette to open the application. This presents three tabs: "Boost Skill Check", which is used when multiple skills are combined to help a single roll, "Calculate Group Task", which is used when a group works together to shorten the time needed for a task, and "Magical Rituals", which is used when a group is specifically working together on a magical ritual (including any complementary skills being used).
 
 ## How to Use
 
@@ -17,7 +17,7 @@ The calculator is designed for a fast, step-by-step workflow.
 
 1. **Select Tokens:** On the main scene, select all the tokens you wish to include in the calculation.
 2. **Open the Application:** Click the new "Complementary Skills" icon in the Token Controls palette (on the left of the screen).
-3. **Choose a Rule:** A window will appear with two tabs, pre-loaded with your selected tokens. Choose which calculation you need to perform.
+3. **Choose a Rule:** A window will appear with thee tabs, pre-loaded with your selected tokens. Choose which calculation you need to perform.
 
 ## The Calculators
 
@@ -45,9 +45,11 @@ This calculator is used when the whole group is working together on a single tas
 3. **Select the Leader:** The participant with the highest "Ldr. Ranks" will be chosen by default, but you can change this by selecting any "Leader" radio button.
 4. **Get the Result:** The "Calculation" box shows the average skill bonus, the leader's contribution, and the final combined total.
 
+### Magical Ritual Check
+
 ## Common Features
 
-Both calculator windows share these features:
+All calculator windows share these features:
 
 * **Enable/Disable Participants:** You can temporarily remove a participant from the calculation (to see how it affects the total) by unchecking the "Enabled" box next to their name.
 
@@ -64,12 +66,16 @@ Both calculator windows share these features:
 
 * **Roll Skill (lead participant or GM):** The lead participant or the GM can make the modified skill manoeuvre roll by clicking the button at the bottom of the chat card. The button will be visible to other participants but it will show as disabled. This will launch RMU's skill roll dialogue and show either the additional bonus (for Boost Task) or the override skill bonus (for Group Task). You can still apply any other modifiers as normal in this dialogue before rolling.
 
-## Version History
-
-[View Version History](VERSION.md)
-
 ## Licences
 
 Software and associated documentation files in this repository are covered by an [MIT License](LICENSE.md).
 
 All icons included within the RMU Complementary Skill Calculator module are from Google's Material Design icons (<https://fonts.google.com/icons>) and are licensed under an Apache Licence (version 2.0) (<https://www.apache.org/licenses/LICENSE-2.0.html>).
+
+## Disclaimer and IP Notice
+
+The Complementary Skills Calculator for RMU module is an unofficial, community-developed tool designed to enhance the Rolemaster Unified experience on Foundry Virtual Tabletop.
+
+This module is completely independent and is not affiliated with, endorsed, sponsored, or approved by Iron Crown Enterprises (ICE). "Rolemaster", "Rolemaster Unified", and the "RMU" acronym are trademarks of Iron Crown Enterprises.
+
+This project does not distribute any proprietary text, artwork, or core rulebook content belonging to ICE. It functions strictly as a mechanical, workflow, and user interface enhancement for the official RMU system on Foundry VTT. Any use of specific system terminology or mechanical values is for functional compatibility purposes only.

@@ -1,10 +1,52 @@
 /**
+ * A utility class to extract core attribute data from an RMU Token's Actor.
+ */
+export class RMUActorParser {
+    /**
+     * Extracts the core stats needed for ritual calculations from a token.
+     * @param {Token} token - The Foundry token document or object.
+     * @returns {{level: number, realms: Array<string>, currentPP: number, maxPP: number, currentHP: number, maxHP: number}}
+     */
+    static getRitualAttributes(token) {
+        // Flattened guard clause for early return
+        if (!token?.actor?.system) {
+            return { level: 1, realms: [], currentPP: 0, maxPP: 0, currentHP: 0, maxHP: 0 };
+        }
+
+        const systemData = token.actor.system;
+        const level = systemData.experience?.level ?? 1;
+
+        // Extract and cleanse the realm string into an array of realms
+        const realmRaw = systemData.realm ?? "";
+        const realms = realmRaw
+            .split(",")
+            .map((r) => r.trim())
+            .filter((r) => r.length > 0);
+
+        const currentPP = systemData.health?.power?.value ?? 0;
+        const maxPP = systemData.health?.power?.max ?? 0;
+
+        const currentHP = systemData.health?.hp?.value ?? 0;
+        const maxHP = systemData.health?.hp?.max ?? 0;
+
+        return {
+            level,
+            realms,
+            currentPP,
+            maxPP,
+            currentHP,
+            maxHP,
+        };
+    }
+}
+
+/**
  * A utility class to interface with the RMU system's skill data.
  * All logic is based on the data model provided in skill-model.md.
  */
 export class RMUSkillParser {
     /**
-     * Initializes a token's actor and fetches a flat array of all its skills.
+     * Initialises a token's actor and fetches a flat array of all its skills.
      * @param {Token} token - The token to read.
      * @returns {Promise<Array<Object>>} A promise that resolves to an array of raw skill objects.
      */
@@ -151,7 +193,7 @@ export class RMUSkillParser {
         let match = allRaw.find((s) => this.getSkillData(s).name === fullName);
         if (match) return match;
 
-        const baseNameMatch = fullName.match(/^(.+?)\s*\(/);
+        const baseNameMatch = new RegExp(/^(.+?)\s*\(/).exec(fullName);
         const baseName = baseNameMatch ? baseNameMatch[1] : fullName;
 
         return allRaw.find((s) => s.system?.name === baseName && (!s.system?.specialization || s.system.specialization.trim() === ""));

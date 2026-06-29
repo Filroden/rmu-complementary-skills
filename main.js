@@ -5,7 +5,7 @@
  */
 
 import { ComplementarySkillsApp } from "./src/ComplementarySkillsApp.js";
-import { RMUSkillParser } from "./src/RMUSkillParser.js";
+import { RMUSkillParser } from "./src/RMUTokenParser.js";
 import { VALID_ACTOR_TYPES } from "./src/config.js";
 
 /**
@@ -31,7 +31,7 @@ Hooks.once("init", () => {
     // Formats a number to always show a sign (+5, -2, +0)
     Handlebars.registerHelper("signed", function (value) {
         const num = Number(value);
-        if (isNaN(num)) return value;
+        if (Number.isNaN(num)) return value;
         return new Intl.NumberFormat(game.i18n.lang, {
             signDisplay: "always",
         }).format(num);

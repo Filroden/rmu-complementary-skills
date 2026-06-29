@@ -1,89 +1,90 @@
-<div class="rmu-tab-content {{#if (eq activeTab 'group')}}active{{/if}}" data-tab="group">
-  <form class="rmu-calc-wrapper" autocomplete="off">
-    <div class="rmu-calc-pane">
+<div class="rmu-tab-content rmucsc-scrollable {{#if (eq activeTab 'group')}}active{{/if}}" data-tab="group">
+    <form class="rmu-calc-wrapper" autocomplete="off">
+        <div class="rmu-calc-pane">
 
-      <fieldset class="rmu-calc-fieldset">
-        <legend>{{localize "RMU_CS.Group.TaskSkill"}}</legend>
-        <div class="form-group">
-          <label>{{localize "RMU_CS.Common.Skill"}}</label>
-          <div class="form-fields">
-            <select class="rmu-task-skill-select" name="taskSkillName">
-              <option value="">{{localize "RMU_CS.Group.SelectTask"}}</option>
-              {{#each allSkillOptions}}
-              <optgroup label="{{label}}">
-                {{#each skills}}
-                <option value="{{uuid}}" {{rmucsSelected (eq name ../../taskSkillName)}}>{{name}}</option>
+        <fieldset class="rmucsc-fieldset">
+            <legend>{{localize "RMU_CS.Group.TaskSkill"}}</legend>
+            <div class="form-group">
+                <label>{{localize "RMU_CS.Common.Skill"}}</label>
+                <div class="form-fields">
+                    <select class="rmu-task-skill-select" name="taskSkillName">
+                        <option value="">{{localize "RMU_CS.Group.SelectTask"}}</option>
+                        {{#each allSkillOptions}}
+                        <optgroup label="{{label}}">
+                            {{#each skills}}
+                            <option value="{{uuid}}" {{rmucsSelected (eq name ../../taskSkillName)}}>{{name}}</option>
+                            {{/each}}
+                        </optgroup>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="rmucsc-fieldset">
+            <legend>{{localize "RMU_CS.Boost.Participants"}}</legend>
+            <div class="rmu-participant-list" id="group-task-participants">
+                <div class="rmu-participant-row rmu-participant-header">
+                    <span>{{localize "RMU_CS.Common.Enabled"}}</span>
+                    <span>{{localize "RMU_CS.Group.Leader"}}</span>
+                    <span>{{localize "RMU_CS.Common.Participant"}}</span>
+                    <span>{{localize "RMU_CS.Group.LeaderRanks"}}</span>
+                    <span>{{localize "RMU_CS.Common.SkillBonus"}}</span>
+                </div>
+                {{#each participants}}
+                <div class="rmu-participant-row">
+                    <input type="checkbox" class="rmu-participant-enable" data-id="{{id}}" {{checked enabled}} />
+                    <input type="radio" class="rmu-leader-select" name="leader" value="{{id}}" {{checked (eq id ../leaderId)}} {{disabled (not enabled)}} />
+                    <label>{{name}}</label>
+                    <span class="rmu-participant-ranks">{{leadershipRanks}}</span>
+                    <span class="rmu-participant-bonus">{{signed bonusForSelectedSkill}}</span>
+                </div>
                 {{/each}}
-              </optgroup>
-              {{/each}}
-            </select>
-          </div>
-        </div>
-      </fieldset>
+            </div>
+            <div class="rmu-add-wrapper">
+                <button type="button" class="rmucsc-btn" data-action="toggleSidePanel">
+                <i class="rmucsc-icon add"></i> {{localize "RMU_CS.Common.AddParticipant"}}
+                </button>
+            </div>
+        </fieldset>
 
-      <fieldset class="rmu-calc-fieldset">
-        <legend>{{localize "RMU_CS.Boost.Participants"}}</legend>
-        <div class="rmu-participant-list" id="group-task-participants">
-          <div class="rmu-participant-row rmu-participant-header">
-            <span>{{localize "RMU_CS.Common.Enabled"}}</span>
-            <span>{{localize "RMU_CS.Group.Leader"}}</span>
-            <span>{{localize "RMU_CS.Common.Participant"}}</span>
-            <span>{{localize "RMU_CS.Group.LeaderRanks"}}</span>
-            <span>{{localize "RMU_CS.Common.SkillBonus"}}</span>
-          </div>
-          {{#each participants}}
-          <div class="rmu-participant-row">
-            <input type="checkbox" class="rmu-participant-enable" data-id="{{id}}" {{checked enabled}} />
-            <input type="radio" class="rmu-leader-select" name="leader" value="{{id}}" {{checked (eq id ../leaderId)}} {{disabled (not enabled)}} />
-            <label>{{name}}</label>
-            <span class="rmu-participant-ranks">{{leadershipRanks}}</span>
-            <span class="rmu-participant-bonus">{{signed bonusForSelectedSkill}}</span>
-          </div>
-          {{/each}}
-        </div>
-        <div class="rmu-add-wrapper">
-        <button type="button" class="rmu-add-participant" data-action="toggleSidePanel">
-          <i class="rmu-icon rmu-icon-add"></i> {{localize "RMU_CS.Common.AddParticipant"}}
-        </button>
-      </div>
-      </fieldset>
+        <fieldset class="rmucsc-fieldset">
+            <legend>{{localize "RMU_CS.Common.Calculation"}}</legend>
+            <div class="rmu-output-box rmucsc-scrollable stable">
+                <div class="rmu-output-row">
+                    <span>{{localize "RMU_CS.Group.AvgBonus"}}</span>
+                    <span class="rmu-output-value">{{signed calculation.averageBonus}}</span>
+                </div>
+                <div class="rmu-output-row">
+                    <span>{{localize "RMU_CS.Group.LeadershipRanks" name=calculation.leaderName}}</span>
+                    <span class="rmu-output-value">{{signed calculation.leadershipBonus}}</span>
+                </div>
+                <div class="rmu-output-row rmu-output-total">
+                    <span>{{localize "RMU_CS.Common.TotalBonus"}}:</span>
+                    <span class="rmu-output-value">{{signed calculation.total}}</span>
+                </div>
+            </div>
 
-      <fieldset class="rmu-calc-fieldset">
-        <legend>{{localize "RMU_CS.Common.Calculation"}}</legend>
-        <div class="rmu-output-box">
-          <div class="rmu-output-row">
-            <span>{{localize "RMU_CS.Group.AvgBonus"}}</span>
-            <span class="rmu-output-value">{{signed calculation.averageBonus}}</span>
-          </div>
-          <div class="rmu-output-row">
-            <span>{{localize "RMU_CS.Group.LeadershipRanks" name=calculation.leaderName}}</span>
-            <span class="rmu-output-value">{{signed calculation.leadershipBonus}}</span>
-          </div>
-          <div class="rmu-output-row rmu-output-total">
-            <span>{{localize "RMU_CS.Common.TotalBonus"}}:</span>
-            <span class="rmu-output-value">{{signed calculation.total}}</span>
-          </div>
+            {{#if calculation.participants}}
+            <div class="rmu-output-breakdown">
+                <span class="rmu-notes">{{localize "RMU_CS.Group.PartBonuses"}}</span>
+                <ul>
+                    {{#each calculation.participants}}
+                    <li>
+                    <strong>{{signed bonus}}</strong> ({{name}})
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+            {{/if}}
 
-          {{#if calculation.participants}}
-          <div class="rmu-output-breakdown">
-            <span class="rmu-notes">{{localize "RMU_CS.Group.PartBonuses"}}</span>
-            <ul>
-              {{#each calculation.participants}}
-              <li>
-                <strong>{{signed bonus}}</strong> ({{name}})
-              </li>
-              {{/each}}
-            </ul>
-          </div>
-          {{/if}}
+        </fieldset>
         </div>
-      </fieldset>
-    </div>
   </form>
 
   <footer class="rmu-calc-footer">
-  <button type="button" class="rmu-send-chat">
-    <i class="rmu-icon rmu-icon-chat"></i> {{localize "RMU_CS.Common.SendChat"}}
-  </button>
-</footer>
+    <button type="button" class="rmucsc-btn rmu-send-chat">
+      <i class="rmucsc-icon chat"></i> {{localize "RMU_CS.Common.SendChat"}}
+    </button>
+  </footer>
 </div>

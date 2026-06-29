@@ -1,67 +1,507 @@
+/* ===================================================================
+   --- COMMON UI ELEMENTS ---
+=================================================================== */
+
+/* --- MATERIAL DESIGN ICONS --- */
+.rmucsc-icon {
+    display: inline-block;
+    width: var(--filroden-font-size-l); 
+    height: var(--filroden-font-size-l);
+    min-width: var(--filroden-font-size-l);
+    background-color: currentColor;
+    background-image: none !important;
+    content: "";
+    transform: scaleX(var(--filroden-dir-flip));
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-image: var(--rmucsc-mask);
+    mask-image: var(--rmucsc-mask);
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    margin: 0;
+}
+
+.rmucsc-icon.group-skill                { --rmucsc-mask: url('../assets/icon-group-skill.svg'); }
+.rmucsc-icon.boost-skill                { --rmucsc-mask: url('../assets/boost-skill.svg'); }
+.rmucsc-icon.group-task                 { --rmucsc-mask: url('../assets/group-task.svg'); }
+.rmucsc-icon.add                        { --rmucsc-mask: url('../assets/add.svg'); }
+.rmucsc-icon.chat                       { --rmucsc-mask: url('../assets/chat.svg'); }
+.rmucsc-icon.ritual                     { --rmucsc-mask: url('../assets/token.svg'); }
+.rmucsc-icon.delete                     { --rmucsc-mask: url('../assets/icon-trash.svg'); }
+
+/* --- APPLICATION SCROLLBARS --- */
+.rmucsc * {
+    scrollbar-width: auto !important;
+    scrollbar-color: auto !important;
+}
+
+.rmucsc .rmucsc-scrollable.stable {
+    scrollbar-gutter: stable;
+}
+
+.rmucsc .rmucsc-scrollable::-webkit-scrollbar {
+    width: 8px !important;
+    height: 8px !important;
+}
+
+.rmucsc .rmucsc-scrollable::-webkit-scrollbar-track {
+    background: var(--filroden-color-bg-hover-solid) !important;
+    border-radius: var(--filroden-radius-large) !important;
+}
+
+.rmucsc .rmucsc-scrollable::-webkit-scrollbar-thumb {
+    background-color: var(--filroden-color-text-accent) !important;
+    border-radius: var(--filroden-radius-large) !important;
+    border: 1px solid rgba(0, 0, 0, 0.6) !important;
+}
+
+.rmucsc .rmucsc-scrollable::-webkit-scrollbar-thumb:hover {
+    background-color: var(--filroden-color-text-accent-hover) !important;
+}
+
+.rmucsc .rmucsc-scrollable::-webkit-scrollbar-button {
+    display: none;
+}
+
+
+/* --- TOOLTIPS --- */
+#tooltip.rmucsc-tooltip {
+    max-width: 300px !important;
+    border: 1px solid var(--filroden-color-text-accent);
+    border-radius: var(--filroden-radius-small);
+    padding: var(--filroden-space-s);
+    background: var(--filroden-color-bg-darkest);
+    color: var(--filroden-color-text-main-solid);
+    box-shadow: var(--filroden-shadow-popout);
+    font-family: var(--filroden-font-family);
+    font-size: var(--filroden-font-size-s);
+    line-height: var(--filroden-line-height-body);
+    text-align: start;
+    z-index: var(--z-index-tooltip, 9999);
+    margin-block-start: var(--filroden-space-m);
+}
+
+
+/* --- BUTTONS --- */
+/* Standard button styles for all buttons */
+.rmucsc button {
+    background: var(--filroden-color-bg-light-solid);
+    border: 1px solid var(--filroden-color-border);
+    color: var(--filroden-color-text-main-solid);
+    border-radius: var(--filroden-radius-small);
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.1s ease;
+}
+
+.rmucsc button:hover {
+    background: var(--filroden-color-bg-hover-solid);
+    border-color: var(--filroden-color-text-accent);
+    color: var(--filroden-color-text-main-solid);
+    box-shadow: none;
+}
+
+.rmucsc *:focus-visible,
+.rmucsc button:focus {
+    outline: 2px solid var(--filroden-color-text-accent);
+    border-radius: var(--filroden-radius-small);
+}
+
+/* Variant styles for primary and danger buttons */
+.rmucsc .rmucsc-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    font-size: var(--filroden-font-size-s);
+    font-weight: bold;
+    gap: var(--filroden-space-s);
+    padding: var(--filroden-space-s) var(--filroden-space-m);
+}
+
+.rmucsc .rmucsc-btn.wide {
+    width: auto;
+}
+
+.rmucsc .rmucsc-btn:hover {
+    background: var(--filroden-color-bg-hover-solid);
+    border-color: var(--filroden-color-text-accent);
+    color: var(--filroden-color-text-main-solid);
+}
+
+.rmucsc .rmucsc-btn.danger {
+    color: var(--filroden-color-danger);
+    width: 100%;
+}
+
+.rmucsc .rmucsc-btn.danger:hover {
+    color: var(--filroden-color-danger);
+}
+
+.rmucsc .rmucsc-btn.primary {
+    color: var(--filroden-color-text-accent);
+}
+
+.rmucsc .rmucsc-btn.primary:hover {
+    color: var(--filroden-color-text-accent);
+}
+
+.rmucsc .rmucsc-btn.outline.active {
+    background: var(--filroden-color-bg-hover-solid);
+    border-color: var(--filroden-color-border-focus);
+    color: var(--filroden-color-text-main-solid);
+}
+
+
+/* --- INPUTS AND SELECTS --- */
+.rmucsc input[type="text"],
+.rmucsc input[type="number"],
+.rmucsc input[type="time"],
+.rmucsc select,
+.rmucsc textarea {
+    background: var(--filroden-color-bg-medium-solid);
+    border: 1px solid var(--filroden-color-border);
+    color: var(--filroden-color-text-main-solid);
+    border-radius: var(--filroden-radius-small);
+    min-height: var(--filroden-font-size-xl);
+    padding-inline: var(--filroden-space-xs);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.rmucsc input[type="number"],
+.rmucsc input[type="time"] {
+    text-align: center; 
+}
+
+.rmucsc input[type="number"] {
+    width: 8ch;
+}
+
+.rmucsc input[type="text"]:focus,
+.rmucsc input[type="number"]:focus,
+.rmucsc input[type="time"]:focus,
+.rmucsc select:focus,
+.rmucsc textarea:focus {
+    border-color: var(--filroden-color-text-accent);
+    box-shadow: var(--filroden-shadow-focus);
+}
+
+.rmucsc input::placeholder,
+.rmucsc textarea::placeholder {
+    color: var(--filroden-color-text-placeholder-solid);
+    opacity: 1;
+    font-style: italic;
+}
+
+.rmucsc input[type="time"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+.rmucsc textarea {
+    resize: vertical;
+    font-family: monospace;
+    line-height: var(--filroden-line-height-body);
+}
+
+.rmucsc select {
+    width: 100%;
+    text-overflow: ellipsis;
+}
+
+.rmucsc select,
+.rmucsc select::picker(select) {
+    appearance: base-select;
+}
+
+.rmucsc select::picker(select) {
+    position-area: top;
+    margin-block-end: var(--filroden-space-xs);
+    border: 1px solid var(--filroden-color-text-accent);
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--filroden-color-text-accent) var(--filroden-color-bg-darkest);
+}
+
+.rmucsc option {
+    background: var(--filroden-color-bg-medium-solid);
+    color: var(--filroden-color-text-main-solid);
+    padding: var(--filroden-space-xs) var(--filroden-space-s);
+}
+
+.rmucsc option:hover,
+.rmucsc option:focus {
+    background: var(--filroden-color-text-accent);
+    color: var(--filroden-color-text-on-accent);
+    outline: none;
+}
+
+.rmucsc optgroup {
+    background-color: var(--filroden-color-bg-darkest);
+    color: var(--filroden-color-text-accent);
+    font-weight: bold;
+    font-style: italic;
+    padding-block: 3px 1px;
+}
+
+.rmucsc input:disabled,
+.rmucsc select:disabled,
+.rmucsc textarea:disabled {
+    background: var(--filroden-color-bg-medium-solid);
+    border-color: var(--filroden-border-main);
+    color: var(--filroden-color-text-muted-solid);
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* --- CHECKBOXES AND RADIO BUTTONS --- */
+.rmucsc-checkbox,
+.rmucsc-radio {
+    appearance: auto;
+    accent-color: var(--filroden-color-text-accent);
+    color-scheme: dark;
+    width: var(--filroden-font-size-m) !important;
+    height: var(--filroden-font-size-m);
+    margin: var(--filroden-space-xs);
+    cursor: pointer;
+    display: inline-block;
+    align-content: center;
+    text-align: center;
+}
+
+.rmucsc-checkbox::before,
+.rmucsc-checkbox::after,
+.rmucsc-radio::before,
+.rmucsc-radio::after {
+    content: none;
+}
+
+
+/* --- ACCESSIBILITY INTERACTIONS --- */
+.rmucsc a:hover {
+    text-shadow: none;
+}
+
+.rmucsc button.active,
+.rmucsc [class*="rmucsc-"][class*="-btn"].active,
+.rmucsc .rmucsc-pill.active {
+    outline: none;
+    box-shadow: none;
+}
+
+
+/* --- APPLICATION LAYOUTS --- */
+/* Standard two-column wrapper */
+.rmucsc .rmucsc-layout {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Standard Sidebar */
+.rmucsc .rmucsc-sidebar {
+    flex: 0 0 18rem; /* Default width, easily overridden */
+    display: flex;
+    flex-direction: column;
+    padding: var(--filroden-space-m);
+    gap: var(--filroden-space-m);
+    background-color: var(--filroden-color-bg-darkest);
+    border-inline-end: 1px solid var(--filroden-color-border);
+    overflow-y: auto;
+}
+
+/* Standard Main Content Area */
+.rmucsc .rmucsc-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: var(--filroden-space-l);
+    overflow-y: auto;
+    min-width: 0; /* Prevents flexbox text overflow issues */
+}
+
+
+/* --- TABBED NAVIGATION --- */
+.rmucsc nav.tabs,
+.rmucsc .rmucsc-tabs {
+    display: flex;
+    flex: 0 0 auto;
+    gap: var(--filroden-space-xs);
+    padding-inline-start: var(--filroden-space-xs);
+    border-block-end: 1px solid var(--filroden-color-border);
+    background: var(--filroden-color-bg-medium-solid);
+}
+
+.rmucsc nav.tabs .item,
+.rmucsc .rmucsc-tabs .item {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    gap: var(--filroden-space-m);
+    text-align: center;
+    padding: var(--filroden-space-s);
+        color: var(--filroden-color-text-muted-solid);
+    font-weight: bold;
+    cursor: pointer;
+    border-block-end: 2px solid transparent;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.rmucsc nav.tabs .item:hover,
+.rmucsc .rmucsc-tabs .item:hover {
+    color: var(--filroden-color-text-main-solid);
+    background: var(--filroden-color-bg-hover-solid);
+}
+
+.rmucsc nav.tabs .item.active,
+.rmucsc .rmucsc-tabs .item.active {
+    color: var(--filroden-color-text-accent);
+    border-block-end-color: var(--filroden-color-text-accent);
+    background: var(--filroden-color-bg-darkest);
+}
+
+
+/* --- STRUCTURED FORMS --- */
+.rmucsc fieldset.rmucsc-fieldset {
+    border: var(--filroden-border-main);
+    border-radius: var(--filroden-radius-medium);
+    padding: var(--filroden-space-m);
+    margin: var(--filroden-space-m);
+    gap: var(--filroden-space-l);
+    display: flex;
+    flex-direction: column;
+}
+
+.rmucsc fieldset.rmucsc-fieldset legend {
+    font-weight: bold;
+    color: var(--filroden-color-text-accent);
+    padding-inline: var(--filroden-space-xs);
+    font-size: var(--filroden-font-size-s);
+}
+
+.rmucsc .form-group {
+    display: grid;
+    grid-template-columns: auto minmax(0, max-content);
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--filroden-space-l);
+}
+
+.rmucsc label {
+    margin: 0;
+    color: var(--filroden-color-text-main-solid);
+    white-space: nowrap;
+}
+
+.rmucsc .rmucsc-title {
+    font-weight: bold;
+    margin-block-start: var(--filroden-space-m);
+    margin-block-end: var(--filroden-space-m);
+}
+
+
+/* --- SEMANTIC TEXT & STATES --- */
+/* Helper text below inputs or headers */
+.rmucsc .hint,
+.rmucsc .rmucsc-notes {
+    font-size: var(--filroden-font-size-xs);
+    color: var(--filroden-color-text-muted-solid);
+    margin-block-start: var(--filroden-space-xxs);
+    line-height: var(--filroden-line-height-body);
+}
+
+/* Empty or missing data states */
+.rmucsc .rmucsc-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--filroden-color-text-placeholder-solid);
+    font-style: italic;
+    padding: var(--filroden-space-xl);
+    background-color: var(--filroden-color-bg-light-solid);
+    border-radius: var(--filroden-radius-medium);
+    border: var(--filroden-border-main);
+}
+
+/* Thematic Divider */
+.rmucsc .rmucsc-divider {
+    border: none;
+    height: 1px;
+    width: 100%;
+    background-color: var(--filroden-color-text-accent);
+    margin-block: var(--filroden-space-m);
+}
+
+
+/* --- BADGES & PILLS --- */
+.rmucsc .rmucsc-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--filroden-space-xs);
+    background-color: var(--filroden-color-bg-darkest);
+    color: var(--filroden-color-text-muted-solid);
+    border: 1px solid var(--filroden-color-border);
+    border-radius: var(--filroden-radius-large);
+    font-size: var(--filroden-font-size-xs);
+    font-weight: bold;
+    padding: var(--filroden-space-xxs) var(--filroden-space-s);
+    line-height: var(--filroden-line-height-heading);
+    white-space: nowrap;
+}
+
+.rmucsc .rmucsc-badge.primary {
+    background-color: var(--filroden-color-text-accent);
+    color: var(--filroden-color-text-on-accent);
+    border-color: var(--filroden-color-text-accent);
+}
+
+/* ===================================================================
+   --- UTILITY CLASSES ---
+=================================================================== */
+
+.rmucsc .rmucsc-flex-row {
+    display: flex;
+    gap: var(--filroden-space-s);
+    width: 100%;
+}
+
+.rmucsc .rmucsc-flex-1 {
+    flex: 1;
+    min-height: 0;
+    min-width: 0; /* Prevents flexbox text inputs from breaking container bounds */
+}
+
+/* --- CONTEXT PANEL CONTENT --- */
+.rmucsc-tool-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: var(--filroden-space-m);
+    gap: var(--filroden-space-xs);
+    overflow-y: auto; /* Required to trigger rmucsc-scrollable mechanics */
+}
+
+.rmucsc .rmucsc-wide {
+    width: 4rem;
+}
+
+
 /* =====================================
---- MAIN MODULE STYLES ---
-=====================================
-*/
-
-.application.rmu-calc-app {
-  min-width: 30rem;
-}
-
-.application.rmu-calc-app,
-.application.rmu-calc-app .window-header {
-  background-image: unset;
-  background-color: var(--filroden-color-bg-darkest);
-  color: var(--filroden-color-text-main-solid);
-}
-
-.application.rmu-calc-app .window-header {
-  border-block-end: var(--filroden-border-main);
-}
-
-.application.rmu-calc-app .window-header .window-title {
-  color: var(--filroden-color-text-main-solid);
-}
-
-.application.rmu-calc-app .rmu-notes {
-  color: var(--filroden-color-text-muted-solid);
-}
-
-.application.rmu-calc-app button {
-  background: var(--filroden-color-bg-light-solid);
-  border: var(--filroden-border-main);
-  border-radius: var(--filroden-radius-small);
-  color: var(--filroden-color-text-muted-solid);
-  transition: background-color 0.1s, border-color 0.1s, color 0.1s;
-}
-
-.application.rmu-calc-app .rmu-button-title {
-  color: var(--filroden-color-text-accent);
-  font-size: var(--filroden-font-size-l);
-  font-weight: bold;
-}
-
-.application.rmu-calc-app .rmu-button-note {
-  color: var(--filroden-color-text-muted-solid);
-  font-size: var(--filroden-font-size-s);
-  font-weight: normal;
-}
-
-.application.rmu-calc-app button:hover {
-  background: var(--filroden-color-bg-hover-solid);
-  border-color: var(--filroden-color-text-accent);
-  color: var(--filroden-color-text-main-solid);
-}
-
-/* =====================================
---- COMMON LAYOUT ---
+--- SCENE CONTROL BUTTON ---
 =====================================
 */
 
 button.control.tool.rmu-skill-button-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
 }
 
 button.control.tool.rmu-skill-button-icon::before {
@@ -77,111 +517,119 @@ button.control.tool.rmu-skill-button-icon::before {
     mask-size: contain;
 }
 
-.application.rmu-calc-app .window-content {
-  background: none;
-  background-color: var(--filroden-color-bg-darkest);
-  color: var(--filroden-color-text-main-solid);
-  padding-block: var(--filroden-space-m);
-  padding-inline: var(--filroden-space-m);
-  overflow: auto;
-  height: auto;
+
+/* =====================================
+--- MAIN MODULE STYLES ---
+=====================================
+*/
+
+.rmucsc {
+    min-width: 40rem;
+}
+
+.rmucsc,
+.rmucsc .window-header {
+    background-image: unset;
+    background-color: var(--filroden-color-bg-darkest);
+    color: var(--filroden-color-text-main-solid);
+}
+
+.rmucsc .window-header {
+    border-block-end: var(--filroden-border-main);
+}
+
+.rmucsc .window-header .window-title {
+    color: var(--filroden-color-text-main-solid);
+}
+
+.rmucsc .rmu-notes {
+    color: var(--filroden-color-text-muted-solid);
+}
+
+.rmucsc .rmu-button-title {
+    color: var(--filroden-color-text-accent);
+    font-size: var(--filroden-font-size-l);
+    font-weight: bold;
+}
+
+.rmucsc .rmu-button-note {
+    color: var(--filroden-color-text-muted-solid);
+    font-size: var(--filroden-font-size-s);
+    font-weight: normal;
+}
+
+
+/* =====================================
+--- COMMON LAYOUT ---
+=====================================
+*/
+
+.rmucsc .window-content {
+    background: none;
+    background-color: var(--filroden-color-bg-darkest);
+    color: var(--filroden-color-text-main-solid);
+    padding: 0;
+    height: auto;
+
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: max-content 1fr;
+  
+    overflow: hidden; 
 }
 
 .rmu-calc-pane {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--filroden-space-m);
+    display: flex;
+    flex-direction: column;
+    gap: var(--filroden-space-m);
 }
 
 .rmu-notes {
-  text-align: center;
-}
-
-/* =====================================
---- UNIFIED APP LAYOUT ---
-=====================================
-*/
-.application.rmu-calc-app.rmu-unified-app .window-content {
-  display: grid;
-  grid-template-columns: 1fr auto; /* Main area takes remaining space, side panel takes its width */
-  grid-template-rows: max-content 1fr; /* Tabs take required height, content takes the rest */
-  padding: 0;
-  overflow: hidden; 
-}
-
-/* Tab Navigation */
-.rmu-unified-app nav.tabs {
-  grid-column: 1;
-  grid-row: 1;
-  display: flex;
-  border-block-end: var(--filroden-border-main);
-  background: var(--filroden-color-bg-medium-solid);
-}
-
-.rmu-unified-app nav.tabs .item {
-  flex: 1;
-  text-align: center;
-  padding: var(--filroden-space-m);
-  color: var(--filroden-color-text-muted-solid);
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s, color 0.2s;
-}
-
-.rmu-unified-app nav.tabs .item:hover {
-  color: var(--filroden-color-text-main-solid);
-  background: var(--filroden-color-bg-hover-solid);
-}
-
-.rmu-unified-app nav.tabs .item.active {
-  color: var(--filroden-color-text-accent);
-  border-block-end: 3px solid var(--filroden-color-text-accent);
-  background: var(--filroden-color-bg-darkest);
+    text-align: center;
 }
 
 /* Tab Content Areas */
 .rmu-tab-content {
-  grid-column: 1;
-  grid-row: 2;
-  display: none;
-  flex-direction: column;
-  overflow-y: auto;
-  padding: var(--filroden-space-m);
+    grid-column: 1;
+    grid-row: 2;
+    display: none;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: var(--filroden-space-m);
 }
 
 .rmu-tab-content.active {
-  display: flex;
+    display: flex;
 }
 
 /* Side Panel for Adding Participants */
 .rmu-side-panel {
-  grid-column: 2;
-  grid-row: 1 / span 2; /* Spans across both the tabs row and the content row */
-  width: 0;
-  opacity: 0;
-  overflow: hidden;
-  background: var(--filroden-color-bg-medium-solid);
-  border-inline-start: var(--filroden-border-main);
-  transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out, padding 0.3s ease-in-out;
-  display: flex;
-  flex-direction: column;
+    grid-column: 2;
+    grid-row: 1 / span 2; /* Spans across both the tabs row and the content row */
+    width: 0;
+    opacity: 0;
+    overflow: hidden;
+    background: var(--filroden-color-bg-medium-solid);
+    border-inline-start: var(--filroden-border-main);
+    transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out, padding 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
 }
 
 .rmu-side-panel.open {
-  width: 18.75rem; /* 300px */
-  opacity: 1;
-  padding: var(--filroden-space-m);
+    width: 18.75rem; /* 300px */
+    opacity: 1;
+    padding: var(--filroden-space-m);
 }
 
 .rmu-side-panel-header {
-  color: var(--filroden-color-text-accent);
-  font-size: var(--filroden-font-size-l);
-  font-weight: var(--filroden-font-weight-bold);
-  letter-spacing: var(--filroden-letter-spacing-wide);
-  border-block-end: var(--filroden-border-dashed);
-  margin-block-end: var(--filroden-space-m);
-  padding-block-end: var(--filroden-space-xs);
+    color: var(--filroden-color-text-accent);
+    font-size: var(--filroden-font-size-l);
+    font-weight: var(--filroden-font-weight-bold);
+    letter-spacing: var(--filroden-letter-spacing-wide);
+    border-block-end: var(--filroden-border-main);
+    margin-block-end: var(--filroden-space-m);
+    padding-block-end: var(--filroden-space-xs);
 }
 
 /* =====================================
@@ -189,266 +637,370 @@ button.control.tool.rmu-skill-button-icon::before {
 =====================================
 */
 
-/* --- Fieldsets --- */
-.application.rmu-calc-app .rmu-calc-fieldset {
-  padding: var(--filroden-space-l);
-  gap: var(--filroden-space-s);
-  border: var(--filroden-border-main);
-  border-radius: var(--filroden-radius-medium);
-  width: 100%;
+.rmucsc .rmu-sub-fieldset {
+    border: var(--filroden-border-main);
+    padding: var(--filroden-space-m);
+    margin-block-start: var(--filroden-space-m);
+    border-radius: var(--filroden-radius-small);
+    
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: var(--filroden-space-s) var(--filroden-space-l);
+    align-items: center;
 }
 
-.application.rmu-calc-app .rmu-calc-fieldset legend {
-  font-weight: bold;
-  color: var(--filroden-color-text-accent);
-}
-
-.application.rmu-calc-app .rmu-sub-fieldset {
-  border: var(--filroden-border-dashed);
-  padding: var(--filroden-space-m);
-  margin-block-start: var(--filroden-space-m);
-  border-radius: var(--filroden-radius-small);
-  
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  gap: var(--filroden-space-s) var(--filroden-space-l);
-  align-items: center;
-}
-
-.application.rmu-calc-app .rmu-sub-fieldset legend {
-  grid-column: 1 / 3; 
-  font-size: var(--filroden-font-size-xs);
-  font-weight: normal;
-  padding-inline: var(--filroden-space-xs);
-  text-transform: uppercase;
-  color: var(--filroden-color-text-muted-solid);
-  margin-block-end: var(--filroden-space-xs);
+.rmucsc .rmu-sub-fieldset legend {
+    grid-column: 1 / 3; 
+    font-size: var(--filroden-font-size-xs);
+    font-weight: normal;
+    padding-inline: var(--filroden-space-xs);
+    text-transform: uppercase;
+    color: var(--filroden-color-text-muted-solid);
+    margin-block-end: var(--filroden-space-xs);
 }
 
 /* --- Form Inputs & Selects --- */
 
-.application.rmu-calc-app .form-group {
-  display: grid;
-  grid-template-columns: max-content minmax(0, 1fr); 
-  align-items: center;
-  gap: var(--filroden-space-l);
+.rmucsc .rmu-sub-fieldset .form-group {
+    display: contents;
 }
 
-.application.rmu-calc-app .rmu-sub-fieldset .form-group {
-  display: contents;
-}
-
-.application.rmu-calc-app .form-group .form-fields {
-  display: contents;
-}
-.application.rmu-calc-app .form-group label {
-  margin: 0;
-  white-space: nowrap;
-}
-
-.application.rmu-calc-app select {
-  width: 100%;
-  text-overflow: ellipsis;
-}
-
-.application.rmu-calc-app input[type="text"],
-.application.rmu-calc-app input[type="number"],
-.application.rmu-calc-app select {
-  background: var(--filroden-color-bg-medium-solid);
-  border: var(--filroden-border-main);
-  color: var(--filroden-color-text-main-solid);
-  border-radius: var(--filroden-radius-small);
-}
-.application.rmu-calc-app input[type="text"]:focus,
-.application.rmu-calc-app input[type="number"]:focus,
-.application.rmu-calc-app select:focus {
-  border-color: var(--filroden-color-text-accent);
-  box-shadow: var(--filroden-shadow-focus);
-}
-.application.rmu-calc-app select option {
-  background: var(--filroden-color-bg-darkest);
-  color: var(--filroden-color-text-main-solid);
-}
-.application.rmu-calc-app select optgroup {
-  background-color: var(--filroden-color-bg-darkest);
-  color: var(--filroden-color-text-accent);
-  font-weight: bold;
-  font-style: italic;
-  padding-block: 3px 1px;
-}
-.application.rmu-calc-app input[type="radio"],
-.application.rmu-calc-app input[type="checkbox"] {
-  accent-color: var(--filroden-color-text-accent);
-  border: 0;
+.rmucsc .form-group .form-fields {
+    display: contents;
 }
 
 /* --- Participant List --- */
-.application.rmu-calc-app .rmu-participant-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--filroden-space-xs);
+.rmucsc .rmu-participant-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--filroden-space-xs);
 }
 
-.application.rmu-calc-app #boost-skill-participants .rmu-participant-row {
-  display: grid;
-  grid-template-columns: 3.75rem 3.75rem 1fr 5rem; 
-  align-items: center;
-  gap: var(--filroden-space-m);
+.rmucsc #boost-skill-participants .rmu-participant-row {
+    display: grid;
+    grid-template-columns: 3.75rem 3.75rem 1fr 5rem; 
+    align-items: center;
+    gap: var(--filroden-space-m);
 }
-.application.rmu-calc-app #group-task-participants .rmu-participant-row {
-  display: grid;
-  grid-template-columns: 3.75rem 3.75rem 1fr 5rem 5rem;
-  align-items: center;
-  gap: var(--filroden-space-m);
+.rmucsc #group-task-participants .rmu-participant-row {
+    display: grid;
+    grid-template-columns: 3.75rem 3.75rem 1fr 5rem 5rem;
+    align-items: center;
+    gap: var(--filroden-space-m);
 }
 
-.application.rmu-calc-app .rmu-participant-row.rmu-participant-header {
-  font-weight: bold;
-  font-size: var(--filroden-font-size-xs);
-  text-transform: uppercase;
-  border-block-end: var(--filroden-border-main);
-  padding-block-end: var(--filroden-space-xs);
+.rmucsc .rmu-participant-header {
+    font-weight: bold;
+    font-size: var(--filroden-font-size-xs);
+    text-transform: uppercase;
+    border-block-end: var(--filroden-border-main);
+    padding-block-end: var(--filroden-space-xs);
 }
-.application.rmu-calc-app .rmu-participant-row.rmu-participant-header span:last-child {
-  text-align: center;
+.rmucsc .rmu-participant-header span:last-child {
+    text-align: center;
 }
-.application.rmu-calc-app .rmu-participant-row input[type="checkbox"],
-.application.rmu-calc-app .rmu-participant-row input[type="radio"] {
-  margin: 0;
-  justify-self: center;
+.rmucsc .rmu-participant-row input[type="checkbox"],
+.rmucsc .rmu-participant-row input[type="radio"] {
+    margin: 0;
+    justify-self: center;
 }
-.application.rmu-calc-app .rmu-participant-row .rmu-participant-ranks,
-.application.rmu-calc-app .rmu-participant-row .rmu-participant-bonus {
-  text-align: center;
-  font-style: italic;
-  font-size: var(--filroden-font-size-s);
-  color: var(--filroden-color-text-muted-solid);
+.rmucsc .rmu-participant-row .rmu-participant-ranks,
+.rmucsc .rmu-participant-row .rmu-participant-bonus {
+    text-align: center;
+    font-style: italic;
+    font-size: var(--filroden-font-size-s);
+    color: var(--filroden-color-text-muted-solid);
 }
-.application.rmu-calc-app .rmu-add-wrapper {
-  margin-block-start: var(--filroden-space-m);
+.rmucsc .rmu-add-wrapper {
+    margin-block-start: var(--filroden-space-m);
 }
+.rmucsc .rmu-add-list .form-group {
+    justify-content: flex-start;
+}
+
 
 /* --- Dynamic Skill List --- */
-.application.rmu-calc-app .rmu-dynamic-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--filroden-space-xs);
+.rmucsc .rmu-dynamic-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--filroden-space-xs);
 }
-.application.rmu-calc-app .rmu-dynamic-row {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: var(--filroden-space-xs);
-  align-items: center;
+.rmucsc .rmu-dynamic-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--filroden-space-xs);
+    align-items: center;
 }
-.application.rmu-calc-app .rmu-icon-button {
-  width: 1.5rem;
-  height: 1.5rem;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: none;
-  line-height: 1;
+.rmucsc .rmu-icon-button {
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    line-height: 1;
 }
 
 /* --- Output Box --- */
-.application.rmu-calc-app .rmu-output-box {
-  display: flex;
-  flex-direction: column;
-  gap: var(--filroden-space-xs);
-  font-size: var(--filroden-font-size-s);
+.rmucsc .rmu-output-box {
+    display: flex;
+    flex-direction: column;
+    gap: var(--filroden-space-xs);
+    font-size: var(--filroden-font-size-s);
+    max-height: 15vh;
+    overflow-y: auto;
+    padding-inline-end: var(--filroden-space-s);
 }
-.application.rmu-calc-app .rmu-output-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.rmucsc .rmu-output-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-.application.rmu-calc-app .rmu-output-row .rmu-output-value {
-  font-weight: bold;
-  font-size: var(--filroden-font-size-s);
+.rmucsc .rmu-output-row .rmu-output-value {
+    font-weight: bold;
+    font-size: var(--filroden-font-size-s);
 }
-.application.rmu-calc-app .rmu-output-total {
-  font-size: var(--filroden-font-size-m);
-  font-weight: bold;
-  border-block-start: var(--filroden-border-main);
-  padding-block-start: var(--filroden-space-xs);
+.rmucsc .rmu-output-total {
+    font-size: var(--filroden-font-size-m);
+    font-weight: bold;
+    border-block-start: var(--filroden-border-main);
+    padding-block-start: var(--filroden-space-xs);
 }
-.application.rmu-calc-app .rmu-output-total .rmu-output-value {
-  font-size: var(--filroden-font-size-m);
-  font-weight: bold;
-  color: var(--filroden-color-text-accent);
-  font-weight: bold;
+.rmucsc .rmu-output-total .rmu-output-value {
+    font-size: var(--filroden-font-size-m);
+    color: var(--filroden-color-text-accent);
+    font-weight: bold;
 }
-.application.rmu-calc-app .rmu-output-breakdown {
-  margin-block-start: var(--filroden-space-m);
-  border-block-start: var(--filroden-border-dashed);
-  padding-block-start: var(--filroden-space-m);
-  max-width: 35rem;
+.rmucsc .rmu-output-breakdown {
+    margin-block-start: var(--filroden-space-m);
+    border-block-start: var(--filroden-border-main);
+    padding-block-start: var(--filroden-space-m);
+    max-width: 35rem;
 }
-.application.rmu-calc-app .rmu-output-breakdown .rmu-notes {
-  font-weight: bold;
+.rmucsc .rmu-output-breakdown .rmu-notes {
+    font-weight: bold;
 }
-.application.rmu-calc-app .rmu-output-breakdown ul {
-  margin-block: var(--filroden-space-xs) 0;
-  padding-inline-start: 1.25rem;
-  font-size: var(--filroden-font-size-s);
+.rmucsc .rmu-output-breakdown ul {
+    margin-block: var(--filroden-space-xs) 0;
+    padding-inline-start: 1.25rem;
+    font-size: var(--filroden-font-size-s);
 }
 
-.application.rmu-calc-app .rmu-output-breakdown li {
-  overflow-wrap: break-word;
-  word-break: break-word; 
-  white-space: normal;
-  line-height: 1.3;
-  margin-block-end: var(--filroden-space-xs); 
+.rmucsc .rmu-output-breakdown li {
+    overflow-wrap: break-word;
+    word-break: break-word; 
+    white-space: normal;
+    line-height: 1.3;
+    margin-block-end: var(--filroden-space-xs); 
 }
 
 /* --- Footer --- */
-.application.rmu-calc-app .rmu-calc-footer {
-  flex: none;
-  border-block-start: var(--filroden-border-main);
-  padding: var(--filroden-space-m);
-  display: flex;
-  justify-content: flex-end; /* flex-end natively respects LTR/RTL flow */
+.rmucsc .rmu-calc-footer {
+    flex: none;
+    border-block-start: var(--filroden-border-main);
+    padding: var(--filroden-space-m);
+    display: flex;
+    justify-content: flex-end; /* flex-end natively respects LTR/RTL flow */
 }
-.application.rmu-calc-app .rmu-send-chat {
-  background: var(--filroden-color-text-accent);
-  border-color: var(--filroden-color-text-accent);
-  color: var(--filroden-color-text-on-accent);
-  font-weight: normal;
+.rmucsc .rmu-send-chat {
+    background: var(--filroden-color-text-accent);
+    border-color: var(--filroden-color-text-accent);
+    color: var(--filroden-color-text-on-accent);
+    font-weight: normal;
 }
-.application.rmu-calc-app .rmu-send-chat:hover {
-  background: var(--filroden-color-text-accent-hover);
-  border-color: var(--filroden-color-text-accent-hover);
-  color: var(--filroden-color-text-on-accent);
-}
-
-/* --- Scrollbar --- */
-.application.rmu-calc-app .window-content {
-  scrollbar-width: thin;
-  scrollbar-color: var(--filroden-color-text-accent) var(--filroden-color-bg-darkest);
+.rmucsc .rmu-send-chat:hover {
+    background: var(--filroden-color-text-accent-hover);
+    border-color: var(--filroden-color-text-accent-hover);
+    color: var(--filroden-color-text-on-accent);
 }
 
-.application.rmu-calc-app .window-content::-webkit-scrollbar {
-  width: 0.5rem;
+/* =====================================
+   --- DETAIL/SUMMARY STYLES ---
+   ===================================== */
+
+.rmucsc .rmu-collapsible-section {
+    border: var(--filroden-border-main);
+    border-radius: var(--filroden-radius-small);
+    margin-block-end: var(--filroden-space-s);
+    background: var(--filroden-color-bg-medium-solid);
+    transition: background-color 0.2s;
 }
 
-.application.rmu-calc-app .window-content::-webkit-scrollbar-track {
-  background: var(--filroden-color-bg-darkest); 
-  border-radius: var(--filroden-radius-large);
+.rmucsc .rmu-collapsible-section[open] {
+    background: var(--filroden-color-bg-darkest);
 }
 
-.application.rmu-calc-app .window-content::-webkit-scrollbar-thumb {
-  background-color: var(--filroden-color-text-accent);
-  border-radius: var(--filroden-radius-large);
-  border: 1px solid var(--filroden-color-bg-darkest); 
+.rmucsc .rmu-collapsible-section summary {
+    padding: var(--filroden-space-s) var(--filroden-space-m);
+    font-weight: bold;
+    color: var(--filroden-color-text-accent);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    user-select: none;
 }
 
-.application.rmu-calc-app .window-content::-webkit-scrollbar-thumb:hover {
-  background-color: var(--filroden-color-text-accent-hover);
+/* Custom Chevron for the Summary */
+.rmucsc .rmu-collapsible-section summary::before {
+    content: "▶";
+    display: inline-block;
+    margin-inline-end: var(--filroden-space-s);
+    font-size: var(--filroden-font-size-xs);
+    transition: transform 0.2s ease;
+    color: var(--filroden-color-text-muted-solid);
 }
 
-.application.rmu-calc-app .window-content::-webkit-scrollbar-button {
-  display: none;
+.rmucsc .rmu-collapsible-section[open] summary::before {
+    transform: rotate(90deg);
+    color: var(--filroden-color-text-accent);
+}
+
+/* Hide the default webkit arrow */
+.rmucsc .rmu-collapsible-section summary::-webkit-details-marker {
+    display: none;
+}
+
+.rmucsc .rmu-collapsible-content {
+    padding: var(--filroden-space-m);
+    border-block-start: var(--filroden-border-main);
+    display: flex;
+    flex-direction: column;
+    gap: var(--filroden-space-m);
+}
+
+/* =====================================
+   --- RITUAL STYLES ---
+   ===================================== */
+
+/* --- Ritual Participant Grid --- */
+.rmucsc .rmu-ritual-row-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--filroden-space-s);
+    border-block-end: var(--filroden-border-main);
+    padding-block-end: var(--filroden-space-m);
+}
+
+.rmucsc .rmu-ritual-row-wrapper:last-child {
+    border-block-end: none;
+    padding-block-end: 0;
+}
+
+.rmucsc .rmu-ritual-row {
+    display: grid;
+    grid-template-columns: 3.75rem 6.5rem 1fr 6rem 5rem 5rem 2rem;
+    align-items: center;
+    gap: var(--filroden-space-m);
+}
+
+.rmucsc .rmu-ritual-skills-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--filroden-space-xxl);
+    padding-inline-start: 6rem;
+    margin-block-start: var(--filroden-space-xs);
+}
+
+.rmucsc .rmu-ritual-pp-input {
+    text-align: center;
+}
+
+.rmucsc .rmu-participant-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rmucsc .rmu-pp-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--filroden-space-xs);
+}
+
+.rmucsc .rmu-pp-wrapper input {
+    width: 3.5rem;
+    text-align: center;
+}
+
+.rmucsc .rmu-pp-max {
+    color: var(--filroden-color-text-muted-solid);
+    font-size: var(--filroden-font-size-s);
+    font-style: italic;
+    white-space: nowrap;
+}
+
+.rmu-participant-remove:hover .rmu-icon.delete {
+    background-color: var(--filroden-color-danger);
+}
+
+/* --- Target Spell Grid --- */
+.rmucsc .rmu-spell-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--filroden-space-s);
+}
+
+.rmucsc .rmu-spell-row {
+    display: grid;
+    grid-template-columns: 5rem 1fr 1fr 2rem;
+    align-items: center;
+    gap: var(--filroden-space-m);
+}
+
+.rmucsc .rmu-spell-row.total-row {
+    border-block-start: var(--filroden-border-main);
+    padding-block-start: var(--filroden-space-xs);
+    font-weight: bold;
+}
+
+.rmucsc .rmu-spell-level,
+.rmucsc .rmu-spell-pp {
+    text-align: center;
+}
+
+.rmucsc .total-row.rmu-spell-level,
+.rmucsc .total-row.rmu-spell-pp {
+    color: var(--filroden-color-text-accent);
+}
+
+.rmu-spell-remove:hover .rmu-icon.delete {
+    background-color: var(--filroden-color-danger);
+}
+
+/* --- Target Spell Grid Specifics --- */
+.rmucsc .rmu-spell-total-label {
+    grid-column: 3 / 6;
+    text-transform: uppercase;
+    color: var(--filroden-color-text-accent);
+}
+
+/* --- Form Field Utilities --- */
+.rmucsc .rmucsc-section-divider {
+    border-block-start: var(--filroden-border-dashed);
+    padding-block-start: var(--filroden-space-m);
+}
+
+.rmucsc .rmucsc-checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--filroden-space-xs);
+}
+
+.rmucsc .rmucsc-inline-fields {
+    display: flex;
+    gap: var(--filroden-space-s);
+    align-items: center;
+}
+
+.rmucsc .rmucsc-checkbox-note {
+    margin-inline-start: var(--filroden-space-xs);
+}
+
+.rmucsc .rmu-output-box .rmucsc-empty-notes {
+    margin: 0;
+    text-align: start; /* Natively respects LTR/RTL reading direction */
 }
 
 /* =====================================
@@ -456,219 +1008,175 @@ button.control.tool.rmu-skill-button-icon::before {
    ===================================== */
 
 .chat-message.rmu-calc-message {
-  background: var(--filroden-color-bg-darkest);
-  border: none;
-  padding: var(--filroden-space-s);
-  box-shadow: none;
+    background: var(--filroden-color-bg-darkest);
+    border: none;
+    padding: var(--filroden-space-s);
+    box-shadow: none;
 }
 
 .chat-message.rmu-calc-message :is(.message-sender, .whisper-to, .message-timestamp) {
-  color: var(--filroden-color-text-muted-solid);
-  font-size: var(--filroden-font-size-xs);
+    color: var(--filroden-color-text-muted-solid);
+    font-size: var(--filroden-font-size-xs);
 }
 
 .chat-message.rmu-calc-message .message-header {
-  background: var(--filroden-color-bg-medium-solid);
-  padding: var(--filroden-space-xs);
-  border-radius: var(--filroden-radius-medium);
-  margin: var(--filroden-space-xs);
-  border: var(--filroden-border-main);
+    background: var(--filroden-color-bg-medium-solid);
+    padding: var(--filroden-space-xs);
+    border-radius: var(--filroden-radius-medium);
+    margin: var(--filroden-space-xs);
+    border: var(--filroden-border-main);
 }
 
 .rmucsc-chat-card {
-  display: flex;
-  flex-direction: row;
-  gap: var(--filroden-space-xs);
-  font-family: var(--filroden-font-family);
-  font-size: var(--filroden-font-size-xs);
-  color: var(--filroden-color-text-main-solid);
+    display: flex;
+    flex-direction: row;
+    gap: var(--filroden-space-xs);
+    font-family: var(--filroden-font-family);
+    font-size: var(--filroden-font-size-xs);
+    color: var(--filroden-color-text-main-solid);
 }
 
 .rmucsc-chat-card .rmucsc-card-sidebar {
-  flex: 0 0 1.8rem; 
-  background-color: var(--filroden-color-text-accent);
-  color: var(--filroden-color-text-on-accent);
-  border-radius: var(--filroden-radius-medium);
-  box-shadow: var(--filroden-shadow-card);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: var(--filroden-space-xs);
+    flex: 0 0 1.8rem; 
+    background-color: var(--filroden-color-text-accent);
+    color: var(--filroden-color-text-on-accent);
+    border-radius: var(--filroden-radius-medium);
+    box-shadow: var(--filroden-shadow-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: var(--filroden-space-xs);
 }
 
 .rmucsc-chat-card .rmucsc-card-sidebar span {
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  text-transform: uppercase;
-  letter-spacing: var(--filroden-letter-spacing-wide);
-  font-size: var(--filroden-font-size-xs);
-  font-weight: bold;
-  white-space: nowrap;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-transform: uppercase;
+    letter-spacing: var(--filroden-letter-spacing-wide);
+    font-size: var(--filroden-font-size-xs);
+    font-weight: bold;
+    white-space: nowrap;
 }
 
 .rmucsc-chat-card .rmucsc-card-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: var(--filroden-space-m);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--filroden-space-m);
 }
 
 .rmucsc-chat-card .rmucsc-card-panel {
-  background-color: var(--filroden-color-bg-light-solid);
-  border: var(--filroden-border-main);
-  border-radius: var(--filroden-radius-medium);
-  box-shadow: var(--filroden-shadow-card);
-  padding: var(--filroden-space-s);
-  display: flex;
-  flex-direction: column;
-  gap: var(--filroden-space-xs);
-  margin: var(--filroden-space-xs);
+    background-color: var(--filroden-color-bg-light-solid);
+    border: var(--filroden-border-main);
+    border-radius: var(--filroden-radius-medium);
+    box-shadow: var(--filroden-shadow-card);
+    padding: var(--filroden-space-s);
+    display: flex;
+    flex-direction: column;
+    gap: var(--filroden-space-xs);
+    margin: var(--filroden-space-xs);
 }
 
 .rmucsc-chat-card .rmucsc-panel-header {
-  color: var(--filroden-color-text-accent);
-  font-weight: bold;
-  border-block-end: var(--filroden-border-dashed);
-  margin-block-end: var(--filroden-space-xs);
-  padding-block-end: var(--filroden-space-xxs);
-  display: block;
+    color: var(--filroden-color-text-accent);
+    font-weight: bold;
+    border-block-end: var(--filroden-border-main);
+    margin-block-end: var(--filroden-space-xs);
+    padding-block-end: var(--filroden-space-xxs);
+    display: block;
 }
 
 .rmucsc-chat-card ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  line-height: 1.2rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    line-height: 1.2rem;
 }
 
 .rmucsc-chat-card li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-block-end: var(--filroden-space-xs);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-block-end: var(--filroden-space-xs);
 }
 
 .rmucsc-chat-card li > span:first-child {
-  flex: 1;
-  margin-inline-end: var(--filroden-space-s);
-  word-break: break-word;
-  line-height: 1.2;
+    flex: 1;
+    margin-inline-end: var(--filroden-space-s);
+    word-break: break-word;
+    line-height: 1.2;
 }
 
 .rmucsc-chat-card .rmucsc-val {
-  flex: 0 0 auto;
-  white-space: nowrap;
-  text-align: end;
-  font-weight: bold;
-  color: var(--filroden-color-text-main-solid);
+    flex: 0 0 auto;
+    white-space: nowrap;
+    text-align: end;
+    font-weight: bold;
+    color: var(--filroden-color-text-main-solid);
 }
 
 .rmucsc-chat-card .rmucsc-name-list {
-  font-style: italic;
-  color: var(--filroden-color-text-muted-solid);
-  font-size: var(--filroden-font-size-xs);
+    font-style: italic;
+    color: var(--filroden-color-text-muted-solid);
+    font-size: var(--filroden-font-size-xs);
 }
 
 .rmucsc-chat-card .rmucsc-complementary-sum,
 .rmucsc-chat-card .rmucsc-complementary-average {
-  margin-block-start: var(--filroden-space-xs);
-  border-block-start: var(--filroden-border-dashed);
-  padding-block-start: var(--filroden-space-xxs);
-  text-align: end;
+    margin-block-start: var(--filroden-space-xs);
+    border-block-start: var(--filroden-border-main);
+    padding-block-start: var(--filroden-space-xxs);
+    text-align: end;
 }
 
 .rmucsc-chat-card .rmucsc-card-panel.result {
-  background-color: var(--filroden-color-bg-medium-solid);
-  border-color: var(--filroden-color-text-accent);
-  text-align: center;
+    background-color: var(--filroden-color-bg-medium-solid);
+    border-color: var(--filroden-color-text-accent);
+    text-align: center;
 }
 
 .rmucsc-chat-card .rmucsc-total-label {
-  text-transform: uppercase;
-  color: var(--filroden-color-text-muted-solid);
-  font-size: var(--filroden-font-size-xs);
+    text-transform: uppercase;
+    color: var(--filroden-color-text-muted-solid);
+    font-size: var(--filroden-font-size-xs);
 }
 
 .rmucsc-chat-card .rmucsc-total-value {
-  display: block;
-  font-size: var(--filroden-font-size-l);
-  font-weight: var(--filroden-font-weight-bold);
-  color: var(--filroden-color-text-accent);
+    display: block;
+    font-size: var(--filroden-font-size-l);
+    font-weight: var(--filroden-font-weight-bold);
+    color: var(--filroden-color-text-accent);
 }
 
 .rmucsc-chat-card .rmucsc-roll-footer {
-  display: flex;
-  justify-content: flex-end;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .rmucsc-chat-card .rmu-roll-skill-button {
-  background: var(--filroden-color-bg-light-solid);
-  border: var(--filroden-border-main);
-  border-radius: var(--filroden-radius-small);
-  box-shadow: var(--filroden-shadow-card);
-  color: var(--filroden-color-text-muted-solid);
-  margin: var(--filroden-space-xs);
-  padding: var(--filroden-space-xs) var(--filroden-space-l);  
-  font-size: var(--filroden-font-size-xs);
-  line-height: 1.2;
-  cursor: pointer;
-  transition: background-color 0.1s, border-color 0.1s, color 0.1s;
+    background: var(--filroden-color-bg-light-solid);
+    border: var(--filroden-border-main);
+    border-radius: var(--filroden-radius-small);
+    box-shadow: var(--filroden-shadow-card);
+    color: var(--filroden-color-text-muted-solid);
+    margin: var(--filroden-space-xs);
+    padding: var(--filroden-space-xs) var(--filroden-space-l);  
+    font-size: var(--filroden-font-size-xs);
+    line-height: 1.2;
+    cursor: pointer;
+    transition: background-color 0.1s, border-color 0.1s, color 0.1s;
 }
 
 .rmucsc-chat-card .rmu-roll-skill-button:hover {
-  background: var(--filroden-color-bg-hover-solid);
-  border-color: var(--filroden-color-text-accent);
-  color: var(--filroden-color-text-main-solid);
+    background: var(--filroden-color-bg-hover-solid);
+    border-color: var(--filroden-color-text-accent);
+    color: var(--filroden-color-text-main-solid);
 }
 
 .rmucsc-chat-card .rmu-roll-skill-button:disabled {
-  background: var(--filroden-color-bg-medium-solid);
-  border-color: var(--filroden-border-main);
-  color: var(--filroden-color-text-muted-solid);
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* =====================================
---- SVG ICON MASKS ---
-=====================================
-*/
-.rmu-icon {
-  display: inline-block;
-  width: 1.25rem;
-  height: 1.25rem;
-  background-color: currentColor; /* Inherits the text color, allowing hover states! */
-  -webkit-mask-size: contain;
-  mask-size: contain;
-  -webkit-mask-position: center;
-  mask-position: center;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  vertical-align: text-bottom;
-  margin-inline-end: 0.25rem; /* Replaces right margin for RTL support */
-}
-
-.rmu-icon-group-skill {
-  -webkit-mask-image: url('../assets/icon-group-skill.svg');
-  mask-image: url('../assets/icon-group-skill.svg');
-}
-
-.rmu-icon-boost-skill {
-  -webkit-mask-image: url('../assets/boost-skill.svg');
-  mask-image: url('../assets/boost-skill.svg');
-}
-
-.rmu-icon-group-task {
-  -webkit-mask-image: url('../assets/group-task.svg');
-  mask-image: url('../assets/group-task.svg');
-}
-
-.rmu-icon-add {
-  -webkit-mask-image: url('../assets/add.svg');
-  mask-image: url('../assets/add.svg');
-}
-
-.rmu-icon-chat {
-  -webkit-mask-image: url('../assets/chat.svg');
-  mask-image: url('../assets/chat.svg');
+    background: var(--filroden-color-bg-medium-solid);
+    border-color: var(--filroden-border-main);
+    color: var(--filroden-color-text-muted-solid);
+    opacity: 0.5;
+    cursor: not-allowed;
 }
