@@ -295,7 +295,7 @@ export class RitualCalculator {
     /**
      * Sorts ranks descending and applies the base-2 diminishing returns logic.
      * @param {Array<number>} rankArray - Array of raw rank integers.
-     * @param {string} localeKey - The localization key for the breakdown label.
+     * @param {string} localeKey - The localisation key for the breakdown label.
      * @param {Object} result - The mutable result object.
      */
     static #applyDiminishingReturns(rankArray, localeKey, result) {

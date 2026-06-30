@@ -41,6 +41,12 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                 totalSpellLevel: 1,
                 totalBasePPCost: 1,
 
+                detailsState: {
+                    environment: false,
+                    items: false,
+                    parameters: false,
+                },
+
                 investingTime: 0,
                 auspiciousCircumstances: 0,
                 inauspiciousCircumstances: 0,
@@ -557,6 +563,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
 
         if (partId === "ritual") {
             htmlElement.addEventListener("change", this.#onRitualTabChange.bind(this));
+            htmlElement.addEventListener("toggle", this.#onRitualTabToggle.bind(this), true);
         }
     }
 
@@ -672,6 +679,13 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         if (target.classList.contains("rmu-ritual-crit-select")) {
             pData[id].bloodCrit = Number.parseInt(target.value, 10) || 0;
             return this.render({ parts: ["ritual"] });
+        }
+    }
+
+    #onRitualTabToggle(event) {
+        const target = event.target;
+        if (target.tagName === "DETAILS" && target.dataset.section) {
+            this.calcState.ritualState.detailsState[target.dataset.section] = target.open;
         }
     }
 

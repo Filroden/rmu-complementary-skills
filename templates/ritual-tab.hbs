@@ -109,7 +109,7 @@
                         {{#if (not (eq ritualData.role "minor"))}}
                             <div class="rmu-ritual-skills-row">
                                 <div class="form-group">
-                                    <label>L&nbsp;&nbsp;&nbsp;{{localize "RMU_CS.Ritual.RitualSkill"}}</label>
+                                    <label class="rmucsc-child-label">{{localize "RMU_CS.Ritual.RitualSkill"}}</label>
                                     <div class="form-fields">
                                         <select class="rmu-ritual-skill-select" data-id="{{id}}" {{disabled (not enabled)}}>
                                             <option value="">{{localize "RMU_CS.Boost.SelectSkill"}}</option>
@@ -127,7 +127,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>{{localize "RMU_CS.Ritual.AdditionalSkill"}}</label>
+                                    <label class="rmucsc-child-label">{{localize "RMU_CS.Ritual.AdditionalSkill"}}</label>
                                     <div class="form-fields">
                                         <select class="rmu-ritual-additional-select" data-id="{{id}}" {{disabled (not enabled)}}>
                                             <option value="">{{localize "RMU_CS.Boost.None"}}</option>
@@ -162,7 +162,7 @@
                 <legend>{{localize "RMU_CS.Ritual.Modifiers"}}</legend>
 
                 <!-- Knowledge, Time & Environment -->
-                <details class="rmu-collapsible-section">
+                <details class="rmu-collapsible-section" data-section="environment" {{#if ritualState.detailsState.environment}}open{{/if}}>
                     <summary>{{localize "RMU_CS.Ritual.EnvironmentTime"}}</summary>
                     <div class="rmu-collapsible-content">
 
@@ -171,7 +171,7 @@
                             <div class="form-fields">
                                 <select name="investingTime">
                                     {{#each ritualOptions.investingTime}}
-                                        <option value="{{this.value}}">{{localize this.label}} ({{#if (gte this.value 0)}}+{{/if}}{{this.value}})</option>
+                                        <option value="{{this.value}}" {{rmucsSelected (eq ../ritualState.investingTime this.value)}}>{{localize this.label}} ({{#if (gte this.value 0)}}+{{/if}}{{this.value}})</option>
                                     {{/each}}
                                 </select>
                             </div>
@@ -180,14 +180,14 @@
                         <div class="form-group">
                             <label>{{localize "RMU_CS.Ritual.AuspiciousCircumstances"}}</label>
                             <div class="form-fields">
-                                <input type="number" name="auspiciousCircumstances" value="0" min="0" max="70" title="{{localize 'RMU_CS.Ritual.AuspiciousHint'}}" />
+                                <input type="number" name="auspiciousCircumstances" value="{{ritualState.auspiciousCircumstances}}" min="0" max="70" title="{{localize 'RMU_CS.Ritual.AuspiciousHint'}}" />
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label>{{localize "RMU_CS.Ritual.InauspiciousCircumstances"}}</label>
                             <div class="form-fields">
-                                <input type="number" name="inauspiciousCircumstances" value="0" min="-70" max="0" title="{{localize 'RMU_CS.Ritual.InauspiciousHint'}}" />
+                                <input type="number" name="inauspiciousCircumstances" value="{{ritualState.inauspiciousCircumstances}}" min="-70" max="0" title="{{localize 'RMU_CS.Ritual.InauspiciousHint'}}" />
                             </div>
                         </div>
 
@@ -195,20 +195,20 @@
                 </details>
 
                 <!-- Ritual Items (Table 5-1e) -->
-                <details class="rmu-collapsible-section">
+                <details class="rmu-collapsible-section" data-section="items" {{#if ritualState.detailsState.items}}open{{/if}}>
                     <summary>{{localize "RMU_CS.Ritual.RitualItems"}}</summary>
                     <div class="rmu-collapsible-content">
                          <div class="form-group">
                             <label>{{localize "RMU_CS.Ritual.ToolValue"}} (gp)</label>
                             <div class="form-fields">
-                                <input type="number" name="toolValue" value="0" min="0" />
+                                <input type="number" name="toolValue" value="{{ritualState.toolValue}}" min="0" />
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <label>{{localize "RMU_CS.Ritual.SacrificeValue"}} (sp)</label>
                             <div class="form-fields">
-                                <input type="number" name="sacrificeValue" value="0" min="0" />
+                                <input type="number" name="sacrificeValue" value="{{ritualState.sacrificeValue}}" min="0" />
                             </div>
                         </div>
 
@@ -217,7 +217,7 @@
                             <div class="form-fields">
                                 <select name="itemAppropriateness">
                                     {{#each ritualOptions.itemAppropriateness}}
-                                        <option value="{{this.value}}" {{#if (eq this.value 0)}}selected{{/if}}>{{localize this.label}} ({{#if (gte this.value 0)}}+{{/if}}{{this.value}})</option>
+                                        <option value="{{this.value}}" {{rmucsSelected (eq ../ritualState.itemAppropriateness this.value)}}>{{localize this.label}} ({{#if (gte this.value 0)}}+{{/if}}{{this.value}})</option>
                                     {{/each}}
                                 </select>
                             </div>
@@ -226,7 +226,7 @@
                 </details>
 
                 <!-- Spell Parameter Extensions (Table 5-2) -->
-                <details class="rmu-collapsible-section">
+                <details class="rmu-collapsible-section" data-section="parameters" {{#if ritualState.detailsState.parameters}}open{{/if}}>
                     <summary>{{localize "RMU_CS.Ritual.ParameterExtensions"}}</summary>
                     <div class="rmu-collapsible-content">
                         
@@ -234,25 +234,25 @@
                         <div class="form-group">
                             <label>{{localize "RMU_CS.Ritual.ParamWeight"}} (-10/ea)</label>
                             <div class="form-fields">
-                                <input type="number" name="paramWeight" value="0" min="0" title="{{localize 'RMU_CS.Ritual.ParamDoublings'}}" />
+                                <input type="number" name="paramWeight" value="{{ritualState.paramWeight}}" min="0" title="{{localize 'RMU_CS.Ritual.ParamDoublings'}}" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label>{{localize "RMU_CS.Ritual.ParamAoE"}} (-20/ea)</label>
                             <div class="form-fields">
-                                <input type="number" name="paramAoE" value="0" min="0" title="{{localize 'RMU_CS.Ritual.ParamDoublings'}}" />
+                                <input type="number" name="paramAoE" value="{{ritualState.paramAoE}}" min="0" title="{{localize 'RMU_CS.Ritual.ParamDoublings'}}" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label>{{localize "RMU_CS.Ritual.ParamRange"}} (-15/ea)</label>
                             <div class="form-fields">
-                                <input type="number" name="paramRange" value="0" min="0" title="{{localize 'RMU_CS.Ritual.ParamDoublings'}}" />
+                                <input type="number" name="paramRange" value="{{ritualState.paramRange}}" min="0" title="{{localize 'RMU_CS.Ritual.ParamDoublings'}}" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label>{{localize "RMU_CS.Ritual.ParamDecreaseAoE"}}</label>
                             <div class="form-fields">
-                                <input type="checkbox" name="paramDecreaseAoE" class="rmucsc-checkbox" />
+                                <input type="checkbox" name="paramDecreaseAoE" class="rmucsc-checkbox" {{checked ritualState.paramDecreaseAoE}} />
                                 <span class="rmu-notes rmucsc-checkbox-note">(-10)</span>
                             </div>
                         </div>
@@ -261,7 +261,7 @@
                         <div class="form-group rmucsc-section-divider">
                             <label>{{localize "RMU_CS.Ritual.ParamCrit"}} (-30/ea)</label>
                             <div class="form-fields">
-                                <input type="number" name="paramCrit" value="0" min="0" title="{{localize 'RMU_CS.Ritual.ParamCritSteps'}}" />
+                                <input type="number" name="paramCrit" value="{{ritualState.paramCrit}}" min="0" title="{{localize 'RMU_CS.Ritual.ParamCritSteps'}}" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -269,7 +269,7 @@
                             <div class="form-fields">
                                 <select name="paramHitMult">
                                     {{#each ritualOptions.hitMultipliers}}
-                                        <option value="{{this.value}}">{{localize this.label}}</option>
+                                        <option value="{{this.value}}" {{rmucsSelected (eq ../ritualState.paramHitMult this.value)}}>{{localize this.label}}</option>
                                     {{/each}}
                                 </select>
                             </div>
@@ -279,9 +279,9 @@
                         <div class="form-group rmucsc-section-divider">
                             <label>{{localize "RMU_CS.Ritual.ParamDurSpecial"}}</label>
                             <div class="form-fields rmucsc-checkbox-group">
-                                <label><input type="checkbox" name="paramDurNoToRound" class="rmucsc-checkbox" /> {{localize "RMU_CS.Ritual.DurNoToRound"}} (-50)</label>
-                                <label><input type="checkbox" name="paramDurConcToRndLvl" class="rmucsc-checkbox" /> {{localize "RMU_CS.Ritual.DurConcToRndLvl"}} (-20)</label>
-                                <label><input type="checkbox" name="paramDurRemoveConc" class="rmucsc-checkbox" /> {{localize "RMU_CS.Ritual.DurRemoveConc"}} (-25)</label>
+                                <label><input type="checkbox" name="paramDurNoToRound" class="rmucsc-checkbox" {{checked ritualState.paramDurNoToRound}} /> {{localize "RMU_CS.Ritual.DurNoToRound"}} (-50)</label>
+                                <label><input type="checkbox" name="paramDurConcToRndLvl" class="rmucsc-checkbox" {{checked ritualState.paramDurConcToRndLvl}} /> {{localize "RMU_CS.Ritual.DurConcToRndLvl"}} (-20)</label>
+                                <label><input type="checkbox" name="paramDurRemoveConc" class="rmucsc-checkbox" {{checked ritualState.paramDurRemoveConc}} /> {{localize "RMU_CS.Ritual.DurRemoveConc"}} (-25)</label>
                             </div>
                         </div>
                         
@@ -290,13 +290,13 @@
                             <div class="form-fields rmucsc-inline-fields">
                                 <select name="paramDurBase">
                                     {{#each ritualOptions.durationSteps}}
-                                        <option value="{{this.value}}">{{localize this.label}}</option>
+                                        <option value="{{this.value}}" {{rmucsSelected (eq ../ritualState.paramDurBase this.value)}}>{{localize this.label}}</option>
                                     {{/each}}
                                 </select>
                                 <span>➞</span>
                                 <select name="paramDurTarget">
                                     {{#each ritualOptions.durationSteps}}
-                                        <option value="{{this.value}}">{{localize this.label}}</option>
+                                        <option value="{{this.value}}" {{rmucsSelected (eq ../ritualState.paramDurTarget this.value)}}>{{localize this.label}}</option>
                                     {{/each}}
                                 </select>
                             </div>
