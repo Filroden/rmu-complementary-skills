@@ -30,6 +30,7 @@
 .rmucsc-icon.chat                       { --rmucsc-mask: url('../assets/chat.svg'); }
 .rmucsc-icon.ritual                     { --rmucsc-mask: url('../assets/token.svg'); }
 .rmucsc-icon.delete                     { --rmucsc-mask: url('../assets/icon-trash.svg'); }
+.rmucsc-icon.info                       { --rmucsc-mask: url('../assets/info.svg'); }
 
 /* --- APPLICATION SCROLLBARS --- */
 .rmucsc * {
@@ -766,6 +767,8 @@ button.control.tool.rmu-skill-button-icon::before {
     font-weight: bold;
     border-block-start: var(--filroden-border-main);
     padding-block-start: var(--filroden-space-xs);
+    overflow-y: auto;
+    padding-inline-end: var(--filroden-space-s);
 }
 .rmucsc .rmu-output-total .rmu-output-value {
     font-size: var(--filroden-font-size-m);
@@ -1018,6 +1021,51 @@ button.control.tool.rmu-skill-button-icon::before {
 .rmucsc .rmu-output-box .rmucsc-empty-notes {
     margin: 0;
     text-align: start; /* Natively respects LTR/RTL reading direction */
+}
+
+.rmucsc .rmucsc-circumstance-grid,
+.rmucsc .rmucsc-items-grid {
+    display: grid;
+    gap: var(--filroden-space-s);
+    align-items: center;
+    text-align: center;
+    margin-block-start: var(--filroden-space-m);
+}
+
+.rmucsc .rmucsc-circumstance-grid {
+    grid-template-columns: auto 1fr 1fr 1fr;
+}
+
+.rmucsc .rmucsc-items-grid {
+    grid-template-columns: auto 1fr 1fr;
+}
+
+.rmucsc .rmucsc-circumstance-grid .rmucsc-grid-header,
+.rmucsc .rmucsc-items-grid .rmucsc-grid-header {
+    font-weight: bold;
+    font-size: var(--filroden-font-size-xs);
+    color: var(--filroden-color-text-muted-solid);
+    border-block-end: var(--filroden-border-main);
+    padding-block-end: var(--filroden-space-xs);
+    align-self: end;
+    cursor: help;
+}
+
+.rmucsc .rmucsc-circumstance-grid .rmucsc-grid-label,
+.rmucsc .rmucsc-items-grid .rmucsc-grid-label {
+    font-weight: bold;
+    text-align: start;
+    padding-inline-end: var(--filroden-space-s);
+}
+
+.rmucsc .rmucsc-circumstance-grid input,
+.rmucsc .rmucsc-items-grid input  {
+    width: 100%;
+}
+
+.rmucsc .rmucsc-items-grid .rmucsc-grid-header .info {
+    height: var(--filroden-font-size-m);
+    vertical-align: text-top;
 }
 
 /* =====================================

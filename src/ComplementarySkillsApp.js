@@ -48,12 +48,17 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                 },
 
                 investingTime: 0,
-                auspiciousCircumstances: 0,
-                inauspiciousCircumstances: 0,
+                auspiciousTime: 0,
+                auspiciousLocation: 0,
+                auspiciousProphecy: 0,
+                inauspiciousTime: 0,
+                inauspiciousLocation: 0,
+                inauspiciousProphecy: 0,
 
                 toolValue: 0,
+                toolAppropriateness: 0,
                 sacrificeValue: 0,
-                itemAppropriateness: 0,
+                sacrificeAppropriateness: 0,
 
                 paramWeight: 0,
                 paramAoE: 0,
@@ -576,11 +581,10 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         // 1. Handle Global Modifiers (using the 'name' attribute)
         const globalNames = [
             "investingTime",
-            "auspiciousCircumstances",
-            "inauspiciousCircumstances",
             "toolValue",
+            "toolAppropriateness",
             "sacrificeValue",
-            "itemAppropriateness",
+            "sacrificeAppropriateness",
             "paramWeight",
             "paramAoE",
             "paramRange",
@@ -589,6 +593,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             "paramDurBase",
             "paramDurTarget",
         ];
+
         if (globalNames.includes(target.name)) {
             ritualState[target.name] = Number.parseInt(target.value, 10) || 0;
             return this.render({ parts: ["ritual"] });
@@ -597,6 +602,23 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         const checkboxNames = ["paramDecreaseAoE", "paramDurNoToRound", "paramDurConcToRndLvl", "paramDurRemoveConc"];
         if (checkboxNames.includes(target.name)) {
             ritualState[target.name] = target.checked;
+            return this.render({ parts: ["ritual"] });
+        }
+
+        // Circumstance Grid Clamping
+        const circumstanceNames = ["auspiciousTime", "auspiciousLocation", "auspiciousProphecy", "inauspiciousTime", "inauspiciousLocation", "inauspiciousProphecy"];
+        if (circumstanceNames.includes(target.name)) {
+            let val = Number.parseInt(target.value, 10) || 0;
+            const isAuspicious = target.name.startsWith("auspicious");
+
+            const min = isAuspicious ? 0 : -25;
+            const max = isAuspicious ? 25 : 0;
+
+            if (val > max) val = max;
+            if (val < min) val = min;
+
+            ritualState[target.name] = val;
+            target.value = val; // Force DOM to reflect the clamp instantly
             return this.render({ parts: ["ritual"] });
         }
 

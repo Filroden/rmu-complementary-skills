@@ -95,8 +95,12 @@ export class RitualCalculator {
      */
     static #processCircumstances(ritualState, result) {
         this.#addBreakdown(game.i18n.localize("RMU_CS.Ritual.TimeSpent"), ritualState.investingTime, result);
-        this.#addBreakdown(game.i18n.localize("RMU_CS.Ritual.AuspiciousCircumstances"), ritualState.auspiciousCircumstances, result);
-        this.#addBreakdown(game.i18n.localize("RMU_CS.Ritual.InauspiciousCircumstances"), ritualState.inauspiciousCircumstances, result);
+
+        const ausTotal = ritualState.auspiciousTime + ritualState.auspiciousLocation + ritualState.auspiciousProphecy;
+        this.#addBreakdown(game.i18n.localize("RMU_CS.Ritual.AuspiciousCircumstances"), ausTotal, result);
+
+        const inausTotal = ritualState.inauspiciousTime + ritualState.inauspiciousLocation + ritualState.inauspiciousProphecy;
+        this.#addBreakdown(game.i18n.localize("RMU_CS.Ritual.InauspiciousCircumstances"), inausTotal, result);
     }
 
     /**
@@ -138,10 +142,32 @@ export class RitualCalculator {
 
     /**
      * Calculates bonuses from expended gold/silver components and their appropriateness.
+     * Scales logarithmically: +5 bonus per factor of 10.
      */
     static #processRitualItems(ritualState, result) {
-        if (ritualState.itemAppropriateness !== 0) {
-            this.#addBreakdown(game.i18n.localize("RMU_CS.Ritual.ItemAppropriateness"), ritualState.itemAppropriateness, result);
+        const VALUE_MULTIPLIER = 5;
+
+        // Process Tools (gp) - Bonus begins at 10 gp
+        if (ritualState.toolValue >= 10) {
+            const toolSteps = Math.floor(Math.log10(ritualState.toolValue));
+            const toolBonus = toolSteps * VALUE_MULTIPLIER;
+            this.#addBreakdown(game.i18n.localize("RMU_CS.Ritual.ToolValueBonus"), toolBonus, result);
+        }
+
+        // Process Sacrifices (sp) - Bonus begins at 1 sp
+        if (ritualState.sacrificeValue >= 1) {
+            const sacrificeSteps = Math.floor(Math.log10(ritualState.sacrificeValue)) + 1;
+            const sacrificeBonus = sacrificeSteps * VALUE_MULTIPLIER;
+            this.#addBreakdown(game.i18n.localize("RMU_CS.Ritual.SacrificeValueBonus"), sacrificeBonus, result);
+        }
+
+        // Process Appropriateness Modifiers
+        if (ritualState.toolAppropriateness !== 0) {
+            this.#addBreakdown(game.i18n.localize("RMU_CS.Ritual.ToolAppropriateness"), ritualState.toolAppropriateness, result);
+        }
+
+        if (ritualState.sacrificeAppropriateness !== 0) {
+            this.#addBreakdown(game.i18n.localize("RMU_CS.Ritual.SacrificeAppropriateness"), ritualState.sacrificeAppropriateness, result);
         }
     }
 

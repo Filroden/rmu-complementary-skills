@@ -30,7 +30,7 @@
                             {{/each}}
                         </select>
 
-                        <button type="button" class="rmucsc-btn rmu-icon-button danger" data-action="removeSpell" data-id="{{id}}" title="{{localize 'RMU_CS.Common.Remove'}}">
+                        <button type="button" class="rmucsc-btn rmu-icon-button danger" data-action="removeSpell" data-id="{{id}}" data-tooltip="{{localize 'RMU_CS.Common.Remove'}}" data-tooltip-class="rmucsc-tooltip">
                             <i class="rmucsc-icon delete"></i>
                         </button>
                     </div>
@@ -100,7 +100,7 @@
                             </select>
 
                             <!-- Remove Button -->
-                            <button type="button" class="rmucsc-btn rmu-icon-button danger" data-action="removeParticipant" data-id="{{id}}" title="{{localize 'RMU_CS.Common.Remove'}}">
+                            <button type="button" class="rmucsc-btn rmu-icon-button danger" data-action="removeParticipant" data-id="{{id}}" data-tooltip="{{localize 'RMU_CS.Common.Remove'}}" data-tooltip-class="rmucsc-tooltip">
                                 <i class="rmucsc-icon delete"></i>
                             </button>
                         </div>
@@ -177,18 +177,21 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label>{{localize "RMU_CS.Ritual.AuspiciousCircumstances"}}</label>
-                            <div class="form-fields">
-                                <input type="number" name="auspiciousCircumstances" value="{{ritualState.auspiciousCircumstances}}" min="0" max="70" title="{{localize 'RMU_CS.Ritual.AuspiciousHint'}}" />
-                            </div>
-                        </div>
+                        <div class="rmucsc-circumstance-grid">
+                            <div class="rmucsc-grid-header"></div>
+                            <div class="rmucsc-grid-header">{{localize "RMU_CS.Ritual.CircumstanceTime"}}</div>
+                            <div class="rmucsc-grid-header">{{localize "RMU_CS.Ritual.CircumstanceLocation"}}</div>
+                            <div class="rmucsc-grid-header">{{localize "RMU_CS.Ritual.CircumstanceProphecy"}}</div>
 
-                        <div class="form-group">
-                            <label>{{localize "RMU_CS.Ritual.InauspiciousCircumstances"}}</label>
-                            <div class="form-fields">
-                                <input type="number" name="inauspiciousCircumstances" value="{{ritualState.inauspiciousCircumstances}}" min="-70" max="0" title="{{localize 'RMU_CS.Ritual.InauspiciousHint'}}" />
-                            </div>
+                            <div class="rmucsc-grid-label">{{localize "RMU_CS.Ritual.Auspicious"}}</div>
+                            <input type="number" name="auspiciousTime" value="{{ritualState.auspiciousTime}}" min="0" max="25" />
+                            <input type="number" name="auspiciousLocation" value="{{ritualState.auspiciousLocation}}" min="0" max="25" />
+                            <input type="number" name="auspiciousProphecy" value="{{ritualState.auspiciousProphecy}}" min="0" max="25" />
+
+                            <div class="rmucsc-grid-label">{{localize "RMU_CS.Ritual.Inauspicious"}}</div>
+                            <input type="number" name="inauspiciousTime" value="{{ritualState.inauspiciousTime}}" min="-25" max="0" />
+                            <input type="number" name="inauspiciousLocation" value="{{ritualState.inauspiciousLocation}}" min="-25" max="0" />
+                            <input type="number" name="inauspiciousProphecy" value="{{ritualState.inauspiciousProphecy}}" min="-25" max="0" />
                         </div>
 
                     </div>
@@ -198,30 +201,23 @@
                 <details class="rmu-collapsible-section" data-section="items" {{#if ritualState.detailsState.items}}open{{/if}}>
                     <summary>{{localize "RMU_CS.Ritual.RitualItems"}}</summary>
                     <div class="rmu-collapsible-content">
-                         <div class="form-group">
-                            <label>{{localize "RMU_CS.Ritual.ToolValue"}} (gp)</label>
-                            <div class="form-fields">
-                                <input type="number" name="toolValue" value="{{ritualState.toolValue}}" min="0" />
-                            </div>
-                        </div>
                         
-                        <div class="form-group">
-                            <label>{{localize "RMU_CS.Ritual.SacrificeValue"}} (sp)</label>
-                            <div class="form-fields">
-                                <input type="number" name="sacrificeValue" value="{{ritualState.sacrificeValue}}" min="0" />
+                        <div class="rmucsc-items-grid">
+                            <div class="rmucsc-grid-header"></div>
+                            <div class="rmucsc-grid-header">{{localize "RMU_CS.Ritual.TotalValue"}}</div>
+                            <div class="rmucsc-grid-header" data-tooltip="{{localize 'RMU_CS.Ritual.AppropTooltip'}}" data-tooltip-class="rmucsc-tooltip">
+                                {{localize "RMU_CS.Ritual.AppropriatenessBonus"}} <i class="rmucsc-icon info"></i>
                             </div>
+
+                            <div class="rmucsc-grid-label">{{localize "RMU_CS.Ritual.ToolsGP"}}</div>
+                            <input type="number" name="toolValue" value="{{ritualState.toolValue}}" min="0" />
+                            <input type="number" name="toolAppropriateness" value="{{ritualState.toolAppropriateness}}" data-tooltip="{{localize 'RMU_CS.Ritual.AppropTooltip'}}" data-tooltip-class="rmucsc-tooltip" />
+
+                            <div class="rmucsc-grid-label">{{localize "RMU_CS.Ritual.SacrificesSP"}}</div>
+                            <input type="number" name="sacrificeValue" value="{{ritualState.sacrificeValue}}" min="0" />
+                            <input type="number" name="sacrificeAppropriateness" value="{{ritualState.sacrificeAppropriateness}}" data-tooltip="{{localize 'RMU_CS.Ritual.AppropTooltip'}}" data-tooltip-class="rmucsc-tooltip" />
                         </div>
 
-                        <div class="form-group">
-                            <label>{{localize "RMU_CS.Ritual.ItemAppropriateness"}}</label>
-                            <div class="form-fields">
-                                <select name="itemAppropriateness">
-                                    {{#each ritualOptions.itemAppropriateness}}
-                                        <option value="{{this.value}}" {{rmucsSelected (eq ../ritualState.itemAppropriateness this.value)}}>{{localize this.label}} ({{#if (gte this.value 0)}}+{{/if}}{{this.value}})</option>
-                                    {{/each}}
-                                </select>
-                            </div>
-                        </div>
                     </div>
                 </details>
 
@@ -229,30 +225,30 @@
                 <details class="rmu-collapsible-section" data-section="parameters" {{#if ritualState.detailsState.parameters}}open{{/if}}>
                     <summary>{{localize "RMU_CS.Ritual.ParameterExtensions"}}</summary>
                     <div class="rmu-collapsible-content">
-                        
+
                         <!-- Spatial & Capacity -->
                         <div class="form-group">
                             <label>{{localize "RMU_CS.Ritual.ParamWeight"}} (-10/ea)</label>
                             <div class="form-fields">
-                                <input type="number" name="paramWeight" value="{{ritualState.paramWeight}}" min="0" title="{{localize 'RMU_CS.Ritual.ParamDoublings'}}" />
+                                <input type="number" name="paramWeight" value="{{ritualState.paramWeight}}" min="0" data-tooltip="{{localize 'RMU_CS.Ritual.ParamDoublings'}}" data-tooltip-class="rmucsc-tooltip" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label>{{localize "RMU_CS.Ritual.ParamAoE"}} (-20/ea)</label>
                             <div class="form-fields">
-                                <input type="number" name="paramAoE" value="{{ritualState.paramAoE}}" min="0" title="{{localize 'RMU_CS.Ritual.ParamDoublings'}}" />
+                                <input type="number" name="paramAoE" value="{{ritualState.paramAoE}}" min="0" data-tooltip="{{localize 'RMU_CS.Ritual.ParamDoublings'}}" data-tooltip-class="rmucsc-tooltip" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label>{{localize "RMU_CS.Ritual.ParamRange"}} (-15/ea)</label>
                             <div class="form-fields">
-                                <input type="number" name="paramRange" value="{{ritualState.paramRange}}" min="0" title="{{localize 'RMU_CS.Ritual.ParamDoublings'}}" />
+                                <input type="number" name="paramRange" value="{{ritualState.paramRange}}" min="0" data-tooltip="{{localize 'RMU_CS.Ritual.ParamDoublings'}}" data-tooltip-class="rmucsc-tooltip" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label>{{localize "RMU_CS.Ritual.ParamDecreaseAoE"}}</label>
                             <div class="form-fields">
-                                <input type="checkbox" name="paramDecreaseAoE" class="rmucsc-checkbox" {{checked ritualState.paramDecreaseAoE}} />
+                                <input type="number" name="paramCrit" value="{{ritualState.paramCrit}}" min="0" data-tooltip="{{localize 'RMU_CS.Ritual.ParamCritSteps'}}" data-tooltip-class="rmucsc-tooltip" />
                                 <span class="rmu-notes rmucsc-checkbox-note">(-10)</span>
                             </div>
                         </div>
@@ -325,7 +321,7 @@
                     {{/if}}
                 </div>
 
-                <div class="rmu-output-row rmu-output-total">
+                <div class="rmu-output-row rmu-output-total rmucsc-scrollable stable">
                     <span>{{localize "RMU_CS.Common.TotalBonus"}}:</span>
                     <span class="rmu-output-value">{{#if (gte calculation.total 0)}}+{{/if}}{{calculation.total}}</span>
                 </div>
