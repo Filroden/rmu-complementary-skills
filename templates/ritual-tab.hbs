@@ -1,13 +1,13 @@
-<div class="rmu-tab-content rmucsc-scrollable {{#if (eq activeTab 'ritual')}}active{{/if}}" data-tab="ritual">
-    <form class="rmu-calc-wrapper" autocomplete="off">
-        <div class="rmu-calc-pane">
+<div class="rmucsc-tab-content rmucsc-scrollable {{#if (eq activeTab 'ritual')}}active{{/if}}" data-tab="ritual">
+    <form class="rmucsc-calc-wrapper" autocomplete="off">
+        <div class="rmucsc-calc-pane">
 
             <!-- Target Spell Details -->
             <fieldset class="rmucsc-fieldset">
                 <legend>{{localize "RMU_CS.Ritual.SpellDetails"}}</legend>
                 
-                <div class="rmu-spell-list" id="ritual-spells">
-                    <div class="rmu-spell-row rmu-participant-header">
+                <div class="rmucsc-spell-list" id="ritual-spells">
+                    <div class="rmucsc-spell-row rmucsc-participant-header">
                         <span>{{localize "RMU_CS.Ritual.SpellLevel"}}</span>
                         <span>{{localize "RMU_CS.Ritual.ListType"}}</span>
                         <span>{{localize "RMU_CS.Ritual.ListKnowledge"}}</span>
@@ -15,37 +15,37 @@
                     </div>
 
                     {{#each targetSpells}}
-                    <div class="rmu-spell-row">
-                        <input type="number" class="rmu-spell-level" data-id="{{id}}" value="{{level}}" min="1" />
+                    <div class="rmucsc-spell-row">
+                        <input type="number" class="rmucsc-spell-level" data-id="{{id}}" value="{{level}}" min="1" />
                                                 
-                        <select class="rmu-spell-type" data-id="{{id}}">
+                        <select class="rmucsc-spell-type" data-id="{{id}}">
                             {{#each ../ritualOptions.listType}}
                                 <option value="{{this.value}}" {{rmucsSelected (eq ../listType this.value)}}>{{localize this.label}} ({{#if (gte this.value 0)}}+{{/if}}{{this.value}})</option>
                             {{/each}}
                         </select>
 
-                        <select class="rmu-spell-knowledge" data-id="{{id}}">
+                        <select class="rmucsc-spell-knowledge" data-id="{{id}}">
                             {{#each ../ritualOptions.listKnowledge}}
                                 <option value="{{this.value}}" {{rmucsSelected (eq ../listKnowledge this.value)}}>{{localize this.label}} ({{#if (gte this.value 0)}}+{{/if}}{{this.value}})</option>
                             {{/each}}
                         </select>
 
-                        <button type="button" class="rmucsc-btn rmu-icon-button danger" data-action="removeSpell" data-id="{{id}}" data-tooltip="{{localize 'RMU_CS.Common.Remove'}}" data-tooltip-class="rmucsc-tooltip">
+                        <button type="button" class="rmucsc-btn rmucsc-icon-button danger" data-action="removeSpell" data-id="{{id}}" data-tooltip="{{localize 'RMU_CS.Common.Remove'}}" data-tooltip-class="rmucsc-tooltip">
                             <i class="rmucsc-icon delete"></i>
                         </button>
                     </div>
                     {{/each}}
 
                     <!-- Totals Row -->
-                    <div class="rmu-spell-row total-row">
-                        <span class="rmu-spell-level">{{ritualState.totalSpellLevel}}</span>
-                        <span class="rmu-spell-total-label">{{localize "RMU_CS.Common.Total"}}</span>
+                    <div class="rmucsc-spell-row total-row">
+                        <span class="rmucsc-spell-level">{{ritualState.totalSpellLevel}}</span>
+                        <span class="rmucsc-spell-total-label">{{localize "RMU_CS.Common.Total"}}</span>
                         <span></span>
                         <span></span>
                     </div>
                 </div>
                 
-                <div class="rmu-add-wrapper">
+                <div class="rmucsc-add-wrapper">
                     <button type="button" class="rmucsc-btn" data-action="addRitualSpell">
                         <i class="rmucsc-icon add"></i> {{localize "RMU_CS.Ritual.AddSpell"}}
                     </button>
@@ -56,8 +56,8 @@
             <fieldset class="rmucsc-fieldset">
                 <legend>{{localize "RMU_CS.Ritual.Participants"}}</legend>
                 
-                <div class="rmu-participant-list" id="ritual-participants">
-                    <div class="rmu-ritual-row rmu-participant-header">
+                <div class="rmucsc-participant-list" id="ritual-participants">
+                    <div class="rmucsc-ritual-row rmucsc-participant-header">
                         <span>{{localize "RMU_CS.Common.Enabled"}}</span>
                         <span>{{localize "RMU_CS.Ritual.Role"}}</span>
                         <span>{{localize "RMU_CS.Common.Participant"}}</span>
@@ -68,50 +68,50 @@
                     </div>
 
                     {{#each ritualParticipants}}
-                    <div class="rmu-ritual-row-wrapper">
+                    <div class="rmucsc-ritual-row-wrapper">
                         <!-- Tier 1: Core Mechanics -->
-                        <div class="rmu-ritual-row">
-                            <input type="checkbox" class="rmu-participant-enable" data-id="{{id}}" {{checked enabled}}/>
+                        <div class="rmucsc-ritual-row">
+                            <input type="checkbox" class="rmucsc-participant-enable" data-id="{{id}}" {{checked enabled}}/>
                             
-                            <select class="rmu-ritual-role-select" data-id="{{id}}" {{disabled (not enabled)}}>
+                            <select class="rmucsc-ritual-role-select" data-id="{{id}}" {{disabled (not enabled)}}>
                                 {{#each ../ritualOptions.roles}}
                                     <option value="{{this.value}}" {{rmucsSelected (eq ../ritualData.role this.value)}}>{{localize this.label}}</option>
                                 {{/each}}
                             </select>
 
-                            <label class="rmu-participant-name">{{name}}</label>
+                            <label class="rmucsc-participant-name">{{name}}</label>
                             
                             <!-- PP Wrapper with Max Indicator -->
-                            <div class="rmu-pp-wrapper">
-                                <input type="number" class="rmu-ritual-pp-input" data-id="{{id}}" value="{{ritualData.ppContributed}}" min="0" max="{{maxPP}}" {{disabled (not enabled)}} />
-                                <span class="rmu-pp-max">/ {{maxPP}}</span>
+                            <div class="rmucsc-pp-wrapper">
+                                <input type="number" class="rmucsc-ritual-pp-input" data-id="{{id}}" value="{{ritualData.ppContributed}}" min="0" max="{{maxPP}}" {{disabled (not enabled)}} />
+                                <span class="rmucsc-pp-max">/ {{maxPP}}</span>
                             </div>
                             
-                            <select class="rmu-ritual-hits-select" data-id="{{id}}" {{disabled (not canInvestBlood)}}>
+                            <select class="rmucsc-ritual-hits-select" data-id="{{id}}" {{disabled (not canInvestBlood)}}>
                                 {{#each ../ritualOptions.bloodHits}}
                                     <option value="{{this.value}}" {{rmucsSelected (eq ../ritualData.bloodDice this.value)}}>{{localize this.label}}</option>
                                 {{/each}}
                             </select>
 
-                            <select class="rmu-ritual-crit-select" data-id="{{id}}" {{disabled (not canInvestBlood)}}>
+                            <select class="rmucsc-ritual-crit-select" data-id="{{id}}" {{disabled (not canInvestBlood)}}>
                                 {{#each ../ritualOptions.bloodCrits}}
                                     <option value="{{this.value}}" {{rmucsSelected (eq ../ritualData.bloodCrit this.value)}}>{{localize this.label}}</option>
                                 {{/each}}
                             </select>
 
                             <!-- Remove Button -->
-                            <button type="button" class="rmucsc-btn rmu-icon-button danger" data-action="removeParticipant" data-id="{{id}}" data-tooltip="{{localize 'RMU_CS.Common.Remove'}}" data-tooltip-class="rmucsc-tooltip">
+                            <button type="button" class="rmucsc-btn rmucsc-icon-button danger" data-action="removeParticipant" data-id="{{id}}" data-tooltip="{{localize 'RMU_CS.Common.Remove'}}" data-tooltip-class="rmucsc-tooltip">
                                 <i class="rmucsc-icon delete"></i>
                             </button>
                         </div>
 
                         <!-- Tier 2: Skill Selection (Hidden for Minor Contributors) -->
                         {{#if (not (eq ritualData.role "minor"))}}
-                            <div class="rmu-ritual-skills-row">
+                            <div class="rmucsc-ritual-skills-row">
                                 <div class="form-group">
                                     <label class="rmucsc-child-label">{{localize "RMU_CS.Ritual.RitualSkill"}}</label>
                                     <div class="form-fields">
-                                        <select class="rmu-ritual-skill-select" data-id="{{id}}" {{disabled (not enabled)}}>
+                                        <select class="rmucsc-ritual-skill-select" data-id="{{id}}" {{disabled (not enabled)}}>
                                             <option value="">{{localize "RMU_CS.Boost.SelectSkill"}}</option>
                                             {{#each ritualSkillsGrouped}}
                                             <optgroup label="{{label}}">
@@ -129,7 +129,7 @@
                                 <div class="form-group">
                                     <label class="rmucsc-child-label">{{localize "RMU_CS.Ritual.AdditionalSkill"}}</label>
                                     <div class="form-fields">
-                                        <select class="rmu-ritual-additional-select" data-id="{{id}}" {{disabled (not enabled)}}>
+                                        <select class="rmucsc-ritual-additional-select" data-id="{{id}}" {{disabled (not enabled)}}>
                                             <option value="">{{localize "RMU_CS.Boost.None"}}</option>
                                             {{#each allSkillsGrouped}}
                                             <optgroup label="{{label}}">
@@ -149,7 +149,7 @@
                         {{/each}}
                 </div>
                 
-                <div class="rmu-add-wrapper">
+                <div class="rmucsc-add-wrapper">
                     <button type="button" class="rmucsc-btn" data-action="toggleSidePanel">
                         <i class="rmucsc-icon add"></i> {{localize "RMU_CS.Common.AddParticipant"}}
                     </button>
@@ -162,9 +162,9 @@
                 <legend>{{localize "RMU_CS.Ritual.Modifiers"}}</legend>
 
                 <!-- Knowledge, Time & Environment -->
-                <details class="rmu-collapsible-section" data-section="environment" {{#if ritualState.detailsState.environment}}open{{/if}}>
+                <details class="rmucsc-collapsible-section" data-section="environment" {{#if ritualState.detailsState.environment}}open{{/if}}>
                     <summary>{{localize "RMU_CS.Ritual.EnvironmentTime"}}</summary>
-                    <div class="rmu-collapsible-content">
+                    <div class="rmucsc-collapsible-content">
 
                         <div class="form-group">
                             <label>{{localize "RMU_CS.Ritual.TimeSpent"}}</label>
@@ -198,9 +198,9 @@
                 </details>
 
                 <!-- Ritual Items (Table 5-1e) -->
-                <details class="rmu-collapsible-section" data-section="items" {{#if ritualState.detailsState.items}}open{{/if}}>
+                <details class="rmucsc-collapsible-section" data-section="items" {{#if ritualState.detailsState.items}}open{{/if}}>
                     <summary>{{localize "RMU_CS.Ritual.RitualItems"}}</summary>
-                    <div class="rmu-collapsible-content">
+                    <div class="rmucsc-collapsible-content">
                         
                         <div class="rmucsc-items-grid">
                             <div class="rmucsc-grid-header"></div>
@@ -222,25 +222,25 @@
                 </details>
 
                 <!-- Spell Parameter Extensions (Table 5-2) -->
-                <details class="rmu-collapsible-section" data-section="parameters" {{#if ritualState.detailsState.parameters}}open{{/if}}>
+                <details class="rmucsc-collapsible-section" data-section="parameters" {{#if ritualState.detailsState.parameters}}open{{/if}}>
                     <summary>{{localize "RMU_CS.Ritual.ParameterExtensions"}}</summary>
-                    <div class="rmu-collapsible-content">
+                    <div class="rmucsc-collapsible-content">
 
                         <!-- Spatial & Capacity -->
                         <div class="form-group">
-                            <label>{{localize "RMU_CS.Ritual.ParamWeight"}} (-10/ea)</label>
+                            <label>{{localize "RMU_CS.Ritual.ParamWeight"}}</label>
                             <div class="form-fields">
                                 <input type="number" name="paramWeight" value="{{ritualState.paramWeight}}" min="0" data-tooltip="{{localize 'RMU_CS.Ritual.ParamDoublings'}}" data-tooltip-class="rmucsc-tooltip" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>{{localize "RMU_CS.Ritual.ParamAoE"}} (-20/ea)</label>
+                            <label>{{localize "RMU_CS.Ritual.ParamAoE"}}</label>
                             <div class="form-fields">
                                 <input type="number" name="paramAoE" value="{{ritualState.paramAoE}}" min="0" data-tooltip="{{localize 'RMU_CS.Ritual.ParamDoublings'}}" data-tooltip-class="rmucsc-tooltip" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>{{localize "RMU_CS.Ritual.ParamRange"}} (-15/ea)</label>
+                            <label>{{localize "RMU_CS.Ritual.ParamRange"}}</label>
                             <div class="form-fields">
                                 <input type="number" name="paramRange" value="{{ritualState.paramRange}}" min="0" data-tooltip="{{localize 'RMU_CS.Ritual.ParamDoublings'}}" data-tooltip-class="rmucsc-tooltip" />
                             </div>
@@ -248,14 +248,13 @@
                         <div class="form-group">
                             <label>{{localize "RMU_CS.Ritual.ParamDecreaseAoE"}}</label>
                             <div class="form-fields">
-                                <input type="number" name="paramCrit" value="{{ritualState.paramCrit}}" min="0" data-tooltip="{{localize 'RMU_CS.Ritual.ParamCritSteps'}}" data-tooltip-class="rmucsc-tooltip" />
-                                <span class="rmu-notes rmucsc-checkbox-note">(-10)</span>
+                                <input type="number" name="paramCrit" value="{{ritualState.paramCrit}}" min="0" />
                             </div>
                         </div>
 
                         <!-- Impact -->
                         <div class="form-group rmucsc-section-divider">
-                            <label>{{localize "RMU_CS.Ritual.ParamCrit"}} (-30/ea)</label>
+                            <label>{{localize "RMU_CS.Ritual.ParamCrit"}}</label>
                             <div class="form-fields">
                                 <input type="number" name="paramCrit" value="{{ritualState.paramCrit}}" min="0" title="{{localize 'RMU_CS.Ritual.ParamCritSteps'}}" />
                             </div>
@@ -306,36 +305,38 @@
             <fieldset class="rmucsc-fieldset">
                 <legend>{{localize "RMU_CS.Common.Calculation"}}</legend>
 
-                <div class="rmu-output-box">
+                <div class="rmucsc-output-box">
                     
                     <!-- Top-Level Summary -->
-                    <div class="rmu-output-row">
+                    <div class="rmucsc-output-row">
                         <span>{{#if calculation.primarySkillLabel}}{{calculation.primarySkillLabel}}{{else}}{{localize "RMU_CS.Boost.PrimarySkill"}}{{/if}}:</span>
-                        <span class="rmu-output-value">{{#if (gte calculation.primaryBonus 0)}}+{{/if}}{{calculation.primaryBonus}}</span>
+                        <span class="rmucsc-output-value">{{#if (gte calculation.primaryBonus 0)}}+{{/if}}{{calculation.primaryBonus}}</span>
                     </div>
-                    <div class="rmu-output-row">
+                    <div class="rmucsc-output-row">
                         <span>{{localize "RMU_CS.Ritual.ModifiersTotal"}}:</span>
-                        <span class="rmu-output-value">{{#if (gte calculation.modifiersTotal 0)}}+{{/if}}{{calculation.modifiersTotal}}</span>
+                        <span class="rmucsc-output-value">{{#if (gte calculation.modifiersTotal 0)}}+{{/if}}{{calculation.modifiersTotal}}</span>
                     </div>
-                    <div class="rmu-output-row rmu-output-total">
+                    <div class="rmucsc-output-row rmucsc-output-total">
                         <span>{{localize "RMU_CS.Common.TotalBonus"}}:</span>
-                        <span class="rmu-output-value">{{#if (gte calculation.total 0)}}+{{/if}}{{calculation.total}}</span>
+                        <span class="rmucsc-output-value">{{#if (gte calculation.total 0)}}+{{/if}}{{calculation.total}}</span>
                     </div>
 
                     <!-- Scrollable Breakdown of Modifiers -->
                     {{#if calculation.breakdown.length}}
-                    <div class="rmu-output-breakdown rmucsc-scrollable stable">
-                        <span class="rmu-notes">{{localize "RMU_CS.Ritual.ModifiersBreakdown"}}</span>
-                        <ul>
-                            {{#each calculation.breakdown}}
-                            <li>
-                                <strong>{{#if (gte bonus 0)}}+{{/if}}{{bonus}}</strong> ({{label}})
-                            </li>
-                            {{/each}}
-                        </ul>
-                    </div>
+                    <details class="rmucsc-collapsible-section rmucsc-output-breakdown" data-section="breakdown" {{#if ritualState.detailsState.breakdown}}open{{/if}}>
+                        <summary class="rmucsc-notes">{{localize "RMU_CS.Ritual.ModifiersBreakdown"}}</summary>
+                        <div class="rmucsc-collapsible-content rmucsc-scrollable rmucsc-10vh-scrollable stable">
+                            <ul>
+                                {{#each calculation.breakdown}}
+                                <li>
+                                    <strong>{{#if (gte bonus 0)}}+{{/if}}{{bonus}}</strong> ({{label}})
+                                </li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                    </details>
                     {{else}}
-                        <p class="rmu-notes rmucsc-empty-notes" style="margin-block-start: var(--filroden-space-m);">
+                        <p class="rmucsc-notes rmucsc-empty-notes" style="margin-block-start: var(--filroden-space-m);">
                             {{localize "RMU_CS.Ritual.NoModifiers"}}
                         </p>
                     {{/if}}
@@ -346,8 +347,8 @@
         </div>
     </form>
 
-    <footer class="rmu-calc-footer">
-        <button type="button" class="rmucsc-btn rmu-send-chat">
+    <footer class="rmucsc-calc-footer">
+        <button type="button" class="rmucsc-btn rmucsc-send-chat">
             <i class="rmucsc-icon chat"></i> {{localize "RMU_CS.Common.SendChat"}}
         </button>
     </footer>

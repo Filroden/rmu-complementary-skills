@@ -83,7 +83,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
         tokenControls.tools["rmu-complementary-skills"] = {
             name: "rmu-complementary-skills",
             title: "RMU_CS.Title",
-            icon: "rmu-skill-button-icon",
+            icon: "rmucsc-skill-button-icon",
             button: true,
             onChange: () => {
                 if (!game.rmuComplementarySkills?.ComplementarySkillsApp) {

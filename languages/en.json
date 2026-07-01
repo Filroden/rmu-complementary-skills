@@ -158,13 +158,13 @@
     "RMU_CS.Ritual.ParamModifiers": "Parameter Modifier Total",
     "RMU_CS.Ritual.ParamHint": "Sum of all penalties for altering parameters (e.g. Area of Effect, Range, Duration, Multiplied Hits).",
 
-    "RMU_CS.Ritual.ParamWeight": "Increase Weight Limit",
-    "RMU_CS.Ritual.ParamAoE": "Increase Area of Effect",
-    "RMU_CS.Ritual.ParamRange": "Increase Range",
+    "RMU_CS.Ritual.ParamWeight": "Increase Weight Limit (-10/ea)",
+    "RMU_CS.Ritual.ParamAoE": "Increase Area of Effect (-20/ea)",
+    "RMU_CS.Ritual.ParamRange": "Increase Range (-15/ea)",
     "RMU_CS.Ritual.ParamDoublings": "Enter the number of times this parameter is doubled.",
-    "RMU_CS.Ritual.ParamDecreaseAoE": "Decrease Area of Effect",
+    "RMU_CS.Ritual.ParamDecreaseAoE": "Decrease Area of Effect (-10 Max)",
 
-    "RMU_CS.Ritual.ParamCrit": "Alter Critical Severity",
+    "RMU_CS.Ritual.ParamCrit": "Alter Critical Severity (-30/ea)",
     "RMU_CS.Ritual.ParamCritSteps": "Enter the number of severity steps altered (e.g., A to B is 1).",
     "RMU_CS.Ritual.ParamHitMult": "Multiply Hits Inflicted/Healed",
     "RMU_CS.Ritual.Hitx2": "x2 (-10)",

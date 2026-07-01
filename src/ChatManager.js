@@ -185,7 +185,7 @@ export class ChatManager {
         if (!flags?.isCalc) return;
 
         const $html = $(html);
-        $html.addClass("rmu-calc-message");
+        $html.addClass("rmucsc-calc-message");
 
         const rtlLanguages = ["ar", "he", "fa", "ur"];
         if (rtlLanguages.includes(game.i18n.lang)) {

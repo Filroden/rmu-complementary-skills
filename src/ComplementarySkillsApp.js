@@ -25,6 +25,9 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             activeTab: "boost",
             sidePanelOpen: false,
             candidatesToAdd: new Set(),
+            detailsState: {
+                boostBreakdown: false,
+            },
 
             // Boost State
             primaryActorId: null,
@@ -48,6 +51,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                     environment: false,
                     items: false,
                     parameters: false,
+                    breakdown: false,
                 },
 
                 investingTime: 0,
@@ -93,7 +97,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             resizable: true,
             controls: [
                 {
-                    icon: "rmu-icon group-skill",
+                    icon: "rmucsc-icon group-skill",
                     label: "RMU_CS.Common.AddParticipant",
                     action: "toggleSidePanel",
                 },
@@ -288,6 +292,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
 
             return {
                 ...context,
+                detailsState: this.calcState.detailsState,
                 participants: Array.from(this.participants.values()),
                 primaryActorId: this.calcState.primaryActorId,
                 primarySkillOptions: RMUSkillParser.groupSkills(allPrimarySkills),
@@ -496,19 +501,19 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                 $(ev.currentTarget).addClass("active");
 
                 // Toggle visibility via CSS classes
-                $(this.element).find(".rmu-tab-content").removeClass("active");
-                $(this.element).find(`.rmu-tab-content[data-tab="${this.calcState.activeTab}"]`).addClass("active");
+                $(this.element).find(".rmucsc-tab-content").removeClass("active");
+                $(this.element).find(`.rmucsc-tab-content[data-tab="${this.calcState.activeTab}"]`).addClass("active");
             });
         }
 
         if (partId === "boost") {
-            $html.find(".rmu-participant-enable").on("change", (e) => {
+            $html.find(".rmucsc-participant-enable").on("change", (e) => {
                 const participant = this.participants.get(e.currentTarget.dataset.id);
                 if (participant) participant.enabled = e.currentTarget.checked;
                 this.render({ parts: ["boost"] });
             });
 
-            $html.find(".rmu-primary-actor-select").on("change", (e) => {
+            $html.find(".rmucsc-primary-actor-select").on("change", (e) => {
                 this.calcState.primaryActorId = e.currentTarget.value;
                 this.calcState.primarySkillUuid = null;
                 this.calcState.primarySkillName = null;
@@ -517,7 +522,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                 this.render({ parts: ["boost"] });
             });
 
-            $html.find(".rmu-primary-skill-select").on("change", (e) => {
+            $html.find(".rmucsc-primary-skill-select").on("change", (e) => {
                 const uuid = e.currentTarget.value;
                 const primaryActor = this.participants.get(this.calcState.primaryActorId);
                 const allSkills = primaryActor?.actor ? RMUSkillParser._getAllActorSkills(primaryActor.actor).map(RMUSkillParser.getSkillData) : [];
@@ -528,12 +533,12 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                 this.render({ parts: ["boost"] });
             });
 
-            $html.find(".rmu-primary-comp-add").on("click", () => {
+            $html.find(".rmucsc-primary-comp-add").on("click", () => {
                 this.calcState.primaryActorSkills.push({ name: null, ranks: 0 });
                 this.render({ parts: ["boost"] });
             });
 
-            $html.find(".rmu-primary-comp-skill").on("change", (e) => {
+            $html.find(".rmucsc-primary-comp-skill").on("change", (e) => {
                 const index = e.currentTarget.dataset.index;
                 const skillUuid = e.currentTarget.value;
                 const primaryActor = this.participants.get(this.calcState.primaryActorId);
@@ -547,47 +552,49 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                 this.render({ parts: ["boost"] });
             });
 
-            $html.find(".rmu-primary-comp-delete").on("click", (e) => {
+            $html.find(".rmucsc-primary-comp-delete").on("click", (e) => {
                 const index = e.currentTarget.dataset.index;
                 this.calcState.primaryActorSkills.splice(index, 1);
                 this.render({ parts: ["boost"] });
             });
 
-            $html.find(".rmu-other-comp-skill").on("change", (e) => {
+            $html.find(".rmucsc-other-comp-skill").on("change", (e) => {
                 const actorId = e.currentTarget.dataset.id;
                 this.calcState.otherActorSkills[actorId] = e.currentTarget.value;
                 this.render({ parts: ["boost"] });
             });
 
-            $html.find(".rmu-send-chat").on("click", this.#onSendBoostToChat.bind(this));
+            $html.find(".rmucsc-send-chat").on("click", this.#onSendBoostToChat.bind(this));
+
+            htmlElement.addEventListener("toggle", (e) => this.#onDetailsToggle(e, this.calcState.detailsState), true);
         }
 
         if (partId === "group") {
-            $html.find(".rmu-participant-enable").on("change", (e) => {
+            $html.find(".rmucsc-participant-enable").on("change", (e) => {
                 const participant = this.participants.get(e.currentTarget.dataset.id);
                 if (participant) participant.enabled = e.currentTarget.checked;
                 this.render({ parts: ["group"] });
             });
 
-            $html.find(".rmu-leader-select").on("change", (e) => {
+            $html.find(".rmucsc-leader-select").on("change", (e) => {
                 this.calcState.leaderId = e.currentTarget.value;
                 this.render({ parts: ["group"] });
             });
 
-            $html.find(".rmu-task-skill-select").on("change", (e) => {
+            $html.find(".rmucsc-task-skill-select").on("change", (e) => {
                 const select = e.currentTarget;
                 this.calcState.taskSkillUuid = select.value;
                 this.calcState.taskSkillName = select.options[select.selectedIndex].text.trim();
                 this.render({ parts: ["group"] });
             });
 
-            $html.find(".rmu-send-chat").on("click", this.#onSendGroupToChat.bind(this));
+            $html.find(".rmucsc-send-chat").on("click", this.#onSendGroupToChat.bind(this));
         }
 
         if (partId === "ritual") {
             htmlElement.addEventListener("change", this.#onRitualTabChange.bind(this));
-            htmlElement.addEventListener("toggle", this.#onRitualTabToggle.bind(this), true);
-            $html.find(".rmu-send-chat").on("click", this.#onSendRitualToChat.bind(this));
+            htmlElement.addEventListener("toggle", (e) => this.#onDetailsToggle(e, this.calcState.ritualState.detailsState), true);
+            $html.find(".rmucsc-send-chat").on("click", this.#onSendRitualToChat.bind(this));
         }
     }
 
@@ -642,7 +649,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         }
 
         // 2. Handle Spell Grid
-        if (target.classList.contains("rmu-spell-level")) {
+        if (target.classList.contains("rmucsc-spell-level")) {
             const spell = ritualState.targetSpells.find((s) => s.id === id);
             if (spell) {
                 spell.level = Number.parseInt(target.value, 10) || 1;
@@ -650,26 +657,26 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             }
             return this.render({ parts: ["ritual"] });
         }
-        if (target.classList.contains("rmu-spell-type")) {
+        if (target.classList.contains("rmucsc-spell-type")) {
             const spell = ritualState.targetSpells.find((s) => s.id === id);
             if (spell) spell.listType = Number.parseInt(target.value, 10) || 0;
             return this.render({ parts: ["ritual"] });
         }
-        if (target.classList.contains("rmu-spell-knowledge")) {
+        if (target.classList.contains("rmucsc-spell-knowledge")) {
             const spell = ritualState.targetSpells.find((s) => s.id === id);
             if (spell) spell.listKnowledge = Number.parseInt(target.value, 10) || 0;
             return this.render({ parts: ["ritual"] });
         }
 
         // 3. Handle Participant Grid
-        if (target.classList.contains("rmu-participant-enable")) {
+        if (target.classList.contains("rmucsc-participant-enable")) {
             const participant = this.participants.get(id);
             if (participant) participant.enabled = target.checked;
             this._enforceDeterministicPrimaryCaster(); // Ensure primary wasn't disabled
             return this.render({ parts: ["ritual"] });
         }
 
-        if (target.classList.contains("rmu-ritual-role-select")) {
+        if (target.classList.contains("rmucsc-ritual-role-select")) {
             const newRole = target.value;
 
             if (newRole === "primary") {
@@ -690,16 +697,16 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             return this.render({ parts: ["ritual"] });
         }
 
-        if (target.classList.contains("rmu-ritual-skill-select")) {
+        if (target.classList.contains("rmucsc-ritual-skill-select")) {
             pData[id].ritualSkillUuid = target.value;
             return this.render({ parts: ["ritual"] });
         }
-        if (target.classList.contains("rmu-ritual-additional-select")) {
+        if (target.classList.contains("rmucsc-ritual-additional-select")) {
             pData[id].additionalSkillUuid = target.value;
             return this.render({ parts: ["ritual"] });
         }
 
-        if (target.classList.contains("rmu-ritual-pp-input")) {
+        if (target.classList.contains("rmucsc-ritual-pp-input")) {
             const participant = this.participants.get(id);
             const maxPP = participant ? participant.attributes.currentPP : 0;
             let val = Number.parseInt(target.value, 10) || 0;
@@ -713,20 +720,25 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             return this.render({ parts: ["ritual"] });
         }
 
-        if (target.classList.contains("rmu-ritual-hits-select")) {
+        if (target.classList.contains("rmucsc-ritual-hits-select")) {
             pData[id].bloodDice = Number.parseInt(target.value, 10) || 0;
             return this.render({ parts: ["ritual"] });
         }
-        if (target.classList.contains("rmu-ritual-crit-select")) {
+        if (target.classList.contains("rmucsc-ritual-crit-select")) {
             pData[id].bloodCrit = Number.parseInt(target.value, 10) || 0;
             return this.render({ parts: ["ritual"] });
         }
     }
 
-    #onRitualTabToggle(event) {
+    /**
+     * Captures native toggle events from <details> elements to persist their open state across re-renders.
+     * @param {Event} event - The native DOM toggle event.
+     * @param {Object} stateTarget - The specific state object tracking the toggles for this tab.
+     */
+    #onDetailsToggle(event, stateTarget) {
         const target = event.target;
         if (target.tagName === "DETAILS" && target.dataset.section) {
-            this.calcState.ritualState.detailsState[target.dataset.section] = target.open;
+            stateTarget[target.dataset.section] = target.open;
         }
     }
 

@@ -20,33 +20,31 @@
 
         <!-- Ritual Modifiers Breakdown -->
         <div class="rmucsc-card-panel">
-            <span class="rmucsc-panel-header">{{localize "RMU_CS.Ritual.ModifiersBreakdown"}}</span>
-
             {{#if breakdown.length}}
-                <ul>
-                    {{#each breakdown}}
-                        <li>
-                            <span>{{label}}</span>
-                            <span class="rmucsc-val">{{signed bonus}}</span>
-                        </li>
-                    {{/each}}
-                </ul>
+                <details class="rmucsc-chat-details">
+                    <summary class="rmucsc-panel-header">{{localize "RMU_CS.Ritual.ModifiersBreakdown"}}: {{signed modifiersTotal}}</summary>
+                    <ul>
+                        {{#each breakdown}}
+                            <li>
+                                <span>{{label}}</span>
+                                <span class="rmucsc-val">{{signed bonus}}</span>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </details>
             {{else}}
-                <span class="rmu-notes" style="display: block; margin-block-end: 0.5rem;">
+                <span class="rmucsc-panel-header">{{localize "RMU_CS.Ritual.ModifiersBreakdown"}}</span>
+                <span class="rmucsc-notes" style="display: block; margin-block-end: 0.5rem;">
                     {{localize "RMU_CS.Ritual.NoModifiers"}}
                 </span>
             {{/if}}
-
-            <div class="rmucsc-complementary-sum">
-                <span>{{localize "RMU_CS.Ritual.ModifiersTotal"}}: {{signed modifiersTotal}}</span>
-            </div>
         </div>
 
         <!-- Costs & Sacrifices Summary -->
         {{#if costsBreakdown.length}}
             <div class="rmucsc-card-panel">
                 <span class="rmucsc-panel-header">{{localize "RMU_CS.Ritual.CostsSummary"}}</span>
-                <div class="rmu-costs-breakdown">
+                <div class="rmucsc-costs-breakdown">
                     {{#each costsBreakdown}}
                         <div class="rmucsc-costs-item">
                             <strong>{{name}}:</strong>
@@ -69,7 +67,7 @@
 
         <!-- Roll Button -->
         <div class="rmucsc-roll-footer">
-            <button type="button" class="rmucsc-btn rmu-roll-skill-button">
+            <button type="button" class="rmucsc-btn rmucsc-roll-skill-button">
                 {{localize "RMU_CS.Chat.RollBonus" bonus=(signed modifiersTotal)}}
             </button>
         </div>

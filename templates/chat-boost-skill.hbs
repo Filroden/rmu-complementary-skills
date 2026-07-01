@@ -18,15 +18,17 @@
         </div>
 
         <div class="rmucsc-card-panel">
-            <span class="rmucsc-panel-header">{{localize "RMU_CS.Chat.Breakdown"}}</span>
-            <ul>
-                {{#each breakdown}}
-                    <li>
-                        <span>{{localize "RMU_CS.Boost.BreakdownFrom" name=name ranks=ranks}}</span>
-                        <span class="rmucsc-val">{{signed bonus}}</span>
-                    </li>
-                {{/each}}
-            </ul>
+            <details class="rmucsc-chat-details">
+                <summary class="rmucsc-panel-header">{{localize "RMU_CS.Chat.Breakdown"}}</summary>
+                <ul>
+                    {{#each breakdown}}
+                        <li>
+                            <span>{{localize "RMU_CS.Boost.BreakdownFrom" name=name ranks=ranks}}</span>
+                            <span class="rmucsc-val">{{signed bonus}}</span>
+                        </li>
+                    {{/each}}
+                </ul>
+            </details>
             <div class="rmucsc-complementary-sum">
                 <span>{{localize "RMU_CS.Chat.CompSum" bonus=(signed complementBonus)}}</span>
             </div>
@@ -38,7 +40,7 @@
         </div>
 
         <div class="rmucsc-roll-footer">
-            <button type="button" class="rmucsc-btn rmu-roll-skill-button">
+            <button type="button" class="rmucsc-btn rmucsc-roll-skill-button">
                 {{localize "RMU_CS.Chat.RollBonus" bonus=(signed complementBonus)}}
             </button>
         </div>

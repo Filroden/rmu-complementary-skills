@@ -498,14 +498,14 @@
 =====================================
 */
 
-button.control.tool.rmu-skill-button-icon {
+button.control.tool.rmucsc-skill-button-icon {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
 }
 
-button.control.tool.rmu-skill-button-icon::before {
+button.control.tool.rmucsc-skill-button-icon::before {
     content: "";
     display: block;
     width: 1.5rem;
@@ -543,17 +543,17 @@ button.control.tool.rmu-skill-button-icon::before {
     color: var(--filroden-color-text-main-solid);
 }
 
-.rmucsc .rmu-notes {
+.rmucsc .rmucsc-notes {
     color: var(--filroden-color-text-muted-solid);
 }
 
-.rmucsc .rmu-button-title {
+.rmucsc .rmucsc-button-title {
     color: var(--filroden-color-text-accent);
     font-size: var(--filroden-font-size-l);
     font-weight: bold;
 }
 
-.rmucsc .rmu-button-note {
+.rmucsc .rmucsc-button-note {
     color: var(--filroden-color-text-muted-solid);
     font-size: var(--filroden-font-size-s);
     font-weight: normal;
@@ -579,18 +579,18 @@ button.control.tool.rmu-skill-button-icon::before {
     overflow: hidden; 
 }
 
-.rmu-calc-pane {
+.rmucsc-calc-pane {
     display: flex;
     flex-direction: column;
-    gap: var(--filroden-space-m);
+    gap: var(--filroden-space-xs);
 }
 
-.rmu-notes {
+.rmucsc-notes {
     text-align: center;
 }
 
 /* Tab Content Areas */
-.rmu-tab-content {
+.rmucsc-tab-content {
     grid-column: 1;
     grid-row: 2;
     display: none;
@@ -599,12 +599,12 @@ button.control.tool.rmu-skill-button-icon::before {
     padding: var(--filroden-space-m);
 }
 
-.rmu-tab-content.active {
+.rmucsc-tab-content.active {
     display: flex;
 }
 
 /* Side Panel for Adding Participants */
-.rmu-side-panel {
+.rmucsc-side-panel {
     grid-column: 2;
     grid-row: 1 / span 2; /* Spans across both the tabs row and the content row */
     width: 0;
@@ -617,13 +617,13 @@ button.control.tool.rmu-skill-button-icon::before {
     flex-direction: column;
 }
 
-.rmu-side-panel.open {
+.rmucsc-side-panel.open {
     width: 18.75rem; /* 300px */
     opacity: 1;
     padding: var(--filroden-space-m);
 }
 
-.rmu-side-panel-header {
+.rmucsc-side-panel-header {
     color: var(--filroden-color-text-accent);
     font-size: var(--filroden-font-size-l);
     font-weight: var(--filroden-font-weight-bold);
@@ -638,7 +638,7 @@ button.control.tool.rmu-skill-button-icon::before {
 =====================================
 */
 
-.rmucsc .rmu-sub-fieldset {
+.rmucsc .rmucsc-sub-fieldset {
     border: var(--filroden-border-main);
     padding: var(--filroden-space-m);
     margin-block-start: var(--filroden-space-m);
@@ -650,7 +650,7 @@ button.control.tool.rmu-skill-button-icon::before {
     align-items: center;
 }
 
-.rmucsc .rmu-sub-fieldset legend {
+.rmucsc .rmucsc-sub-fieldset legend {
     grid-column: 1 / 3; 
     font-size: var(--filroden-font-size-xs);
     font-weight: normal;
@@ -662,7 +662,7 @@ button.control.tool.rmu-skill-button-icon::before {
 
 /* --- Form Inputs & Selects --- */
 
-.rmucsc .rmu-sub-fieldset .form-group {
+.rmucsc .rmucsc-sub-fieldset .form-group {
     display: contents;
 }
 
@@ -671,68 +671,68 @@ button.control.tool.rmu-skill-button-icon::before {
 }
 
 /* --- Participant List --- */
-.rmucsc .rmu-participant-list {
+.rmucsc .rmucsc-participant-list {
     display: flex;
     flex-direction: column;
     gap: var(--filroden-space-xs);
 }
 
-.rmucsc #boost-skill-participants .rmu-participant-row {
+.rmucsc #boost-skill-participants .rmucsc-participant-row {
     display: grid;
     grid-template-columns: 3.75rem 3.75rem 1fr 5rem; 
     align-items: center;
     gap: var(--filroden-space-m);
 }
-.rmucsc #group-task-participants .rmu-participant-row {
+.rmucsc #group-task-participants .rmucsc-participant-row {
     display: grid;
     grid-template-columns: 3.75rem 3.75rem 1fr 5rem 5rem;
     align-items: center;
     gap: var(--filroden-space-m);
 }
 
-.rmucsc .rmu-participant-header {
+.rmucsc .rmucsc-participant-header {
     font-weight: bold;
     font-size: var(--filroden-font-size-xs);
     text-transform: uppercase;
     border-block-end: var(--filroden-border-main);
     padding-block-end: var(--filroden-space-xs);
 }
-.rmucsc .rmu-participant-header span:last-child {
+.rmucsc .rmucsc-participant-header span:last-child {
     text-align: center;
 }
-.rmucsc .rmu-participant-row input[type="checkbox"],
-.rmucsc .rmu-participant-row input[type="radio"] {
+.rmucsc .rmucsc-participant-row input[type="checkbox"],
+.rmucsc .rmucsc-participant-row input[type="radio"] {
     margin: 0;
     justify-self: center;
 }
-.rmucsc .rmu-participant-row .rmu-participant-ranks,
-.rmucsc .rmu-participant-row .rmu-participant-bonus {
+.rmucsc .rmucsc-participant-row .rmucsc-participant-ranks,
+.rmucsc .rmucsc-participant-row .rmucsc-participant-bonus {
     text-align: center;
     font-style: italic;
     font-size: var(--filroden-font-size-s);
     color: var(--filroden-color-text-muted-solid);
 }
-.rmucsc .rmu-add-wrapper {
+.rmucsc .rmucsc-add-wrapper {
     margin-block-start: var(--filroden-space-m);
 }
-.rmucsc .rmu-add-list .form-group {
+.rmucsc .rmucsc-add-list .form-group {
     justify-content: flex-start;
 }
 
 
 /* --- Dynamic Skill List --- */
-.rmucsc .rmu-dynamic-list {
+.rmucsc .rmucsc-dynamic-list {
     display: flex;
     flex-direction: column;
     gap: var(--filroden-space-xs);
 }
-.rmucsc .rmu-dynamic-row {
+.rmucsc .rmucsc-dynamic-row {
     display: grid;
     grid-template-columns: 1fr auto;
     gap: var(--filroden-space-xs);
     align-items: center;
 }
-.rmucsc .rmu-icon-button {
+.rmucsc .rmucsc-icon-button {
     width: 1.5rem;
     height: 1.5rem;
     padding: 0;
@@ -744,7 +744,7 @@ button.control.tool.rmu-skill-button-icon::before {
 }
 
 /* --- Output Box --- */
-.rmucsc .rmu-output-box {
+.rmucsc .rmucsc-output-box {
     display: flex;
     flex-direction: column;
     gap: var(--filroden-space-xs);
@@ -752,18 +752,18 @@ button.control.tool.rmu-skill-button-icon::before {
     padding-inline-end: var(--filroden-space-s);
 }
 
-.rmucsc .rmu-output-row {
+.rmucsc .rmucsc-output-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.rmucsc .rmu-output-row .rmu-output-value {
+.rmucsc .rmucsc-output-row .rmucsc-output-value {
     font-weight: bold;
     font-size: var(--filroden-font-size-s);
 }
 
-.rmucsc .rmu-output-total {
+.rmucsc .rmucsc-output-total {
     font-size: var(--filroden-font-size-m);
     font-weight: bold;
     border-block-start: var(--filroden-border-main);
@@ -771,34 +771,31 @@ button.control.tool.rmu-skill-button-icon::before {
     overflow-y: auto;
 }
 
-.rmucsc .rmu-output-total .rmu-output-value {
+.rmucsc .rmucsc-output-total .rmucsc-output-value {
     font-size: var(--filroden-font-size-m);
     color: var(--filroden-color-text-accent);
     font-weight: bold;
 }
 
-.rmucsc .rmu-output-breakdown {
+.rmucsc .rmucsc-output-breakdown {
     margin-block-start: var(--filroden-space-m);
     margin-block-end: var(--filroden-space-m);
     border-block-start: var(--filroden-border-main);
-    padding-block-start: var(--filroden-space-m);
-    overflow-y: auto;
-    max-height: 10vh;
 }
 
-.rmucsc .rmu-output-breakdown .rmu-notes {
+.rmucsc .rmucsc-output-breakdown .rmucsc-notes {
     font-weight: bold;
 }
 
-.rmucsc .rmu-output-breakdown ul,
-.rmucsc-chat-card .rmu-costs-breakdown ul {
+.rmucsc .rmucsc-output-breakdown ul,
+.rmucsc-chat-card .rmucsc-costs-breakdown ul {
     margin: 0;
     list-style-type: disc;
     font-size: var(--filroden-font-size-xs);
 }
 
-.rmucsc .rmu-output-breakdown li,
-.rmucsc-chat-card .rmu-costs-breakdown li {
+.rmucsc .rmucsc-output-breakdown li,
+.rmucsc-chat-card .rmucsc-costs-breakdown li {
     overflow-wrap: break-word;
     word-break: break-word; 
     white-space: normal;
@@ -806,20 +803,20 @@ button.control.tool.rmu-skill-button-icon::before {
 }
 
 /* --- Footer --- */
-.rmucsc .rmu-calc-footer {
+.rmucsc .rmucsc-calc-footer {
     flex: none;
     border-block-start: var(--filroden-border-main);
     padding: var(--filroden-space-m);
     display: flex;
     justify-content: flex-end; /* flex-end natively respects LTR/RTL flow */
 }
-.rmucsc .rmu-send-chat {
+.rmucsc .rmucsc-send-chat {
     background: var(--filroden-color-text-accent);
     border-color: var(--filroden-color-text-accent);
     color: var(--filroden-color-text-on-accent);
     font-weight: normal;
 }
-.rmucsc .rmu-send-chat:hover {
+.rmucsc .rmucsc-send-chat:hover {
     background: var(--filroden-color-text-accent-hover);
     border-color: var(--filroden-color-text-accent-hover);
     color: var(--filroden-color-text-on-accent);
@@ -829,7 +826,7 @@ button.control.tool.rmu-skill-button-icon::before {
    --- DETAIL/SUMMARY STYLES ---
    ===================================== */
 
-.rmucsc .rmu-collapsible-section {
+.rmucsc .rmucsc-collapsible-section {
     border: var(--filroden-border-main);
     border-radius: var(--filroden-radius-small);
     margin-block-end: var(--filroden-space-s);
@@ -837,11 +834,11 @@ button.control.tool.rmu-skill-button-icon::before {
     transition: background-color 0.2s;
 }
 
-.rmucsc .rmu-collapsible-section[open] {
+.rmucsc .rmucsc-collapsible-section[open] {
     background: var(--filroden-color-bg-darkest);
 }
 
-.rmucsc .rmu-collapsible-section summary {
+.rmucsc .rmucsc-collapsible-section summary {
     padding: var(--filroden-space-s) var(--filroden-space-m);
     font-weight: bold;
     color: var(--filroden-color-text-accent);
@@ -853,7 +850,7 @@ button.control.tool.rmu-skill-button-icon::before {
 }
 
 /* Custom Chevron for the Summary */
-.rmucsc .rmu-collapsible-section summary::before {
+.rmucsc .rmucsc-collapsible-section summary::before {
     content: "▶";
     display: inline-block;
     margin-inline-end: var(--filroden-space-s);
@@ -862,17 +859,17 @@ button.control.tool.rmu-skill-button-icon::before {
     color: var(--filroden-color-text-muted-solid);
 }
 
-.rmucsc .rmu-collapsible-section[open] summary::before {
+.rmucsc .rmucsc-collapsible-section[open] summary::before {
     transform: rotate(90deg);
     color: var(--filroden-color-text-accent);
 }
 
 /* Hide the default webkit arrow */
-.rmucsc .rmu-collapsible-section summary::-webkit-details-marker {
+.rmucsc .rmucsc-collapsible-section summary::-webkit-details-marker {
     display: none;
 }
 
-.rmucsc .rmu-collapsible-content {
+.rmucsc .rmucsc-collapsible-content {
     padding: var(--filroden-space-m);
     border-block-start: var(--filroden-border-main);
     display: flex;
@@ -880,12 +877,17 @@ button.control.tool.rmu-skill-button-icon::before {
     gap: var(--filroden-space-m);
 }
 
+.rmucsc .rmucsc-10vh-scrollable {
+    overflow-y: auto;
+    max-height: 10vh;
+}
+
 /* =====================================
    --- RITUAL STYLES ---
    ===================================== */
 
 /* --- Ritual Participant Grid --- */
-.rmucsc .rmu-ritual-row-wrapper {
+.rmucsc .rmucsc-ritual-row-wrapper {
     display: flex;
     flex-direction: column;
     gap: var(--filroden-space-s);
@@ -893,19 +895,19 @@ button.control.tool.rmu-skill-button-icon::before {
     padding-block-end: var(--filroden-space-m);
 }
 
-.rmucsc .rmu-ritual-row-wrapper:last-child {
+.rmucsc .rmucsc-ritual-row-wrapper:last-child {
     border-block-end: none;
     padding-block-end: 0;
 }
 
-.rmucsc .rmu-ritual-row {
+.rmucsc .rmucsc-ritual-row {
     display: grid;
     grid-template-columns: 3.75rem 6.5rem 1fr 6rem 5rem 5rem 2rem;
     align-items: center;
     gap: var(--filroden-space-m);
 }
 
-.rmucsc .rmu-ritual-skills-row {
+.rmucsc .rmucsc-ritual-skills-row {
     display: flex;
     flex-direction: column;
     gap: var(--filroden-space-s);
@@ -930,74 +932,74 @@ button.control.tool.rmu-skill-button-icon::before {
     opacity: 0.5;
 }
 
-.rmucsc .rmu-ritual-pp-input {
+.rmucsc .rmucsc-ritual-pp-input {
     text-align: center;
 }
 
-.rmucsc .rmu-participant-name {
+.rmucsc .rmucsc-participant-name {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.rmucsc .rmu-pp-wrapper {
+.rmucsc .rmucsc-pp-wrapper {
     display: flex;
     align-items: center;
     gap: var(--filroden-space-xs);
 }
 
-.rmucsc .rmu-pp-wrapper input {
+.rmucsc .rmucsc-pp-wrapper input {
     width: 3.5rem;
     text-align: center;
 }
 
-.rmucsc .rmu-pp-max {
+.rmucsc .rmucsc-pp-max {
     color: var(--filroden-color-text-muted-solid);
     font-size: var(--filroden-font-size-s);
     font-style: italic;
     white-space: nowrap;
 }
 
-.rmu-participant-remove:hover .rmu-icon.delete {
+.rmucsc-participant-remove:hover .rmucsc-icon.delete {
     background-color: var(--filroden-color-danger);
 }
 
 /* --- Target Spell Grid --- */
-.rmucsc .rmu-spell-list {
+.rmucsc .rmucsc-spell-list {
     display: flex;
     flex-direction: column;
     gap: var(--filroden-space-s);
 }
 
-.rmucsc .rmu-spell-row {
+.rmucsc .rmucsc-spell-row {
     display: grid;
     grid-template-columns: 5rem 1fr 1fr 2rem;
     align-items: center;
     gap: var(--filroden-space-m);
 }
 
-.rmucsc .rmu-spell-row.total-row {
+.rmucsc .rmucsc-spell-row.total-row {
     border-block-start: var(--filroden-border-main);
     padding-block-start: var(--filroden-space-xs);
     font-weight: bold;
 }
 
-.rmucsc .rmu-spell-level,
-.rmucsc .rmu-spell-pp {
+.rmucsc .rmucsc-spell-level,
+.rmucsc .rmucsc-spell-pp {
     text-align: center;
 }
 
-.rmucsc .total-row.rmu-spell-level,
-.rmucsc .total-row.rmu-spell-pp {
+.rmucsc .total-row.rmucsc-spell-level,
+.rmucsc .total-row.rmucsc-spell-pp {
     color: var(--filroden-color-text-accent);
 }
 
-.rmu-spell-remove:hover .rmu-icon.delete {
+.rmucsc-spell-remove:hover .rmucsc-icon.delete {
     background-color: var(--filroden-color-danger);
 }
 
 /* --- Target Spell Grid Specifics --- */
-.rmucsc .rmu-spell-total-label {
+.rmucsc .rmucsc-spell-total-label {
     grid-column: 3 / 6;
     text-transform: uppercase;
     color: var(--filroden-color-text-accent);
@@ -1025,7 +1027,7 @@ button.control.tool.rmu-skill-button-icon::before {
     margin-inline-start: var(--filroden-space-xs);
 }
 
-.rmucsc .rmu-output-box .rmucsc-empty-notes {
+.rmucsc .rmucsc-output-box .rmucsc-empty-notes {
     margin: 0;
     text-align: start; /* Natively respects LTR/RTL reading direction */
 }
@@ -1075,23 +1077,42 @@ button.control.tool.rmu-skill-button-icon::before {
     vertical-align: text-top;
 }
 
+/* Interactive cursor for collapsible breakdowns */
+.rmucsc .rmucsc-output-breakdown summary,
+.rmucsc-chat-card details.rmucsc-chat-details summary {
+    cursor: pointer;
+}
+
+/* Ensures the native triangle marker sits neatly next to your header text */
+.rmucsc-chat-card details.rmucsc-chat-details summary.rmucsc-panel-header {
+    display: list-item; 
+    border-block-end: none; /* Prevents the border splitting the details content */
+}
+
+/* Restores the border to the open state */
+.rmucsc-chat-card details.rmucsc-chat-details[open] summary.rmucsc-panel-header {
+    border-block-end: var(--filroden-border-main);
+    padding-block-end: var(--filroden-space-xs);
+    margin-block-end: var(--filroden-space-xs);
+}
+
 /* =====================================
    --- CHAT CARD STYLES ---
    ===================================== */
 
-.chat-message.rmu-calc-message {
+.chat-message.rmucsc-calc-message {
     background: var(--filroden-color-bg-darkest);
     border: none;
     padding: var(--filroden-space-s);
     box-shadow: none;
 }
 
-.chat-message.rmu-calc-message :is(.message-sender, .whisper-to, .message-timestamp) {
+.chat-message.rmucsc-calc-message :is(.message-sender, .whisper-to, .message-timestamp) {
     color: var(--filroden-color-text-muted-solid);
     font-size: var(--filroden-font-size-xs);
 }
 
-.chat-message.rmu-calc-message .message-header {
+.chat-message.rmucsc-calc-message .message-header {
     background: var(--filroden-color-bg-medium-solid);
     padding: var(--filroden-space-xs);
     border-radius: var(--filroden-radius-medium);
@@ -1204,7 +1225,7 @@ button.control.tool.rmu-skill-button-icon::before {
     margin-block-end: var(--filroden-space-m);
 }
 
-.rmucsc-chat-card .rmu-costs-breakdown {
+.rmucsc-chat-card .rmucsc-costs-breakdown {
     margin: 0;
     padding: 0;
     border: none;
@@ -1235,7 +1256,7 @@ button.control.tool.rmu-skill-button-icon::before {
     justify-content: flex-end;
 }
 
-.rmucsc-chat-card .rmu-roll-skill-button {
+.rmucsc-chat-card .rmucsc-roll-skill-button {
     background: var(--filroden-color-bg-light-solid);
     border: var(--filroden-border-main);
     border-radius: var(--filroden-radius-small);
@@ -1249,13 +1270,13 @@ button.control.tool.rmu-skill-button-icon::before {
     transition: background-color 0.1s, border-color 0.1s, color 0.1s;
 }
 
-.rmucsc-chat-card .rmu-roll-skill-button:hover {
+.rmucsc-chat-card .rmucsc-roll-skill-button:hover {
     background: var(--filroden-color-bg-hover-solid);
     border-color: var(--filroden-color-text-accent);
     color: var(--filroden-color-text-main-solid);
 }
 
-.rmucsc-chat-card .rmu-roll-skill-button:disabled {
+.rmucsc-chat-card .rmucsc-roll-skill-button:disabled {
     background: var(--filroden-color-bg-medium-solid);
     border-color: var(--filroden-border-main);
     color: var(--filroden-color-text-muted-solid);

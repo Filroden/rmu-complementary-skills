@@ -1,8 +1,8 @@
-<div class="rmu-side-panel {{#if sidePanelOpen}}open{{/if}}">
-  <div class="rmu-side-panel-header">{{localize "RMU_CS.AddDialog.Title"}}</div>
+<div class="rmucsc-side-panel {{#if sidePanelOpen}}open{{/if}}">
+  <div class="rmucsc-side-panel-header">{{localize "RMU_CS.AddDialog.Title"}}</div>
   {{#if availableTokens.length}}
-    <p class="rmu-notes">{{localize "RMU_CS.AddDialog.Select"}}</p>
-    <div class="rmu-add-list">
+    <p class="rmucsc-notes">{{localize "RMU_CS.AddDialog.Select"}}</p>
+    <div class="rmucsc-add-list">
       {{#each availableTokens}}
         <div class="form-group">
           <input type="checkbox" data-action="toggleCandidate" value="{{id}}" id="add-{{id}}"/>
@@ -10,12 +10,12 @@
         </div>
       {{/each}}
     </div>
-    <div class="rmu-add-wrapper" style="margin-block-start: auto;">
+    <div class="rmucsc-add-wrapper" style="margin-block-start: auto;">
       <button type="button" class="rmucsc-btn" data-action="confirmAddParticipants">
         <i class="rmucsc-icon add"></i> {{localize "RMU_CS.Common.Add"}}
       </button>
     </div>
   {{else}}
-    <p class="rmu-notes">{{localize "RMU_CS.AddDialog.NoTokens"}}</p>
+    <p class="rmucsc-notes">{{localize "RMU_CS.AddDialog.NoTokens"}}</p>
   {{/if}}
 </div>
