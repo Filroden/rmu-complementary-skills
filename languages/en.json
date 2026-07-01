@@ -206,5 +206,13 @@
     "RMU_CS.Ritual.CompAdditionalSkill": "Additional Skill Ranks",
 
     "RMU_CS.Ritual.ModifiersTotal": "Additional Modifiers",
-    "RMU_CS.Ritual.ModifiersBreakdown": "Modifiers Breakdown"
+    "RMU_CS.Ritual.ModifiersBreakdown": "Modifiers Breakdown",
+
+    "RMU_CS.Ritual.ChatTitle": "Magical Ritual",
+    "RMU_CS.Notifications.SelectPrimaryRitual": "The Primary Caster must have a Ritual Skill selected.",
+    "RMU_CS.Notifications.InsufficientPP": "The total Power Points contributed must equal or exceed the total Spell Level.",
+    "RMU_CS.Ritual.CostsSummary": "Costs & Sacrifices",
+    "RMU_CS.Ritual.CostPP": "-{val} power points",
+    "RMU_CS.Ritual.CostHP": "{val}d10 hit points",
+    "RMU_CS.Ritual.CostCrit": "Type {type} Puncture critical"
 }

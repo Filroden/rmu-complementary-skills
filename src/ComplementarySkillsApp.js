@@ -2,6 +2,7 @@ import { RMUSkillParser, RMUActorParser } from "./RMUTokenParser.js";
 import { BoostCalculator } from "./utils/BoostCalculator.js";
 import { GroupCalculator } from "./utils/GroupCalculator.js";
 import { RitualCalculator } from "./utils/RitualCalculator.js";
+import { ChatManager } from "./ChatManager.js";
 import { VALID_ACTOR_TYPES, RITUAL_OPTIONS } from "./config.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
@@ -161,6 +162,21 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         this._enforceDeterministicLeader();
         this._enforceDeterministicPrimaryCaster();
         this._isHydrating = false;
+    }
+
+    /**
+     * Generates the default ritual data schema for a new participant.
+     * @returns {object} Default ritual data state.
+     */
+    #getDefaultRitualData() {
+        return {
+            role: "minor", // Defaults to minor to prevent accidental Primary assignment
+            ritualSkillUuid: null,
+            additionalSkillUuid: null,
+            ppContributed: 0,
+            bloodDice: 0,
+            bloodCrit: 0,
+        };
     }
 
     /**
@@ -571,6 +587,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         if (partId === "ritual") {
             htmlElement.addEventListener("change", this.#onRitualTabChange.bind(this));
             htmlElement.addEventListener("toggle", this.#onRitualTabToggle.bind(this), true);
+            $html.find(".rmu-send-chat").on("click", this.#onSendRitualToChat.bind(this));
         }
     }
 
@@ -718,102 +735,17 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
     /* ----------------------------------------- */
 
     async #onSendBoostToChat(event) {
-        const primaryActor = this.participants.get(this.calcState.primaryActorId);
-        if (!primaryActor || !this.calcState.primarySkillUuid) {
-            ui.notifications.warn(game.i18n.localize("RMU_CS.Notifications.SelectPrimary"));
-            return;
-        }
-
-        const allPrimarySkills = RMUSkillParser._getAllActorSkills(primaryActor.actor)
-            .map(RMUSkillParser.getSkillData)
-            .filter((sk) => !sk.disabledBySystem);
-
-        const calc = BoostCalculator.calculate(this.calcState, this.participants, allPrimarySkills);
-        const content = await foundry.applications.handlebars.renderTemplate("modules/rmu-complementary-skills/templates/chat-boost-skill.hbs", {
-            primaryActorName: primaryActor.name,
-            primarySkillName: this.calcState.primarySkillName,
-            primaryBonus: calc.primaryBonus,
-            breakdown: calc.breakdown,
-            complementBonus: calc.complementBonus,
-            total: calc.total,
-        });
-
-        ChatMessage.create({
-            user: game.user.id,
-            content: content,
-            whisper: this.#getRecipients(),
-            flags: {
-                "rmu-complementary-skills": {
-                    isCalc: true,
-                    rollType: "boost",
-                    actorId: primaryActor.actor.id,
-                    skillUuid: this.calcState.primarySkillUuid,
-                    bonus: calc.complementBonus,
-                },
-            },
-        });
-
-        this.close();
+        const success = await ChatManager.sendBoostToChat(this.calcState, this.participants);
+        if (success) this.close();
     }
 
     async #onSendGroupToChat(event) {
-        const leader = this.participants.get(this.calcState.leaderId);
-        if (!leader || !this.calcState.taskSkillName) {
-            ui.notifications.warn(game.i18n.localize("RMU_CS.Notifications.SelectTask"));
-            return;
-        }
-
-        const calc = GroupCalculator.calculate(this.calcState, this.participants);
-        const leaderRaw = RMUSkillParser.getBestSkillMatch(leader.actor, this.calcState.taskSkillName);
-        const leaderData = leaderRaw ? RMUSkillParser.getSkillData(leaderRaw) : null;
-        const leaderSkillUuid = leaderData ? leaderData.uuid : this.calcState.taskSkillUuid;
-
-        const content = await foundry.applications.handlebars.renderTemplate("modules/rmu-complementary-skills/templates/chat-group-task.hbs", calc);
-
-        ChatMessage.create({
-            user: game.user.id,
-            content: content,
-            whisper: this.#getRecipients(),
-            flags: {
-                "rmu-complementary-skills": {
-                    isCalc: true,
-                    rollType: "group",
-                    actorId: leader.actor.id,
-                    skillUuid: leaderSkillUuid,
-                    bonus: calc.total,
-                },
-            },
-        });
-
-        this.close();
+        const success = await ChatManager.sendGroupToChat(this.calcState, this.participants);
+        if (success) this.close();
     }
 
-    #getRecipients() {
-        const ownerIds = [];
-        for (const p of Array.from(this.participants.values()).filter((p) => p.enabled)) {
-            if (!p.actor) continue;
-            for (const [userId, level] of Object.entries(p.actor.ownership)) {
-                if (level >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
-                    ownerIds.push(userId);
-                }
-            }
-        }
-        const gmUsers = ChatMessage.getWhisperRecipients("GM");
-        return Array.from(new Set([...ownerIds, ...gmUsers]));
-    }
-
-    /**
-     * Generates the default ritual data schema for a new participant.
-     * @returns {object} Default ritual data state.
-     */
-    #getDefaultRitualData() {
-        return {
-            role: "minor", // Defaults to minor to prevent accidental Primary assignment
-            ritualSkillUuid: null,
-            additionalSkillUuid: null,
-            ppContributed: 0,
-            bloodDice: 0,
-            bloodCrit: 0,
-        };
+    async #onSendRitualToChat(event) {
+        const success = await ChatManager.sendRitualToChat(this.calcState, this.participants);
+        if (success) this.close();
     }
 }

@@ -1,0 +1,78 @@
+<div class="rmucsc-chat-card">
+
+    <div class="rmucsc-card-sidebar">
+        <span>{{localize "RMU_CS.Ritual.ChatTitle"}}</span>
+    </div>
+
+    <div class="rmucsc-card-content">
+
+        <!-- Primary Participant & Base Skill -->
+        <div class="rmucsc-card-panel">
+            <span class="rmucsc-panel-header">{{localize "RMU_CS.Chat.LeadParticipant"}}</span>
+            <div>{{primaryActorName}}</div>
+            <ul>
+                <li>
+                    <span><strong>{{primarySkillName}}</strong></span>
+                    <span class="rmucsc-val">{{signed primaryBonus}}</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Ritual Modifiers Breakdown -->
+        <div class="rmucsc-card-panel">
+            <span class="rmucsc-panel-header">{{localize "RMU_CS.Ritual.ModifiersBreakdown"}}</span>
+
+            {{#if breakdown.length}}
+                <ul>
+                    {{#each breakdown}}
+                        <li>
+                            <span>{{label}}</span>
+                            <span class="rmucsc-val">{{signed bonus}}</span>
+                        </li>
+                    {{/each}}
+                </ul>
+            {{else}}
+                <span class="rmu-notes" style="display: block; margin-block-end: 0.5rem;">
+                    {{localize "RMU_CS.Ritual.NoModifiers"}}
+                </span>
+            {{/if}}
+
+            <div class="rmucsc-complementary-sum">
+                <span>{{localize "RMU_CS.Ritual.ModifiersTotal"}}: {{signed modifiersTotal}}</span>
+            </div>
+        </div>
+
+        <!-- Costs & Sacrifices Summary -->
+        {{#if costsBreakdown.length}}
+            <div class="rmucsc-card-panel">
+                <span class="rmucsc-panel-header">{{localize "RMU_CS.Ritual.CostsSummary"}}</span>
+                <div class="rmu-costs-breakdown">
+                    {{#each costsBreakdown}}
+                        <div class="rmucsc-costs-item">
+                            <strong>{{name}}:</strong>
+                            <ul>
+                                {{#each lines}}
+                                    <li>{{this}}</li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+        {{/if}}
+
+        <!-- Grand Total -->
+        <div class="rmucsc-card-panel result">
+            <span class="rmucsc-total-label">{{localize "RMU_CS.Common.TotalBonus"}}</span>
+            <span class="rmucsc-total-value">{{signed total}}</span>
+        </div>
+
+        <!-- Roll Button -->
+        <div class="rmucsc-roll-footer">
+            <button type="button" class="rmucsc-btn rmu-roll-skill-button">
+                {{localize "RMU_CS.Chat.RollBonus" bonus=(signed modifiersTotal)}}
+            </button>
+        </div>
+
+    </div>
+</div>
