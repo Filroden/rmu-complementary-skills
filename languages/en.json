@@ -203,5 +203,8 @@
 
     "RMU_CS.Ritual.PrimarySkillBonus": "{name} Base Bonus ({skill})",
     "RMU_CS.Ritual.CompRitualSkill": "Complementary Ritual Ranks",
-    "RMU_CS.Ritual.CompAdditionalSkill": "Additional Skill Ranks"
+    "RMU_CS.Ritual.CompAdditionalSkill": "Additional Skill Ranks",
+
+    "RMU_CS.Ritual.ModifiersTotal": "Additional Modifiers",
+    "RMU_CS.Ritual.ModifiersBreakdown": "Modifiers Breakdown"
 }

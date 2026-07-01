@@ -14,6 +14,9 @@ export class RitualCalculator {
     static calculateTotalRitualBonus(ritualState, participants) {
         const result = {
             total: 0,
+            primaryBonus: 0,
+            primarySkillLabel: "",
+            modifiersTotal: 0,
             breakdown: [],
             totalPP: 0,
             totalHitDice: 0,
@@ -45,6 +48,7 @@ export class RitualCalculator {
      */
     static #addBreakdown(label, bonus, result, forceDisplay = false) {
         if (bonus === 0 && !forceDisplay) return;
+        result.modifiersTotal += bonus;
         result.total += bonus;
         result.breakdown.push({ label, bonus });
     }
@@ -283,12 +287,13 @@ export class RitualCalculator {
         const primary = participants.find((p) => p.ritualData?.role === "primary");
         if (!primary) return;
 
-        // 1. Primary Caster's Base Ritual Skill Bonus
+        // 1. Primary Caster's Base Ritual Skill Bonus (Isolated from Modifiers)
         if (primary.ritualData.ritualSkillUuid) {
             const primaryRitualSkill = primary.allSkills.find((s) => s.uuid === primary.ritualData.ritualSkillUuid);
             if (primaryRitualSkill) {
-                const label = game.i18n.format("RMU_CS.Ritual.PrimarySkillBonus", { name: primary.name, skill: primaryRitualSkill.name });
-                this.#addBreakdown(label, primaryRitualSkill.bonus, result);
+                result.primarySkillLabel = game.i18n.format("RMU_CS.Ritual.PrimarySkillBonus", { name: primary.name, skill: primaryRitualSkill.name });
+                result.primaryBonus = primaryRitualSkill.bonus;
+                result.total += primaryRitualSkill.bonus;
             }
         }
 

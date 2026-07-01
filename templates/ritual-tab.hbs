@@ -306,24 +306,39 @@
             <fieldset class="rmucsc-fieldset">
                 <legend>{{localize "RMU_CS.Common.Calculation"}}</legend>
 
-                <div class="rmu-output-box rmucsc-scrollable stable">
+                <div class="rmu-output-box">
+                    
+                    <!-- Top-Level Summary -->
+                    <div class="rmu-output-row">
+                        <span>{{#if calculation.primarySkillLabel}}{{calculation.primarySkillLabel}}{{else}}{{localize "RMU_CS.Boost.PrimarySkill"}}{{/if}}:</span>
+                        <span class="rmu-output-value">{{#if (gte calculation.primaryBonus 0)}}+{{/if}}{{calculation.primaryBonus}}</span>
+                    </div>
+                    <div class="rmu-output-row">
+                        <span>{{localize "RMU_CS.Ritual.ModifiersTotal"}}:</span>
+                        <span class="rmu-output-value">{{#if (gte calculation.modifiersTotal 0)}}+{{/if}}{{calculation.modifiersTotal}}</span>
+                    </div>
+                    <div class="rmu-output-row rmu-output-total">
+                        <span>{{localize "RMU_CS.Common.TotalBonus"}}:</span>
+                        <span class="rmu-output-value">{{#if (gte calculation.total 0)}}+{{/if}}{{calculation.total}}</span>
+                    </div>
+
+                    <!-- Scrollable Breakdown of Modifiers -->
                     {{#if calculation.breakdown.length}}
-                        {{#each calculation.breakdown}}
-                        <div class="rmu-output-row">
-                            <span>{{label}}:</span>
-                            <span class="rmu-output-value">{{#if (gte bonus 0)}}+{{/if}}{{bonus}}</span>
-                        </div>
-                        {{/each}}
+                    <div class="rmu-output-breakdown rmucsc-scrollable stable">
+                        <span class="rmu-notes">{{localize "RMU_CS.Ritual.ModifiersBreakdown"}}</span>
+                        <ul>
+                            {{#each calculation.breakdown}}
+                            <li>
+                                <strong>{{#if (gte bonus 0)}}+{{/if}}{{bonus}}</strong> ({{label}})
+                            </li>
+                            {{/each}}
+                        </ul>
+                    </div>
                     {{else}}
-                        <p class="rmu-notes rmucsc-empty-notes">
+                        <p class="rmu-notes rmucsc-empty-notes" style="margin-block-start: var(--filroden-space-m);">
                             {{localize "RMU_CS.Ritual.NoModifiers"}}
                         </p>
                     {{/if}}
-                </div>
-
-                <div class="rmu-output-row rmu-output-total rmucsc-scrollable stable">
-                    <span>{{localize "RMU_CS.Common.TotalBonus"}}:</span>
-                    <span class="rmu-output-value">{{#if (gte calculation.total 0)}}+{{/if}}{{calculation.total}}</span>
                 </div>
 
             </fieldset>

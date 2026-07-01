@@ -1,4 +1,6 @@
 import { RMUSkillParser, RMUActorParser } from "./RMUTokenParser.js";
+import { BoostCalculator } from "./utils/BoostCalculator.js";
+import { GroupCalculator } from "./utils/GroupCalculator.js";
 import { RitualCalculator } from "./utils/RitualCalculator.js";
 import { VALID_ACTOR_TYPES, RITUAL_OPTIONS } from "./config.js";
 
@@ -278,7 +280,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                 primaryActorSkills: this.calcState.primaryActorSkills,
                 otherParticipants: participants.filter((p) => p.id !== this.calcState.primaryActorId),
                 otherActorSkills: this.calcState.otherActorSkills,
-                calculation: this.#calculateBoostBonus(allPrimarySkills),
+                calculation: BoostCalculator.calculate(this.calcState, this.participants, allPrimarySkills),
             };
         }
 
@@ -317,7 +319,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                 leaderId: this.calcState.leaderId,
                 allSkillOptions: RMUSkillParser.groupSkills(Array.from(skillMap.values()).sort(RMUSkillParser.sortSkills)),
                 taskSkillName: this.calcState.taskSkillName,
-                calculation: this.#calculateGroupBonus(),
+                calculation: GroupCalculator.calculate(this.calcState, this.participants),
             };
         }
 
@@ -712,89 +714,6 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
     }
 
     /* ----------------------------------------- */
-    /* Calculation Logic                         */
-    /* ----------------------------------------- */
-
-    #calculateBoostBonus(allPrimarySkills) {
-        const primaryActor = this.participants.get(this.calcState.primaryActorId);
-        if (!primaryActor) return {};
-
-        const primarySkill = allPrimarySkills.find((s) => s.uuid === this.calcState.primarySkillUuid);
-        const primaryBonus = primarySkill?.bonus || 0;
-
-        let complementRanks = [];
-
-        // Gather primary actor's complementary skills
-        for (const skill of this.calcState.primaryActorSkills) {
-            if (skill.ranks > 0) {
-                complementRanks.push({
-                    name: game.i18n.format("RMU_CS.Boost.BreakdownNameFormat", { actorName: primaryActor.name, skillName: skill.name }),
-                    ranks: skill.ranks,
-                });
-            }
-        }
-
-        // Gather other participants' complementary skills
-        for (const [actorId, skillUuid] of Object.entries(this.calcState.otherActorSkills)) {
-            const participant = this.participants.get(actorId);
-            if (participant?.enabled && skillUuid) {
-                const skillData = participant.allSkills.find((s) => s.uuid === skillUuid);
-                if (skillData && skillData.ranks > 0) {
-                    complementRanks.push({
-                        name: game.i18n.format("RMU_CS.Boost.BreakdownNameFormat", { actorName: participant.name, skillName: skillData.name }),
-                        ranks: skillData.ranks,
-                    });
-                }
-            }
-        }
-
-        // Apply diminishing returns algorithm
-        complementRanks.sort((a, b) => b.ranks - a.ranks);
-        let complementBonus = 0;
-        const breakdown = [];
-
-        complementRanks.forEach((item, index) => {
-            const bonus = index === 0 ? item.ranks : Math.floor(item.ranks / Math.pow(2, index));
-            complementBonus += bonus;
-            breakdown.push({ ...item, bonus: bonus });
-        });
-
-        return {
-            primaryBonus: primaryBonus,
-            complementBonus: complementBonus,
-            total: primaryBonus + complementBonus,
-            breakdown: breakdown,
-        };
-    }
-
-    #calculateGroupBonus() {
-        const participants = Array.from(this.participants.values()).filter((p) => p.enabled);
-        if (participants.length === 0) return {};
-
-        let totalBonus = 0;
-        const participantBonuses = [];
-
-        for (const p of participants) {
-            const bonus = p.bonusForSelectedSkill || 0;
-            totalBonus += bonus;
-            participantBonuses.push({ name: p.name, bonus: bonus });
-        }
-
-        const averageBonus = participants.length > 0 ? totalBonus / participants.length : 0;
-        const leader = this.participants.get(this.calcState.leaderId);
-        const leadershipBonus = leader?.enabled ? leader.leadershipRanks : 0;
-
-        return {
-            taskSkillName: this.calcState.taskSkillName,
-            participants: participantBonuses,
-            averageBonus: Math.round(averageBonus),
-            leadershipBonus: leadershipBonus,
-            leaderName: leader?.name || game.i18n.localize("RMU_CS.Group.LeaderNone"),
-            total: Math.round(averageBonus) + leadershipBonus,
-        };
-    }
-
-    /* ----------------------------------------- */
     /* Chat Logic                                */
     /* ----------------------------------------- */
 
@@ -809,7 +728,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             .map(RMUSkillParser.getSkillData)
             .filter((sk) => !sk.disabledBySystem);
 
-        const calc = this.#calculateBoostBonus(allPrimarySkills);
+        const calc = BoostCalculator.calculate(this.calcState, this.participants, allPrimarySkills);
         const content = await foundry.applications.handlebars.renderTemplate("modules/rmu-complementary-skills/templates/chat-boost-skill.hbs", {
             primaryActorName: primaryActor.name,
             primarySkillName: this.calcState.primarySkillName,
@@ -844,7 +763,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             return;
         }
 
-        const calc = this.#calculateGroupBonus();
+        const calc = GroupCalculator.calculate(this.calcState, this.participants);
         const leaderRaw = RMUSkillParser.getBestSkillMatch(leader.actor, this.calcState.taskSkillName);
         const leaderData = leaderRaw ? RMUSkillParser.getSkillData(leaderRaw) : null;
         const leaderSkillUuid = leaderData ? leaderData.uuid : this.calcState.taskSkillUuid;
