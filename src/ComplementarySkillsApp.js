@@ -111,6 +111,8 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             addRitualSpell: ComplementarySkillsApp.#addRitualSpell,
             removeSpell: ComplementarySkillsApp.#removeSpell,
             removeParticipant: ComplementarySkillsApp.#removeParticipant,
+            incrementParameter: ComplementarySkillsApp.#incrementParameter,
+            decrementParameter: ComplementarySkillsApp.#decrementParameter,
         },
     };
 
@@ -368,12 +370,16 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             const enabledParticipants = ritualParticipants.filter((p) => p.enabled);
             const calculation = RitualCalculator.calculateTotalRitualBonus(this.calcState.ritualState, enabledParticipants);
 
+            // Filter the target duration options to logically exclude steps lower than the base
+            const filteredDurationSteps = RITUAL_OPTIONS.durationSteps.filter((step) => step.value >= this.calcState.ritualState.paramDurBase);
+
             // Return the full context to the Handlebars template
             return {
                 ...context,
                 targetSpells: this.calcState.ritualState.targetSpells,
                 ritualParticipants: ritualParticipants,
                 ritualOptions: RITUAL_OPTIONS,
+                filteredDurationSteps: filteredDurationSteps,
                 ritualState: this.calcState.ritualState,
                 calculation: calculation,
             };
@@ -482,6 +488,20 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         delete this.calcState.ritualParticipantData[id];
         this._enforceDeterministicPrimaryCaster();
         this.render({ force: true });
+    }
+
+    static #incrementParameter(event, target) {
+        const paramName = target.dataset.target;
+        this.calcState.ritualState[paramName]++;
+        this.render({ parts: ["ritual"] });
+    }
+
+    static #decrementParameter(event, target) {
+        const paramName = target.dataset.target;
+        if (this.calcState.ritualState[paramName] > 0) {
+            this.calcState.ritualState[paramName]--;
+            this.render({ parts: ["ritual"] });
+        }
     }
 
     /**
@@ -622,6 +642,12 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
 
         if (globalNames.includes(target.name)) {
             ritualState[target.name] = Number.parseInt(target.value, 10) || 0;
+
+            // Enforce duration logic: Target cannot be lower than Base
+            if (target.name === "paramDurBase" && ritualState.paramDurTarget < ritualState.paramDurBase) {
+                ritualState.paramDurTarget = ritualState.paramDurBase;
+            }
+
             return this.render({ parts: ["ritual"] });
         }
 

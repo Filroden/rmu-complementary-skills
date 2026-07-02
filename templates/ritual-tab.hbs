@@ -71,7 +71,7 @@
                     <div class="rmucsc-ritual-row-wrapper">
                         <!-- Tier 1: Core Mechanics -->
                         <div class="rmucsc-ritual-row">
-                            <input type="checkbox" class="rmucsc-participant-enable" data-id="{{id}}" {{checked enabled}}/>
+                            <input type="checkbox" class="rmucsc-checkbox rmucsc-participant-enable" data-id="{{id}}" {{checked enabled}}/>
                             
                             <select class="rmucsc-ritual-role-select" data-id="{{id}}" {{disabled (not enabled)}}>
                                 {{#each ../ritualOptions.roles}}
@@ -230,25 +230,37 @@
                         <div class="form-group">
                             <label>{{localize "RMU_CS.Ritual.ParamWeight"}}</label>
                             <div class="form-fields">
-                                <input type="number" name="paramWeight" value="{{ritualState.paramWeight}}" min="0" data-tooltip="{{localize 'RMU_CS.Ritual.ParamDoublings'}}" data-tooltip-class="rmucsc-tooltip" />
+                                <div class="rmucsc-stepper">
+                                    <button type="button" class="rmucsc-btn rmucsc-icon-button" data-action="decrementParameter" data-target="paramWeight">&minus;</button>
+                                    <input type="number" name="paramWeight" value="{{ritualState.paramWeight}}" readonly tabindex="-1" data-tooltip="{{localize 'RMU_CS.Ritual.ParamDoublings'}}" data-tooltip-class="rmucsc-tooltip" />
+                                    <button type="button" class="rmucsc-btn rmucsc-icon-button" data-action="incrementParameter" data-target="paramWeight">&plus;</button>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>{{localize "RMU_CS.Ritual.ParamAoE"}}</label>
                             <div class="form-fields">
-                                <input type="number" name="paramAoE" value="{{ritualState.paramAoE}}" min="0" data-tooltip="{{localize 'RMU_CS.Ritual.ParamDoublings'}}" data-tooltip-class="rmucsc-tooltip" />
+                                <div class="rmucsc-stepper">
+                                    <button type="button" class="rmucsc-btn rmucsc-icon-button" data-action="decrementParameter" data-target="paramAoE">&minus;</button>
+                                    <input type="number" name="paramAoE" value="{{ritualState.paramAoE}}" readonly tabindex="-1" data-tooltip="{{localize 'RMU_CS.Ritual.ParamDoublings'}}" data-tooltip-class="rmucsc-tooltip" />
+                                    <button type="button" class="rmucsc-btn rmucsc-icon-button" data-action="incrementParameter" data-target="paramAoE">&plus;</button>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>{{localize "RMU_CS.Ritual.ParamRange"}}</label>
                             <div class="form-fields">
-                                <input type="number" name="paramRange" value="{{ritualState.paramRange}}" min="0" data-tooltip="{{localize 'RMU_CS.Ritual.ParamDoublings'}}" data-tooltip-class="rmucsc-tooltip" />
+                                <div class="rmucsc-stepper">
+                                    <button type="button" class="rmucsc-btn rmucsc-icon-button" data-action="decrementParameter" data-target="paramRange">&minus;</button>
+                                    <input type="number" name="paramRange" value="{{ritualState.paramRange}}" readonly tabindex="-1" data-tooltip="{{localize 'RMU_CS.Ritual.ParamDoublings'}}" data-tooltip-class="rmucsc-tooltip" />
+                                    <button type="button" class="rmucsc-btn rmucsc-icon-button" data-action="incrementParameter" data-target="paramRange">&plus;</button>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>{{localize "RMU_CS.Ritual.ParamDecreaseAoE"}}</label>
                             <div class="form-fields">
-                                <input type="number" name="paramCrit" value="{{ritualState.paramCrit}}" min="0" />
+                                <input type="checkbox" name="paramDecreaseAoE" class="rmucsc-checkbox" {{checked ritualState.paramDecreaseAoE}} />
                             </div>
                         </div>
 
@@ -256,7 +268,11 @@
                         <div class="form-group rmucsc-section-divider">
                             <label>{{localize "RMU_CS.Ritual.ParamCrit"}}</label>
                             <div class="form-fields">
-                                <input type="number" name="paramCrit" value="{{ritualState.paramCrit}}" min="0" title="{{localize 'RMU_CS.Ritual.ParamCritSteps'}}" />
+                                <div class="rmucsc-stepper">
+                                    <button type="button" class="rmucsc-btn rmucsc-icon-button" data-action="decrementParameter" data-target="paramCrit">&minus;</button>
+                                    <input type="number" name="paramCrit" value="{{ritualState.paramCrit}}" readonly tabindex="-1" data-tooltip="{{localize 'RMU_CS.Ritual.ParamCritSteps'}}" data-tooltip-class="rmucsc-tooltip" />
+                                    <button type="button" class="rmucsc-btn rmucsc-icon-button" data-action="incrementParameter" data-target="paramCrit">&plus;</button>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -271,29 +287,31 @@
                         </div>
 
                         <!-- Temporal (Duration) -->
-                        <div class="form-group rmucsc-section-divider">
+                        <div class="rmucsc-stacked-group rmucsc-section-divider">
                             <label>{{localize "RMU_CS.Ritual.ParamDurSpecial"}}</label>
-                            <div class="form-fields rmucsc-checkbox-group">
-                                <label><input type="checkbox" name="paramDurNoToRound" class="rmucsc-checkbox" {{checked ritualState.paramDurNoToRound}} /> {{localize "RMU_CS.Ritual.DurNoToRound"}} (-50)</label>
-                                <label><input type="checkbox" name="paramDurConcToRndLvl" class="rmucsc-checkbox" {{checked ritualState.paramDurConcToRndLvl}} /> {{localize "RMU_CS.Ritual.DurConcToRndLvl"}} (-20)</label>
-                                <label><input type="checkbox" name="paramDurRemoveConc" class="rmucsc-checkbox" {{checked ritualState.paramDurRemoveConc}} /> {{localize "RMU_CS.Ritual.DurRemoveConc"}} (-25)</label>
+                            <div class="rmucsc-flex-row" style="flex-wrap: wrap; gap: var(--filroden-space-m);">
+                                <label class="rmucsc-checkbox-label"><input type="checkbox" class="rmucsc-checkbox" name="paramDurNoToRound" class="rmucsc-checkbox" {{checked ritualState.paramDurNoToRound}} /> {{localize "RMU_CS.Ritual.DurNoToRound"}} (-50)</label>
+                                <label class="rmucsc-checkbox-label"><input type="checkbox" class="rmucsc-checkbox" name="paramDurConcToRndLvl" class="rmucsc-checkbox" {{checked ritualState.paramDurConcToRndLvl}} /> {{localize "RMU_CS.Ritual.DurConcToRndLvl"}} (-20)</label>
+                                <label class="rmucsc-checkbox-label"><input type="checkbox" class="rmucsc-checkbox" name="paramDurRemoveConc" class="rmucsc-checkbox" {{checked ritualState.paramDurRemoveConc}} /> {{localize "RMU_CS.Ritual.DurRemoveConc"}} (-25)</label>
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <label>{{localize "RMU_CS.Ritual.ParamDurSteps"}}</label>
-                            <div class="form-fields rmucsc-inline-fields">
-                                <select name="paramDurBase">
-                                    {{#each ritualOptions.durationSteps}}
-                                        <option value="{{this.value}}" {{rmucsSelected (eq ../ritualState.paramDurBase this.value)}}>{{localize this.label}}</option>
-                                    {{/each}}
-                                </select>
-                                <span>➞</span>
-                                <select name="paramDurTarget">
-                                    {{#each ritualOptions.durationSteps}}
-                                        <option value="{{this.value}}" {{rmucsSelected (eq ../ritualState.paramDurTarget this.value)}}>{{localize this.label}}</option>
-                                    {{/each}}
-                                </select>
+                            <div class="form-fields">
+                                <div class="rmucsc-inline-fields">
+                                    <select name="paramDurBase">
+                                        {{#each ritualOptions.durationSteps}}
+                                            <option value="{{this.value}}" {{rmucsSelected (eq ../ritualState.paramDurBase this.value)}}>{{localize this.label}}</option>
+                                        {{/each}}
+                                    </select>
+                                    <span>➞</span>
+                                    <select name="paramDurTarget">
+                                        {{#each filteredDurationSteps}}
+                                            <option value="{{this.value}}" {{rmucsSelected (eq ../ritualState.paramDurTarget this.value)}}>{{localize this.label}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
@@ -325,7 +343,7 @@
                     {{#if calculation.breakdown.length}}
                     <details class="rmucsc-collapsible-section rmucsc-output-breakdown" data-section="breakdown" {{#if ritualState.detailsState.breakdown}}open{{/if}}>
                         <summary class="rmucsc-notes">{{localize "RMU_CS.Ritual.ModifiersBreakdown"}}</summary>
-                        <div class="rmucsc-collapsible-content rmucsc-scrollable rmucsc-10vh-scrollable stable">
+                        <div class="rmucsc-collapsible-content rmucsc-column-layout">
                             <ul>
                                 {{#each calculation.breakdown}}
                                 <li>

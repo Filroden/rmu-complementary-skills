@@ -65,9 +65,19 @@
             <span class="rmucsc-total-value">{{signed total}}</span>
         </div>
 
-        <!-- Roll Button -->
+        <!-- Roll Button & Crit Selection -->
         <div class="rmucsc-roll-footer">
-            <button type="button" class="rmucsc-btn rmucsc-roll-skill-button">
+            {{#if hasCritSacrifice}}
+                <select class="rmucsc-crit-type-select">
+                    {{#each critTypes}}
+                        <option value="{{this.value}}" {{#if isDefault}}selected{{/if}}>
+                            {{localize this.label}}
+                        </option>
+                    {{/each}}
+                </select>
+            {{/if}}
+
+            <button type="button" class="rmucsc-roll-skill-button">
                 {{localize "RMU_CS.Chat.RollBonus" bonus=(signed modifiersTotal)}}
             </button>
         </div>

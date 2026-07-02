@@ -5,7 +5,8 @@
    feel across all applications.
 =================================================================== */
 
-:root {
+:root,
+.rmucsc-chat-card {
 
     --filroden-version: 2.2;
 

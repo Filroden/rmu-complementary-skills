@@ -67,7 +67,7 @@
     "RMU_CS.Notifications.SelectOne": "Please select at least one character or creature token to use the Complementary Skills calculator.",
     "RMU_CS.Notifications.SelectPrimary": "Please select a Primary Skill first.",
 
-    "RMU_CS.Launcher.RitualTitle": "Magic Ritual",
+    "RMU_CS.Launcher.RitualTitle": "Magical Ritual",
 
     "RMU_CS.Notifications.SelectTask": "Please select a Task Skill first.",
 
@@ -162,7 +162,7 @@
     "RMU_CS.Ritual.ParamAoE": "Increase Area of Effect (-20/ea)",
     "RMU_CS.Ritual.ParamRange": "Increase Range (-15/ea)",
     "RMU_CS.Ritual.ParamDoublings": "Enter the number of times this parameter is doubled.",
-    "RMU_CS.Ritual.ParamDecreaseAoE": "Decrease Area of Effect (-10 Max)",
+    "RMU_CS.Ritual.ParamDecreaseAoE": "Decrease Area of Effect (-10)",
 
     "RMU_CS.Ritual.ParamCrit": "Alter Critical Severity (-30/ea)",
     "RMU_CS.Ritual.ParamCritSteps": "Enter the number of severity steps altered (e.g., A to B is 1).",
@@ -214,5 +214,22 @@
     "RMU_CS.Ritual.CostsSummary": "Costs & Sacrifices",
     "RMU_CS.Ritual.CostPP": "-{val} power points",
     "RMU_CS.Ritual.CostHP": "{val}d10 hit points",
-    "RMU_CS.Ritual.CostCrit": "Type {type} Puncture critical"
+    "RMU_CS.Ritual.CostCrit": "Type {type} critical",
+
+    "RMU_CS.Ritual.BloodCritsAcid": "Acid",
+    "RMU_CS.Ritual.BloodCritsCold": "Cold",
+    "RMU_CS.Ritual.BloodCritsElectricity": "Electricity",
+    "RMU_CS.Ritual.BloodCritsGrapple": "Grapple",
+    "RMU_CS.Ritual.BloodCritsHeat": "Heat",
+    "RMU_CS.Ritual.BloodCritsHoly": "Holy",
+    "RMU_CS.Ritual.BloodCritsImpact": "Impact",
+    "RMU_CS.Ritual.BloodCritsKrush": "Crush",
+    "RMU_CS.Ritual.BloodCritsPuncture": "Puncture",
+    "RMU_CS.Ritual.BloodCritsSlash": "Slash",
+    "RMU_CS.Ritual.BloodCritsSteam": "Steam",
+    "RMU_CS.Ritual.BloodCritsStrikes": "Strikes",
+    "RMU_CS.Ritual.BloodCritsSweeps": "Sweeps",
+    "RMU_CS.Ritual.BloodCritsSubdual": "Subdual",
+    "RMU_CS.Ritual.BloodCritsUnbalance": "Unbalance",
+    "RMU_CS.Ritual.BloodSacrificeRoll": "Blood Sacrifice"
 }

@@ -127,7 +127,11 @@ export class RitualCalculator {
         paramTotal += ritualState.paramWeight * WEIGHT_PENALTY;
         paramTotal += ritualState.paramAoE * AOE_PENALTY;
         paramTotal += ritualState.paramRange * RANGE_PENALTY;
-        if (ritualState.paramDecreaseAoE) paramTotal += DECREASE_AOE_PENALTY;
+
+        // Evaluate as a flat boolean modifier
+        if (ritualState.paramDecreaseAoE) {
+            paramTotal += DECREASE_AOE_PENALTY;
+        }
 
         paramTotal += ritualState.paramCrit * CRIT_PENALTY;
         if (ritualState.paramHitMult > 0) paramTotal += ritualState.paramHitMult * HIT_MULT_PENALTY;

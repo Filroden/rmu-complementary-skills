@@ -33,7 +33,7 @@
                 </div>
                 {{#each participants}}
                 <div class="rmucsc-participant-row">
-                    <input type="checkbox" class="rmucsc-participant-enable" data-id="{{id}}" {{checked enabled}} />
+                    <input type="checkbox" class="rmucsc-checkbox rmucsc-participant-enable" data-id="{{id}}" {{checked enabled}} />
                     <input type="radio" class="rmucsc-leader-select" name="leader" value="{{id}}" {{checked (eq id ../leaderId)}} {{disabled (not enabled)}} />
                     <label>{{name}}</label>
                     <span class="rmucsc-participant-ranks">{{leadershipRanks}}</span>

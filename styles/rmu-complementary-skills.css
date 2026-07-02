@@ -206,17 +206,21 @@
     line-height: var(--filroden-line-height-body);
 }
 
-.rmucsc select {
+.rmucsc select,
+.rmucsc-roll-footer select {
     width: 100%;
     text-overflow: ellipsis;
 }
 
 .rmucsc select,
-.rmucsc select::picker(select) {
+.rmucsc select::picker(select),
+.rmucsc-roll-footer select,
+.rmucsc-roll-footer select::picker(select) {
     appearance: base-select;
 }
 
-.rmucsc select::picker(select) {
+.rmucsc select::picker(select),
+.rmucsc-roll-footer select::picker(select) {
     position-area: top;
     margin-block-end: var(--filroden-space-xs);
     border: 1px solid var(--filroden-color-text-accent);
@@ -225,14 +229,17 @@
     scrollbar-color: var(--filroden-color-text-accent) var(--filroden-color-bg-darkest);
 }
 
-.rmucsc option {
+.rmucsc option,
+.rmucsc-roll-footer option {
     background: var(--filroden-color-bg-medium-solid);
     color: var(--filroden-color-text-main-solid);
     padding: var(--filroden-space-xs) var(--filroden-space-s);
 }
 
 .rmucsc option:hover,
-.rmucsc option:focus {
+.rmucsc option:focus,
+.rmucsc-roll-footer option:hover,
+.rmucsc-roll-footer option:focus {
     background: var(--filroden-color-text-accent);
     color: var(--filroden-color-text-on-accent);
     outline: none;
@@ -403,6 +410,19 @@
     margin-block-end: var(--filroden-space-m);
 }
 
+.rmucsc .rmucsc-stacked-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--filroden-space-s);
+}
+
+.rmucsc .rmucsc-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: var(--filroden-space-xs);
+    white-space: normal;
+}
+
 
 /* --- SEMANTIC TEXT & STATES --- */
 /* Helper text below inputs or headers */
@@ -438,6 +458,9 @@
     margin-block: var(--filroden-space-m);
 }
 
+.rmucsc-danger {
+    color: var(--filroden-color-danger);
+}
 
 /* --- BADGES & PILLS --- */
 .rmucsc .rmucsc-badge {
@@ -872,14 +895,11 @@ button.control.tool.rmucsc-skill-button-icon::before {
 .rmucsc .rmucsc-collapsible-content {
     padding: var(--filroden-space-m);
     border-block-start: var(--filroden-border-main);
-    display: flex;
-    flex-direction: column;
     gap: var(--filroden-space-m);
 }
 
-.rmucsc .rmucsc-10vh-scrollable {
-    overflow-y: auto;
-    max-height: 10vh;
+.rmucsc .rmucsc-column-layout {
+    column-width: 12rem;
 }
 
 /* =====================================
@@ -1023,6 +1043,11 @@ button.control.tool.rmucsc-skill-button-icon::before {
     align-items: center;
 }
 
+.rmucsc .rmucsc-inline-fields select {
+    width: max-content;
+    flex: 0 0 auto;
+}
+
 .rmucsc .rmucsc-checkbox-note {
     margin-inline-start: var(--filroden-space-xs);
 }
@@ -1083,17 +1108,33 @@ button.control.tool.rmucsc-skill-button-icon::before {
     cursor: pointer;
 }
 
-/* Ensures the native triangle marker sits neatly next to your header text */
-.rmucsc-chat-card details.rmucsc-chat-details summary.rmucsc-panel-header {
-    display: list-item; 
-    border-block-end: none; /* Prevents the border splitting the details content */
+/* --- STEPPER COMPONENTS --- */
+.rmucsc .rmucsc-stepper {
+    display: flex;
+    align-items: center;
+    gap: var(--filroden-space-xs);
 }
 
-/* Restores the border to the open state */
-.rmucsc-chat-card details.rmucsc-chat-details[open] summary.rmucsc-panel-header {
-    border-block-end: var(--filroden-border-main);
-    padding-block-end: var(--filroden-space-xs);
-    margin-block-end: var(--filroden-space-xs);
+.rmucsc .rmucsc-stepper input[type="number"] {
+    width: 4ch;
+    text-align: center;
+    cursor: default;
+    /* Hide native spinner arrows */
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.rmucsc .rmucsc-stepper input[type="number"]::-webkit-outer-spin-button,
+.rmucsc .rmucsc-stepper input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Enhancing the button text for + and - */
+.rmucsc .rmucsc-stepper .rmucsc-icon-button {
+    font-size: var(--filroden-font-size-l);
+    font-weight: bold;
+    padding-block-end: 2px; /* Vertically centers HTML math symbols cleanly */
 }
 
 /* =====================================
@@ -1139,6 +1180,7 @@ button.control.tool.rmucsc-skill-button-icon::before {
     align-items: center;
     justify-content: center;
     margin: var(--filroden-space-xs);
+    padding-block: var(--filroden-space-l);
 }
 
 .rmucsc-chat-card .rmucsc-card-sidebar span {
@@ -1253,7 +1295,10 @@ button.control.tool.rmucsc-skill-button-icon::before {
 
 .rmucsc-chat-card .rmucsc-roll-footer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--filroden-space-m);
+    margin-inline: var(--filroden-space-xs);
 }
 
 .rmucsc-chat-card .rmucsc-roll-skill-button {
@@ -1265,7 +1310,7 @@ button.control.tool.rmucsc-skill-button-icon::before {
     margin: var(--filroden-space-xs);
     padding: var(--filroden-space-xs) var(--filroden-space-l);  
     font-size: var(--filroden-font-size-xs);
-    line-height: 1.2;
+    width: 66%;
     cursor: pointer;
     transition: background-color 0.1s, border-color 0.1s, color 0.1s;
 }
@@ -1282,4 +1327,35 @@ button.control.tool.rmucsc-skill-button-icon::before {
     color: var(--filroden-color-text-muted-solid);
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+.rmucsc-chat-card .rmucsc-crit-type-select {
+    background-color: var(--filroden-color-bg-light-solid);
+    color: var(--filroden-color-text-main-solid);
+    padding: 0 var(--filroden-space-s);
+    min-height: var(--filroden-font-size-xl);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Ensures the native triangle marker sits neatly next to your header text */
+.rmucsc-chat-card details.rmucsc-chat-details summary.rmucsc-panel-header {
+    display: list-item; 
+    border-block-end: none; /* Prevents the border splitting the details content */
+}
+
+/* Restores the border to the open state */
+.rmucsc-chat-card details.rmucsc-chat-details[open] summary.rmucsc-panel-header {
+    border-block-end: var(--filroden-border-main);
+    padding-block-end: var(--filroden-space-xs);
+    margin-block-end: var(--filroden-space-xs);
+}
+
+.message-delete {
+    color: var(--filroden-color-danger);
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.message-delete:hover {
+    opacity: 1;
 }
