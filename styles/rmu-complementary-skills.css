@@ -411,6 +411,11 @@
 }
 
 .rmucsc .rmucsc-stacked-group {
+    border: var(--filroden-border-main);
+    padding: var(--filroden-space-m);
+    margin-block-start: var(--filroden-space-m);
+    border-radius: var(--filroden-radius-small);
+
     display: flex;
     flex-direction: column;
     gap: var(--filroden-space-s);
@@ -548,7 +553,7 @@ button.control.tool.rmucsc-skill-button-icon::before {
 */
 
 .rmucsc {
-    min-width: 40rem;
+    min-width: 45rem;
 }
 
 .rmucsc,
@@ -614,6 +619,7 @@ button.control.tool.rmucsc-skill-button-icon::before {
 
 /* Tab Content Areas */
 .rmucsc-tab-content {
+    min-width: 45rem;
     grid-column: 1;
     grid-row: 2;
     display: none;
@@ -638,12 +644,14 @@ button.control.tool.rmucsc-skill-button-icon::before {
     transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out, padding 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
+    white-space: nowrap;
 }
 
 .rmucsc-side-panel.open {
     width: 18.75rem; /* 300px */
     opacity: 1;
     padding: var(--filroden-space-m);
+    white-space: normal;
 }
 
 .rmucsc-side-panel-header {
@@ -702,13 +710,14 @@ button.control.tool.rmucsc-skill-button-icon::before {
 
 .rmucsc #boost-skill-participants .rmucsc-participant-row {
     display: grid;
-    grid-template-columns: 3.75rem 3.75rem 1fr 5rem; 
+    grid-template-columns: 3.75rem 3.75rem 1fr 5rem 2rem;
     align-items: center;
     gap: var(--filroden-space-m);
 }
+
 .rmucsc #group-task-participants .rmucsc-participant-row {
     display: grid;
-    grid-template-columns: 3.75rem 3.75rem 1fr 5rem 5rem;
+    grid-template-columns: 3.75rem 3.75rem 1fr 5rem 5rem 2rem;
     align-items: center;
     gap: var(--filroden-space-m);
 }
@@ -804,6 +813,11 @@ button.control.tool.rmucsc-skill-button-icon::before {
     margin-block-start: var(--filroden-space-m);
     margin-block-end: var(--filroden-space-m);
     border-block-start: var(--filroden-border-main);
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--filroden-space-xs);
 }
 
 .rmucsc .rmucsc-output-breakdown .rmucsc-notes {
@@ -1137,6 +1151,28 @@ button.control.tool.rmucsc-skill-button-icon::before {
     padding-block-end: 2px; /* Vertically centers HTML math symbols cleanly */
 }
 
+/* --- Legend Actions --- */
+.rmucsc .rmucsc-fieldset .rmucsc-legend-with-action {
+    display: flex;
+    align-items: center;
+}
+
+.rmucsc .rmucsc-legend-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--filroden-color-text-muted-solid);
+    transition: color 0.1s, text-shadow 0.1s;
+    margin-inline: var(--filroden-space-s);
+    border: 1px solid var(--filroden-color-border);
+}
+
+.rmucsc .rmucsc-legend-action:hover {
+    color: var(--filroden-color-text-accent);
+    text-shadow: 0 0 5px var(--filroden-color-text-accent);
+}
+
 /* =====================================
    --- CHAT CARD STYLES ---
    ===================================== */
@@ -1295,13 +1331,14 @@ button.control.tool.rmucsc-skill-button-icon::before {
 
 .rmucsc-chat-card .rmucsc-roll-footer {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
     gap: var(--filroden-space-m);
-    margin-inline: var(--filroden-space-xs);
+    margin-block-start: var(--filroden-space-m);
+    width: 100%;
 }
 
-.rmucsc-chat-card .rmucsc-roll-skill-button {
+.rmucsc-chat-card .rmucsc-roll-skill-button,
+.rmucsc-chat-card .rmucsc-apply-sacrifices-button {
     background: var(--filroden-color-bg-light-solid);
     border: var(--filroden-border-main);
     border-radius: var(--filroden-radius-small);
@@ -1315,13 +1352,15 @@ button.control.tool.rmucsc-skill-button-icon::before {
     transition: background-color 0.1s, border-color 0.1s, color 0.1s;
 }
 
-.rmucsc-chat-card .rmucsc-roll-skill-button:hover {
+.rmucsc-chat-card .rmucsc-roll-skill-button:hover,
+.rmucsc-chat-card .rmucsc-apply-sacrifices-button:hover {
     background: var(--filroden-color-bg-hover-solid);
     border-color: var(--filroden-color-text-accent);
     color: var(--filroden-color-text-main-solid);
 }
 
-.rmucsc-chat-card .rmucsc-roll-skill-button:disabled {
+.rmucsc-chat-card .rmucsc-roll-skill-button:disabled,
+.rmucsc-chat-card .rmucsc-apply-sacrifices-button:disabled {
     background: var(--filroden-color-bg-medium-solid);
     border-color: var(--filroden-border-main);
     color: var(--filroden-color-text-muted-solid);
@@ -1332,9 +1371,25 @@ button.control.tool.rmucsc-skill-button-icon::before {
 .rmucsc-chat-card .rmucsc-crit-type-select {
     background-color: var(--filroden-color-bg-light-solid);
     color: var(--filroden-color-text-main-solid);
-    padding: 0 var(--filroden-space-s);
+    padding: var(--filroden-space-s);
     min-height: var(--filroden-font-size-xl);
+    width: 100%;
     transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.rmucsc-chat-card .rmucsc-footer-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: var(--filroden-space-m);
+    width: 100%;
+}
+
+.rmucsc-chat-card .rmucsc-footer-buttons button {
+    flex: 1;
+    text-align: center;
+    justify-content: center;
 }
 
 /* Ensures the native triangle marker sits neatly next to your header text */

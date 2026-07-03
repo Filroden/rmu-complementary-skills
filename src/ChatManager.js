@@ -210,18 +210,23 @@ export class ChatManager {
             $html.addClass("rtl");
         }
 
-        const $button = $html.find(".rmucsc-roll-skill-button");
-        if ($button.length === 0) return;
+        const $rollButton = $html.find(".rmucsc-roll-skill-button");
+        const $applyButton = $html.find(".rmucsc-apply-sacrifices-button");
 
-        // Unpack the new sacrifices array
-        const { rollType, actorId, skillUuid, bonus, hasCritSacrifice, sacrifices } = flags;
+        if ($rollButton.length === 0) return;
 
-        $button.on("click", async (ev) => {
-            let selectedCritType = null;
-            if (hasCritSacrifice) {
-                selectedCritType = $(ev.currentTarget).closest(".rmucsc-chat-card").find(".rmucsc-crit-type-select").val();
-            }
+        // Unpack the flags, including our new sacrificesApplied state
+        const { rollType, actorId, skillUuid, bonus, hasCritSacrifice, sacrifices, sacrificesApplied } = flags;
 
+        // If the sacrifices were already applied in a previous session, disable the UI
+        if (sacrificesApplied) {
+            $applyButton.prop("disabled", true);
+            $applyButton.html(`<i class="rmucsc-icon check"></i> ${game.i18n.localize("RMU_CS.Ritual.Applied")}`); // Optional visual change
+            $html.find(".rmucsc-crit-type-select").prop("disabled", true);
+        }
+
+        // --- 1. SKILL ROLL HANDLER ---
+        $rollButton.on("click", async (ev) => {
             const token = canvas.tokens.ownedTokens.find((t) => t.actor?.id === actorId);
 
             if (!token?.actor) {
@@ -236,7 +241,6 @@ export class ChatManager {
                 return;
             }
 
-            // --- 1. EXECUTE PRIMARY SKILL ROLL ---
             try {
                 const maneuverOptions = {};
                 if (rollType === "boost" || rollType === "ritual") {
@@ -249,18 +253,26 @@ export class ChatManager {
                     await game.system.api.rmuTokenSkillAction(token, skillObject, maneuverOptions);
                 } else {
                     ui.notifications.error(game.i18n.localize("RMU_CS.Notifications.ApiNotFound"));
-                    return; // Abort sacrifices if the skill roll API isn't found
                 }
             } catch (error) {
                 console.error("RMU COMP SKILLS | Execution failed for primary skill roll:", error);
-                return; // Abort sacrifices if the primary roll throws an error
+            }
+        });
+
+        // --- 2. SACRIFICE HANDLER ---
+        $applyButton.on("click", async (ev) => {
+            // Instantly disable the button on click to prevent accidental double-clicks
+            $applyButton.prop("disabled", true);
+            $html.find(".rmucsc-crit-type-select").prop("disabled", true);
+
+            let selectedCritType = null;
+            if (hasCritSacrifice) {
+                selectedCritType = $html.find(".rmucsc-crit-type-select").val();
             }
 
-            // --- 2. RESOLVE PARTICIPANT SACRIFICES ---
             if (rollType === "ritual" && sacrifices?.length) {
                 for (const sac of sacrifices) {
                     try {
-                        // Safe retrieval supporting both unlinked tokens and global actors
                         const participantToken = canvas.tokens.ownedTokens.find((t) => t.actor?.id === sac.actorId);
                         const participantActor = participantToken?.actor || game.actors.get(sac.actorId);
 
@@ -268,7 +280,6 @@ export class ChatManager {
 
                         const tokenIntent = participantToken || participantActor.id;
 
-                        // Object to hold the execution results for the custom chat card
                         const summaryData = {
                             participantName: participantActor.name,
                             pp: sac.pp > 0 ? sac.pp : null,
@@ -290,12 +301,10 @@ export class ChatManager {
                         if (sac.hpDice > 0) {
                             const roll = new Roll(`${sac.hpDice}d10`);
                             await roll.evaluate();
-
-                            const hpDamage = roll.total;
-                            summaryData.hp = hpDamage; // Store the result for the chat card
+                            summaryData.hp = roll.total;
 
                             if (game.system?.api?.rmuMacroAdjustHitPoints) {
-                                await game.system.api.rmuMacroAdjustHitPoints(tokenIntent, -hpDamage);
+                                await game.system.api.rmuMacroAdjustHitPoints(tokenIntent, -summaryData.hp);
                             } else {
                                 console.warn("RMU COMP SKILLS | rmuMacroAdjustHitPoints API not found.");
                             }
@@ -305,8 +314,7 @@ export class ChatManager {
                         if (sac.critSeverity > 0 && selectedCritType) {
                             const critObj = RITUAL_OPTIONS.bloodCrits.find((c) => c.value === sac.critSeverity);
                             const severityLetter = critObj?.label || "";
-
-                            summaryData.crit = `${selectedCritType} (${severityLetter})`; // Store the result for the chat card
+                            summaryData.crit = `${selectedCritType} (${severityLetter})`;
 
                             if (game.system?.api?.rmuMacroTargetCritical) {
                                 await game.system.api.rmuMacroTargetCritical(tokenIntent, {
@@ -316,14 +324,14 @@ export class ChatManager {
                                     extraHits: 0,
                                     location: "none",
                                     bonus: 0,
-                                    prompt: false, // Bypasses the dialog UI
+                                    prompt: false,
                                 });
                             } else {
                                 console.warn("RMU COMP SKILLS | rmuMacroTargetCritical API not found.");
                             }
                         }
 
-                        // 4. Dispatch the Custom Result Card
+                        // 4. Dispatch Custom Chat Card
                         if (summaryData.pp || summaryData.hp || summaryData.crit) {
                             const content = await foundry.applications.handlebars.renderTemplate("modules/rmu-complementary-skills/templates/chat-sacrifice.hbs", summaryData);
 
@@ -331,15 +339,13 @@ export class ChatManager {
                                 speaker: ChatMessage.getSpeaker({ actor: participantActor }),
                                 content: content,
                                 flags: {
-                                    "rmu-complementary-skills": {
-                                        isCalc: true, // Triggers the CSS styling and RTL logic in hook
-                                    },
+                                    "rmu-complementary-skills": { isCalc: true },
                                 },
                                 whisper: ChatMessage.getWhisperRecipients("GM")
                                     .map((u) => u.id)
                                     .concat(
                                         Object.entries(participantActor.ownership)
-                                            .filter(([_, level]) => level >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)
+                                            .filter(([id, level]) => id !== "default" && level >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)
                                             .map(([id, _]) => id),
                                     ),
                             });
@@ -349,6 +355,12 @@ export class ChatManager {
                         ui.notifications.error(`Failed to process sacrifices for one or more participants. Check console.`);
                     }
                 }
+
+                // 5. Save the state to the message flag so it persists permanently
+                await message.setFlag("rmu-complementary-skills", "sacrificesApplied", true);
+
+                // Update the button text to show completion
+                $applyButton.html(`<i class="rmucsc-icon check"></i> ${game.i18n.localize("RMU_CS.Ritual.Applied")}`);
             }
         });
     }
@@ -363,12 +375,16 @@ export class ChatManager {
         for (const p of Array.from(participants.values()).filter((p) => p.enabled)) {
             if (!p.actor) continue;
             for (const [userId, level] of Object.entries(p.actor.ownership)) {
-                if (level >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
+                // Skip the "default" key to avoid pushing a 7-character string
+                if (userId !== "default" && level >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
                     ownerIds.push(userId);
                 }
             }
         }
-        const gmUsers = ChatMessage.getWhisperRecipients("GM");
+
+        // Map the array of User objects to an array of 16-character ID strings
+        const gmUsers = ChatMessage.getWhisperRecipients("GM").map((u) => u.id);
+
         return Array.from(new Set([...ownerIds, ...gmUsers]));
     }
 }

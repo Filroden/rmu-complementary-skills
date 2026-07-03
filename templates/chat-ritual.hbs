@@ -68,18 +68,26 @@
         <!-- Roll Button & Crit Selection -->
         <div class="rmucsc-roll-footer">
             {{#if hasCritSacrifice}}
-                <select class="rmucsc-crit-type-select">
-                    {{#each critTypes}}
-                        <option value="{{this.value}}" {{#if isDefault}}selected{{/if}}>
-                            {{localize this.label}}
-                        </option>
-                    {{/each}}
-                </select>
+            <select class="rmucsc-crit-type-select">
+                {{#each critTypes}}
+                    <option value="{{this.value}}" {{#if isDefault}}selected{{/if}}>
+                        {{localize this.label}}
+                    </option>
+                {{/each}}
+            </select>
             {{/if}}
+            
+            <div class="rmucsc-footer-buttons">
+                {{#if costsBreakdown.length}}
+                <button type="button" class="rmucsc-apply-sacrifices-button danger">
+                    <i class="rmucsc-icon ritual"></i> {{localize "RMU_CS.Ritual.ApplySacrifices"}}
+                </button>
+                {{/if}}
 
-            <button type="button" class="rmucsc-roll-skill-button">
-                {{localize "RMU_CS.Chat.RollBonus" bonus=(signed modifiersTotal)}}
-            </button>
+                <button type="button" class="rmucsc-roll-skill-button">
+                    {{localize "RMU_CS.Chat.RollBonus" bonus=(signed modifiersTotal)}}
+                </button>
+            </div>
         </div>
 
     </div>

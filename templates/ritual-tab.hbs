@@ -4,7 +4,12 @@
 
             <!-- Target Spell Details -->
             <fieldset class="rmucsc-fieldset">
-                <legend>{{localize "RMU_CS.Ritual.SpellDetails"}}</legend>
+                <legend class="rmucsc-legend-with-action">
+                    <span>{{localize "RMU_CS.Ritual.SpellDetails"}}</span>
+                    <a class="rmucsc-legend-action" data-action="addRitualSpell" data-tooltip="{{localize 'RMU_CS.Ritual.AddSpell'}}" data-tooltip-class="rmucsc-tooltip">
+                        <i class="rmucsc-icon add"></i>
+                    </a>
+                </legend>
                 
                 <div class="rmucsc-spell-list" id="ritual-spells">
                     <div class="rmucsc-spell-row rmucsc-participant-header">
@@ -44,17 +49,17 @@
                         <span></span>
                     </div>
                 </div>
-                
-                <div class="rmucsc-add-wrapper">
-                    <button type="button" class="rmucsc-btn" data-action="addRitualSpell">
-                        <i class="rmucsc-icon add"></i> {{localize "RMU_CS.Ritual.AddSpell"}}
-                    </button>
-                </div>
+
             </fieldset>
 
             <!-- Participants -->
             <fieldset class="rmucsc-fieldset">
-                <legend>{{localize "RMU_CS.Ritual.Participants"}}</legend>
+                <legend class="rmucsc-legend-with-action">
+                    <span>{{localize "RMU_CS.Ritual.Participants"}}</span>
+                    <a class="rmucsc-legend-action" data-action="toggleSidePanel" data-tooltip="{{localize 'RMU_CS.Common.AddParticipant'}}" data-tooltip-class="rmucsc-tooltip">
+                        <i class="rmucsc-icon add"></i>
+                    </a>
+                </legend>
                 
                 <div class="rmucsc-participant-list" id="ritual-participants">
                     <div class="rmucsc-ritual-row rmucsc-participant-header">
@@ -148,13 +153,7 @@
                             </div>
                         {{/each}}
                 </div>
-                
-                <div class="rmucsc-add-wrapper">
-                    <button type="button" class="rmucsc-btn" data-action="toggleSidePanel">
-                        <i class="rmucsc-icon add"></i> {{localize "RMU_CS.Common.AddParticipant"}}
-                    </button>
-                </div>
-                
+
             </fieldset>
 
             <!-- Modifiers -->

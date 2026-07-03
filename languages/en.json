@@ -231,5 +231,10 @@
     "RMU_CS.Ritual.BloodCritsSweeps": "Sweeps",
     "RMU_CS.Ritual.BloodCritsSubdual": "Subdual",
     "RMU_CS.Ritual.BloodCritsUnbalance": "Unbalance",
-    "RMU_CS.Ritual.BloodSacrificeRoll": "Blood Sacrifice"
+    "RMU_CS.Ritual.BloodSacrificeRoll": "Blood Sacrifice",
+    "RMU_CS.Ritual.ApplySacrifices": "Apply Sacrifices",
+    "RMU_CS.Ritual.Applied": "Sacrifices Applied",
+    "RMU_CS.Common.Cancel": "Cancel",
+
+    "RMU_CS.Common.NoSkillsSelected": "No skills have been selected yet. Use the 'Add Skill' button to add a skill from the primary participant."
 }

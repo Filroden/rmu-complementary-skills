@@ -523,6 +523,9 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                 // Toggle visibility via CSS classes
                 $(this.element).find(".rmucsc-tab-content").removeClass("active");
                 $(this.element).find(`.rmucsc-tab-content[data-tab="${this.calcState.activeTab}"]`).addClass("active");
+
+                // Recalculate the height based on the new tab
+                this.setPosition({ height: "auto" });
             });
         }
 

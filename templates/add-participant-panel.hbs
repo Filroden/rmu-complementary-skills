@@ -1,21 +1,33 @@
 <div class="rmucsc-side-panel {{#if sidePanelOpen}}open{{/if}}">
-  <div class="rmucsc-side-panel-header">{{localize "RMU_CS.AddDialog.Title"}}</div>
-  {{#if availableTokens.length}}
+    <div class="rmucsc-side-panel-header">
+        {{localize "RMU_CS.AddDialog.Title"}}
+    </div>
+
+    {{#if availableTokens.length}}
     <p class="rmucsc-notes">{{localize "RMU_CS.AddDialog.Select"}}</p>
     <div class="rmucsc-add-list">
-      {{#each availableTokens}}
-        <div class="form-group">
-          <input type="checkbox" data-action="toggleCandidate" value="{{id}}" id="add-{{id}}"/>
-          <label for="add-{{id}}">{{name}}</label>
-        </div>
-      {{/each}}
+        {{#each availableTokens}}
+            <div class="form-group">
+                <input type="checkbox" data-action="toggleCandidate" value="{{id}}" id="add-{{id}}"/>
+                <label for="add-{{id}}">{{name}}</label>
+            </div>
+        {{/each}}
     </div>
-    <div class="rmucsc-add-wrapper" style="margin-block-start: auto;">
-      <button type="button" class="rmucsc-btn" data-action="confirmAddParticipants">
-        <i class="rmucsc-icon add"></i> {{localize "RMU_CS.Common.Add"}}
-      </button>
+    {{else}}
+    <p class="rmucsc-notes rmucsc-empty-notes" style="text-align: center; margin-block-start: var(--filroden-space-l);">
+        {{localize "RMU_CS.Common.NoTokensAvailable"}}
+    </p>
+    {{/if}}
+
+    <div class="rmucsc-flex-row" style="justify-content: flex-end; gap: var(--filroden-space-m); margin-block-start: var(--filroden-space-m);">
+        <button type="button" class="rmucsc-btn" data-action="toggleSidePanel">
+            {{localize "RMU_CS.Common.Cancel"}}
+        </button>
+        
+        {{#if availableTokens.length}}
+        <button type="button" class="rmucsc-btn" data-action="confirmAddParticipants">
+            {{localize "RMU_CS.Common.Add"}}
+        </button>
+        {{/if}}
     </div>
-  {{else}}
-    <p class="rmucsc-notes">{{localize "RMU_CS.AddDialog.NoTokens"}}</p>
-  {{/if}}
 </div>
