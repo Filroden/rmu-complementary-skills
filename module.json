@@ -5,13 +5,14 @@
     "version": "1.2.0",
     "compatibility": { "minimum": "13", "verified": "14", "maximum": "14" },
     "relationships": {
-        "systems": [{ "id": "rmu", "type": "system", "compatibility": { "minimum": "1.2.78" } }]
+        "systems": [{ "id": "rmu", "type": "system", "compatibility": { "minimum": "1.2.88" } }]
     },
     "authors": [{ "name": "Ken Dearman" }],
     "esmodules": ["main.js"],
     "styles": ["styles/filroden-theme.css", "styles/rmu-complementary-skills.css"],
     "languages": [
         { "lang": "en", "name": "English", "path": "languages/en.json" },
+        { "lang": "en", "name": "English (GB)", "path": "languages/en.gb.json" },
         { "lang": "fr", "name": "Français", "path": "languages/fr.json" },
         { "lang": "sv", "name": "Svenska", "path": "languages/sv.json" }
     ],
