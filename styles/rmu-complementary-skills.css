@@ -155,6 +155,25 @@
     color: var(--filroden-color-text-main-solid);
 }
 
+.rmucsc button:disabled,
+.rmucsc .rmucsc-btn:disabled,
+.rmucsc .rmucsc-icon-button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    background: var(--filroden-color-bg-medium-solid);
+    border-color: var(--filroden-color-border);
+    color: var(--filroden-color-text-muted-solid);
+    box-shadow: none;
+}
+
+.rmucsc button:disabled:hover,
+.rmucsc .rmucsc-btn:disabled:hover,
+.rmucsc .rmucsc-icon-button:disabled:hover {
+    background: var(--filroden-color-bg-medium-solid);
+    border-color: var(--filroden-color-border);
+    color: var(--filroden-color-text-muted-solid);
+}
+
 
 /* --- INPUTS AND SELECTS --- */
 .rmucsc input[type="text"],
@@ -381,6 +400,7 @@
     gap: var(--filroden-space-xs);
     display: flex;
     flex-direction: column;
+    max-width: 45rem;
 }
 
 .rmucsc fieldset.rmucsc-fieldset legend {
@@ -437,6 +457,11 @@
     color: var(--filroden-color-text-muted-solid);
     margin-block-start: var(--filroden-space-xxs);
     line-height: var(--filroden-line-height-body);
+}
+
+.rmucsc .rmucsc-notes.rmucsc-long {
+    text-align: start;
+    margin-block-end: var(--filroden-space-m);
 }
 
 /* Empty or missing data states */
@@ -554,6 +579,7 @@ button.control.tool.rmucsc-skill-button-icon::before {
 
 .rmucsc {
     min-width: 45rem;
+    max-height: 85vh;
 }
 
 .rmucsc,
@@ -624,12 +650,18 @@ button.control.tool.rmucsc-skill-button-icon::before {
     grid-row: 2;
     display: none;
     flex-direction: column;
-    overflow-y: auto;
+    overflow-y: hidden;
     padding: var(--filroden-space-m);
 }
 
 .rmucsc-tab-content.active {
     display: flex;
+}
+
+.rmucsc-calc-wrapper {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
 }
 
 /* Side Panel for Adding Participants */
@@ -1034,7 +1066,6 @@ button.control.tool.rmucsc-skill-button-icon::before {
 
 /* --- Target Spell Grid Specifics --- */
 .rmucsc .rmucsc-spell-total-label {
-    grid-column: 3 / 6;
     text-transform: uppercase;
     color: var(--filroden-color-text-accent);
 }
@@ -1171,6 +1202,41 @@ button.control.tool.rmucsc-skill-button-icon::before {
 .rmucsc .rmucsc-legend-action:hover {
     color: var(--filroden-color-text-accent);
     text-shadow: 0 0 5px var(--filroden-color-text-accent);
+}
+
+/* =====================================
+   --- ENDURANCE WORKFLOW STYLES ---
+   ===================================== */
+
+.rmucsc .rmucsc-endurance-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) repeat(var(--columns), 1fr);
+    gap: var(--filroden-space-xxs);
+    align-items: center;
+}
+
+.rmucsc .rmucsc-endurance-grid .rmucsc-grid-header {
+    font-weight: bold;
+    font-size: var(--filroden-font-size-xs);
+    color: var(--filroden-color-text-muted-solid);
+    border-block-end: var(--filroden-border-main);
+    padding-block-end: var(--filroden-space-xs);
+    text-align: center;
+}
+
+.rmucsc .rmucsc-endurance-grid .rmucsc-grid-header:first-child {
+    text-align: start;
+}
+
+.rmucsc .rmucsc-endurance-grid .rmucsc-grid-cell.rmucsc-participant-name {
+    display: flex;
+    flex-direction: column;
+    text-transform: capitalize;
+}
+
+.rmucsc .rmucsc-endurance-grid .rmucsc-grid-cell.rmucsc-roll-cell {
+    display: flex;
+    justify-content: center;
 }
 
 /* =====================================

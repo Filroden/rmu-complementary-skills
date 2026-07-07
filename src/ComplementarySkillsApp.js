@@ -54,6 +54,13 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                     breakdown: false,
                 },
 
+                // Endurance Workflow State
+                enduranceGrid: [],
+                enduranceHeaders: [],
+                enduranceColumns: 0,
+                endurancePrimaryFailed: false,
+                endurancePending: false,
+
                 investingTime: 0,
                 auspiciousTime: 0,
                 auspiciousLocation: 0,
@@ -113,6 +120,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             removeParticipant: ComplementarySkillsApp.#removeParticipant,
             incrementParameter: ComplementarySkillsApp.#incrementParameter,
             decrementParameter: ComplementarySkillsApp.#decrementParameter,
+            rollEndurance: ComplementarySkillsApp.#rollEndurance,
         },
     };
 
@@ -135,7 +143,6 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         for (const id of this.tokenIds) {
             if (this.participants.has(id)) continue;
 
-            // Always look up the token instance on the canvas to support synthetic/unlinked actors
             const token = canvas.tokens.placeables.find((t) => t.id === id);
             if (!token?.actor) continue;
 
@@ -152,6 +159,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                 id: token.id,
                 name: token.name,
                 actor: token.actor,
+                token: token,
                 enabled: true,
                 leadershipRanks: leadershipRanks,
                 attributes: attributes,
@@ -159,7 +167,6 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                 allSkillsGrouped: RMUSkillParser.groupSkills(skillsWithRanks),
             });
 
-            // Initialise ritual data if it does not exist
             if (!this.calcState.ritualParticipantData[id]) {
                 this.calcState.ritualParticipantData[id] = this.#getDefaultRitualData();
             }
@@ -167,16 +174,13 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
 
         this._enforceDeterministicLeader();
         this._enforceDeterministicPrimaryCaster();
+        this.#updateEnduranceGrid();
         this._isHydrating = false;
     }
 
-    /**
-     * Generates the default ritual data schema for a new participant.
-     * @returns {object} Default ritual data state.
-     */
     #getDefaultRitualData() {
         return {
-            role: "minor", // Defaults to minor to prevent accidental Primary assignment
+            role: "minor",
             ritualSkillUuid: null,
             additionalSkillUuid: null,
             ppContributed: 0,
@@ -185,10 +189,6 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         };
     }
 
-    /**
-     * Calculates the group leader. If there is a tie in Leadership ranks,
-     * it deterministically breaks the tie using the alphanumeric token ID.
-     */
     _enforceDeterministicLeader() {
         const enabledParticipants = Array.from(this.participants.values()).filter((p) => p.enabled);
         if (enabledParticipants.length === 0) return;
@@ -196,31 +196,24 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         const bestLeader = enabledParticipants.reduce((prev, current) => {
             if (current.leadershipRanks > prev.leadershipRanks) return current;
             if (current.leadershipRanks === prev.leadershipRanks) {
-                // Alphanumeric tie-breaker ensures identical client/server resolution
                 return current.id.localeCompare(prev.id) > 0 ? current : prev;
             }
             return prev;
-        }, enabledParticipants[0]); // Explicit initial value added here
+        }, enabledParticipants[0]);
 
         if (!this.calcState.leaderId || !this.participants.get(this.calcState.leaderId)?.enabled) {
             this.calcState.leaderId = bestLeader.id;
         }
     }
 
-    /**
-     * Guarantees exactly one enabled participant is assigned the "primary" role.
-     * Auto-assigns the highest level participant if none exists, using ID as a tie-breaker.
-     * Demotes any duplicate primaries to "major".
-     */
     _enforceDeterministicPrimaryCaster() {
         const enabledParticipants = Array.from(this.participants.values()).filter((p) => p.enabled);
         if (enabledParticipants.length === 0) return;
 
         const primaries = enabledParticipants.filter((p) => this.calcState.ritualParticipantData[p.id]?.role === "primary");
 
-        if (primaries.length === 1) return; // Exactly one primary, state is valid.
+        if (primaries.length === 1) return;
 
-        // Determine the best candidate (either from the duplicates, or from all if none exist)
         const pool = primaries.length > 1 ? primaries : enabledParticipants;
         const bestCandidate = pool.reduce((prev, current) => {
             if (current.attributes.level > prev.attributes.level) return current;
@@ -228,9 +221,8 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                 return current.id.localeCompare(prev.id) > 0 ? current : prev;
             }
             return prev;
-        }, pool[0]); // Explicit initial value added here
+        }, pool[0]);
 
-        // Enforce the singleton primary rule
         for (const p of enabledParticipants) {
             const data = this.calcState.ritualParticipantData[p.id];
             if (p.id === bestCandidate.id) {
@@ -241,6 +233,166 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         }
     }
 
+    /* ----------------------------------------- */
+    /* Endurance Workflow Logic                  */
+    /* ----------------------------------------- */
+
+    /**
+     * Rebuilds the endurance grid structure based on the current time and participants.
+     * Preserves already-rolled results if the grid shrinks or grows.
+     */
+    #updateEnduranceGrid() {
+        const selectedTimeValue = this.calcState.ritualState.investingTime;
+
+        // Dynamically accumulate objects containing time, difficulty, and localisation keys
+        const requiredRolls = [];
+        for (const option of RITUAL_OPTIONS.investingTime) {
+            if (option.endurance && option.endurance.length > 0) {
+                // We assume one roll is added per time step based on the config structure
+                requiredRolls.push({
+                    timeLabel: option.label,
+                    difficulty: option.endurance[0],
+                    difficultyLabel: option.enduranceLabel,
+                });
+            }
+            if (option.value === selectedTimeValue) break;
+        }
+
+        const oldGrid = this.calcState.ritualState.enduranceGrid;
+
+        const activeParticipants = Array.from(this.participants.values())
+            .filter((p) => p.enabled && ["primary", "major"].includes(this.calcState.ritualParticipantData[p.id].role))
+            .sort((a, b) => {
+                const roleA = this.calcState.ritualParticipantData[a.id].role;
+                const roleB = this.calcState.ritualParticipantData[b.id].role;
+                if (roleA === "primary" && roleB !== "primary") return -1;
+                if (roleA !== "primary" && roleB === "primary") return 1;
+                return a.name.localeCompare(b.name);
+            });
+
+        if (requiredRolls.length === 0 || activeParticipants.length === 0) {
+            this.calcState.ritualState.enduranceGrid = [];
+            this.calcState.ritualState.enduranceHeaders = [];
+            this.calcState.ritualState.enduranceColumns = 0;
+            this.calcState.ritualState.endurancePending = false;
+            return;
+        }
+
+        const newGrid = activeParticipants.map((p) => {
+            const oldRow = oldGrid.find((row) => row.participantId === p.id);
+            const role = this.calcState.ritualParticipantData[p.id].role;
+            const failed = oldRow ? oldRow.failed : false;
+            const roleOption = RITUAL_OPTIONS.roles.find((r) => r.value === role);
+            const roleLabel = roleOption ? roleOption.label : role;
+
+            const rolls = requiredRolls.map((rollDef, index) => {
+                const oldRoll = oldRow?.rolls[index];
+                return {
+                    difficulty: rollDef.difficulty,
+                    difficultyLabel: rollDef.difficultyLabel,
+                    state: oldRoll ? oldRoll.state : "locked",
+                    result: oldRoll ? oldRoll.result : null,
+                };
+            });
+
+            return { participantId: p.id, name: p.name, role, roleLabel, failed, rolls };
+        });
+
+        this.calcState.ritualState.enduranceGrid = newGrid;
+        this.calcState.ritualState.enduranceHeaders = requiredRolls.map((r) => r.timeLabel);
+        this.calcState.ritualState.enduranceColumns = requiredRolls.length;
+
+        this.#refreshEnduranceLocks();
+    }
+
+    /**
+     * Sweeps the grid down the columns, then across the rows, to find the
+     * next logical action and lock/unlock buttons accordingly.
+     */
+    #refreshEnduranceLocks() {
+        const grid = this.calcState.ritualState.enduranceGrid;
+        const numCols = this.calcState.ritualState.enduranceColumns;
+        const numRows = grid.length;
+        let nextRollFound = false;
+        let pending = false;
+
+        this.calcState.ritualState.endurancePrimaryFailed = grid.some((r) => r.role === "primary" && r.failed);
+
+        for (let col = 0; col < numCols; col++) {
+            for (let row = 0; row < numRows; row++) {
+                const cell = grid[row].rolls[col];
+
+                if (cell.state === "rolled") continue; // Already processed
+
+                // If the Primary Caster has failed, lock everything remaining
+                if (this.calcState.ritualState.endurancePrimaryFailed) {
+                    cell.state = "locked";
+                    continue;
+                }
+
+                // If this specific participant has already failed a previous check, lock their subsequent checks
+                if (grid[row].failed) {
+                    cell.state = "locked";
+                    continue;
+                }
+
+                // The first unrolled, valid cell we find is the active one
+                if (nextRollFound) {
+                    cell.state = "locked";
+                    pending = true;
+                } else {
+                    cell.state = "ready";
+                    nextRollFound = true;
+                    pending = true;
+                }
+            }
+        }
+
+        this.calcState.ritualState.endurancePending = pending;
+    }
+
+    static async #rollEndurance(event, target) {
+        const participantId = target.dataset.participantId;
+        const rollIndex = Number.parseInt(target.dataset.rollIndex, 10);
+
+        const participant = this.participants.get(participantId);
+        const gridRow = this.calcState.ritualState.enduranceGrid.find((r) => r.participantId === participantId);
+        const cell = gridRow.rolls[rollIndex];
+
+        if (!participant?.token) return;
+
+        // Ensure we disable the grid momentarily while the API handles the roll
+        cell.state = "locked";
+        this.render({ parts: ["ritual"] });
+
+        try {
+            // Await the API execution with the dialog bypass
+            const result = await game.system.api.rmuMacroSkillAction(participant.token, "Endurance", "", { prompt: false });
+
+            if (result) {
+                cell.state = "rolled";
+                cell.result = result.decision; // e.g., "Success", "Absolute Failure"
+
+                if (!result.decision.includes("Success")) {
+                    gridRow.failed = true;
+                }
+            } else {
+                // Failsafe if the API aborts or returns null
+                cell.state = "ready";
+            }
+        } catch (error) {
+            console.error("RMU Complementary Skills | Error executing Endurance API:", error);
+            cell.state = "ready"; // Unlock on error so the GM is not permanently stuck
+        }
+
+        this.#refreshEnduranceLocks();
+        this.render({ parts: ["ritual"] });
+    }
+
+    /* ----------------------------------------- */
+    /* Context Preparation                       */
+    /* ----------------------------------------- */
+
     async _prepareContext(options) {
         await this._hydrateParticipants();
         return {
@@ -249,13 +401,6 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         };
     }
 
-    /**
-     * Prepares the specific data context for each UI part before rendering.
-     * @param {string} partId - The ID of the part being rendered.
-     * @param {object} context - The base context object.
-     * @param {object} options - Rendering options.
-     * @returns {Promise<object>} The enriched context object.
-     */
     async _preparePartContext(partId, context, options) {
         if (partId === "sidePanel") {
             const allTokens = canvas.tokens.placeables;
@@ -267,7 +412,6 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             const participants = Array.from(this.participants.values()).filter((p) => p.enabled);
             if (participants.length === 0) return { ...context, participants: [] };
 
-            // Ensure the primary actor is valid and enabled; otherwise, reset to the first available.
             if (!this.calcState.primaryActorId || !this.participants.get(this.calcState.primaryActorId)?.enabled) {
                 this.calcState.primaryActorId = participants[0]?.id || null;
                 this.calcState.primarySkillUuid = null;
@@ -277,7 +421,6 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
 
             const primaryActor = this.participants.get(this.calcState.primaryActorId);
 
-            // Fetch all skills for the primary actor, including those with 0 ranks.
             const allPrimarySkills = primaryActor?.actor
                 ? RMUSkillParser._getAllActorSkills(primaryActor.actor)
                       .map(RMUSkillParser.getSkillData)
@@ -285,7 +428,6 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                       .sort(RMUSkillParser.sortSkills)
                 : [];
 
-            // Update the display bonus for the selected skill across all participants.
             for (const p of this.participants.values()) {
                 const pSkills = p.actor ? RMUSkillParser._getAllActorSkills(p.actor).map(RMUSkillParser.getSkillData) : [];
                 const skill = pSkills.find((s) => s.name === this.calcState.primarySkillName);
@@ -308,12 +450,10 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         }
 
         if (partId === "group") {
-            // Verify the leader is still enabled; recalculate if not.
             if (!this.participants.get(this.calcState.leaderId)?.enabled) {
                 this._enforceDeterministicLeader();
             }
 
-            // Create a unified list of all available skills from all participants for the dropdown.
             const skillMap = new Map();
             for (const p of this.participants.values()) {
                 const allRawSkills = RMUSkillParser._getAllActorSkills(p.actor);
@@ -325,7 +465,6 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                 }
             }
 
-            // Calculate the specific bonus for the chosen task skill for each participant.
             for (const p of this.participants.values()) {
                 if (!this.calcState.taskSkillName) {
                     p.bonusForSelectedSkill = 0;
@@ -347,15 +486,21 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         }
 
         if (partId === "ritual") {
-            // Map the participants and isolate their ritual-specific data
             const ritualParticipants = Array.from(this.participants.values()).map((p) => {
-                // Identify specifically ritualistic skills
                 const ritualSkills = p.allSkills.filter((sk) => {
                     const search = (sk.name + " " + sk.category).toLowerCase();
                     return search.includes("magical ritual");
                 });
 
-                const ritualData = this.calcState.ritualParticipantData[p.id];
+                const ritualData = foundry.utils.deepClone(this.calcState.ritualParticipantData[p.id]);
+
+                // If a Major participant has failed their endurance roll,
+                // silently strip their skill inputs before sending them to the calculator.
+                const gridData = this.calcState.ritualState.enduranceGrid.find((row) => row.participantId === p.id);
+                if (gridData?.failed) {
+                    ritualData.ritualSkillUuid = null;
+                    ritualData.additionalSkillUuid = null;
+                }
 
                 return {
                     ...p,
@@ -366,14 +511,11 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                 };
             });
 
-            // Calculate the math (This is the crucial step that was missing!)
             const enabledParticipants = ritualParticipants.filter((p) => p.enabled);
             const calculation = RitualCalculator.calculateTotalRitualBonus(this.calcState.ritualState, enabledParticipants);
 
-            // Filter the target duration options to logically exclude steps lower than the base
             const filteredDurationSteps = RITUAL_OPTIONS.durationSteps.filter((step) => step.value >= this.calcState.ritualState.paramDurBase);
 
-            // Return the full context to the Handlebars template
             return {
                 ...context,
                 targetSpells: this.calcState.ritualState.targetSpells,
@@ -388,15 +530,8 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         return context;
     }
 
-    /**
-     * Fires after the application has finished rendering.
-     * Injects RTL support for specific languages.
-     * @param {object} context - The rendered context.
-     * @param {object} options - Rendering options.
-     */
     _onRender(context, options) {
         super._onRender(context, options);
-
         const rtlLanguages = ["ar", "he", "fa", "ur"];
         if (rtlLanguages.includes(game.i18n.lang)) {
             this.element.setAttribute("dir", "rtl");
@@ -405,26 +540,23 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
     }
 
     /* ----------------------------------------- */
-    /* Action Handlers                          */
+    /* Action Handlers                           */
     /* ----------------------------------------- */
 
     static #toggleSidePanel(event, target) {
         this.calcState.sidePanelOpen = !this.calcState.sidePanelOpen;
 
-        // Check if the user has manually resized the window
         if (typeof this.position.width === "number") {
-            const panelWidthPx = 300; // 18.75rem = 300px
+            const panelWidthPx = 300;
             const isRTL = this.element.classList.contains("rtl");
 
             let newWidth = this.position.width;
             let newLeft = this.position.left;
 
             if (this.calcState.sidePanelOpen) {
-                // Opening: Expand width. If RTL, push the left anchor backwards to grow leftwards.
                 newWidth += panelWidthPx;
                 if (isRTL && newLeft !== null) newLeft -= panelWidthPx;
             } else {
-                // Closing: Shrink width. If RTL, pull the left anchor forwards.
                 newWidth -= panelWidthPx;
                 if (isRTL && newLeft !== null) newLeft += panelWidthPx;
             }
@@ -432,7 +564,6 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             this.setPosition({ width: newWidth, left: newLeft });
         }
 
-        // Only re-render the side panel part to animate it smoothly
         this.render({ parts: ["sidePanel"] });
     }
 
@@ -449,7 +580,6 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         this.calcState.candidatesToAdd.clear();
         this.calcState.sidePanelOpen = false;
 
-        // Hydrate the new tokens, then trigger a full UI refresh
         await this._hydrateParticipants();
         this.render({ force: true });
     }
@@ -473,8 +603,9 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         this.calcState.ritualState.totalSpellLevel = totalLevel;
         this.calcState.ritualState.totalBasePPCost = totalLevel;
     }
+
     static #removeSpell(event, target) {
-        if (this.calcState.ritualState.targetSpells.length <= 1) return; // Always keep one row
+        if (this.calcState.ritualState.targetSpells.length <= 1) return;
         const id = target.dataset.id;
         this.calcState.ritualState.targetSpells = this.calcState.ritualState.targetSpells.filter((s) => s.id !== id);
         this.#updateRitualTotals();
@@ -486,7 +617,9 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         this.participants.delete(id);
         this.tokenIds.delete(id);
         delete this.calcState.ritualParticipantData[id];
+
         this._enforceDeterministicPrimaryCaster();
+        this.#updateEnduranceGrid();
         this.render({ force: true });
     }
 
@@ -504,12 +637,6 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         }
     }
 
-    /**
-     * Attaches event listeners to the rendered HTML of a specific part.
-     * @param {string} partId - The ID of the part being rendered.
-     * @param {HTMLElement} htmlElement - The root element of the rendered part.
-     * @param {object} options - Rendering options.
-     */
     _attachPartListeners(partId, htmlElement, options) {
         super._attachPartListeners(partId, htmlElement, options);
         const $html = $(htmlElement);
@@ -520,11 +647,9 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                 $html.find(".item").removeClass("active");
                 $(ev.currentTarget).addClass("active");
 
-                // Toggle visibility via CSS classes
                 $(this.element).find(".rmucsc-tab-content").removeClass("active");
                 $(this.element).find(`.rmucsc-tab-content[data-tab="${this.calcState.activeTab}"]`).addClass("active");
 
-                // Recalculate the height based on the new tab
                 this.setPosition({ height: "auto" });
             });
         }
@@ -588,7 +713,6 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             });
 
             $html.find(".rmucsc-send-chat").on("click", this.#onSendBoostToChat.bind(this));
-
             htmlElement.addEventListener("toggle", (e) => this.#onDetailsToggle(e, this.calcState.detailsState), true);
         }
 
@@ -627,7 +751,6 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         const pData = this.calcState.ritualParticipantData;
         const id = target.dataset.id;
 
-        // 1. Handle Global Modifiers (using the 'name' attribute)
         const globalNames = [
             "investingTime",
             "toolValue",
@@ -646,9 +769,12 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         if (globalNames.includes(target.name)) {
             ritualState[target.name] = Number.parseInt(target.value, 10) || 0;
 
-            // Enforce duration logic: Target cannot be lower than Base
             if (target.name === "paramDurBase" && ritualState.paramDurTarget < ritualState.paramDurBase) {
                 ritualState.paramDurTarget = ritualState.paramDurBase;
+            }
+
+            if (target.name === "investingTime") {
+                this.#updateEnduranceGrid();
             }
 
             return this.render({ parts: ["ritual"] });
@@ -660,7 +786,6 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             return this.render({ parts: ["ritual"] });
         }
 
-        // Circumstance Grid Clamping
         const circumstanceNames = ["auspiciousTime", "auspiciousLocation", "auspiciousProphecy", "inauspiciousTime", "inauspiciousLocation", "inauspiciousProphecy"];
         if (circumstanceNames.includes(target.name)) {
             let val = Number.parseInt(target.value, 10) || 0;
@@ -673,11 +798,10 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             if (val < min) val = min;
 
             ritualState[target.name] = val;
-            target.value = val; // Force DOM to reflect the clamp instantly
+            target.value = val;
             return this.render({ parts: ["ritual"] });
         }
 
-        // 2. Handle Spell Grid
         if (target.classList.contains("rmucsc-spell-level")) {
             const spell = ritualState.targetSpells.find((s) => s.id === id);
             if (spell) {
@@ -697,11 +821,11 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             return this.render({ parts: ["ritual"] });
         }
 
-        // 3. Handle Participant Grid
         if (target.classList.contains("rmucsc-participant-enable")) {
             const participant = this.participants.get(id);
             if (participant) participant.enabled = target.checked;
-            this._enforceDeterministicPrimaryCaster(); // Ensure primary wasn't disabled
+            this._enforceDeterministicPrimaryCaster();
+            this.#updateEnduranceGrid();
             return this.render({ parts: ["ritual"] });
         }
 
@@ -709,20 +833,19 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             const newRole = target.value;
 
             if (newRole === "primary") {
-                // Demote any existing primary caster to 'major'
                 for (const [pId, data] of Object.entries(pData)) {
                     if (pId !== id && data.role === "primary") data.role = "major";
                 }
             }
 
-            // Clear blood sacrifices upon demotion to 'minor'
             if (newRole === "minor") {
                 pData[id].bloodDice = 0;
                 pData[id].bloodCrit = 0;
             }
 
             pData[id].role = newRole;
-            this._enforceDeterministicPrimaryCaster(); // Failsafe validation
+            this._enforceDeterministicPrimaryCaster();
+            this.#updateEnduranceGrid();
             return this.render({ parts: ["ritual"] });
         }
 
@@ -740,12 +863,11 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             const maxPP = participant ? participant.attributes.currentPP : 0;
             let val = Number.parseInt(target.value, 10) || 0;
 
-            // Clamp the value between 0 and the actor's current max PP
             if (val > maxPP) val = maxPP;
             if (val < 0) val = 0;
 
             pData[id].ppContributed = val;
-            target.value = val; // Force the DOM to reflect the clamp instantly
+            target.value = val;
             return this.render({ parts: ["ritual"] });
         }
 
@@ -759,21 +881,12 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         }
     }
 
-    /**
-     * Captures native toggle events from <details> elements to persist their open state across re-renders.
-     * @param {Event} event - The native DOM toggle event.
-     * @param {Object} stateTarget - The specific state object tracking the toggles for this tab.
-     */
     #onDetailsToggle(event, stateTarget) {
         const target = event.target;
         if (target.tagName === "DETAILS" && target.dataset.section) {
             stateTarget[target.dataset.section] = target.open;
         }
     }
-
-    /* ----------------------------------------- */
-    /* Chat Logic                                */
-    /* ----------------------------------------- */
 
     async #onSendBoostToChat(event) {
         const success = await ChatManager.sendBoostToChat(this.calcState, this.participants);

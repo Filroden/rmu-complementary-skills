@@ -1,5 +1,5 @@
-<div class="rmucsc-tab-content rmucsc-scrollable {{#if (eq activeTab 'group')}}active{{/if}}" data-tab="group">
-    <form class="rmucsc-calc-wrapper" autocomplete="off">
+<div class="rmucsc-tab-content {{#if (eq activeTab 'group')}}active{{/if}}" data-tab="group">
+    <form class="rmucsc-calc-wrapper rmucsc-scrollable" autocomplete="off">
         <div class="rmucsc-calc-pane">
 
             <fieldset class="rmucsc-fieldset">
@@ -43,7 +43,7 @@
                     {{#each participants}}
                     <div class="rmucsc-participant-row">
                         <input type="checkbox" class="rmucsc-checkbox rmucsc-participant-enable" data-id="{{id}}" {{checked enabled}} />
-                        <input type="radio" class="rmucsc-leader-select" name="leader" value="{{id}}" {{checked (eq id ../leaderId)}} {{disabled (not enabled)}} />
+                        <input type="radio" class="rmucsc-leader-select rmucsc-radio" name="leader" value="{{id}}" {{checked (eq id ../leaderId)}} {{disabled (not enabled)}} />
                         <label>{{name}}</label>
                         <span class="rmucsc-participant-ranks">{{leadershipRanks}}</span>
                         <span class="rmucsc-participant-bonus">{{signed bonusForSelectedSkill}}</span>

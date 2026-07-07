@@ -1,5 +1,5 @@
-<div class="rmucsc-tab-content rmucsc-scrollable {{#if (eq activeTab 'boost')}}active{{/if}}" data-tab="boost">
-    <form class="rmucsc-calc-wrapper" autocomplete="off">
+<div class="rmucsc-tab-content {{#if (eq activeTab 'boost')}}active{{/if}}" data-tab="boost">
+    <form class="rmucsc-calc-wrapper rmucsc-scrollable" autocomplete="off">
         <div class="rmucsc-calc-pane">
 
             <fieldset class="rmucsc-fieldset">
@@ -44,7 +44,7 @@
                     {{#each participants}}
                     <div class="rmucsc-participant-row">
                         <input type="checkbox" class="rmucsc-checkbox rmucsc-participant-enable" data-id="{{id}}" {{checked enabled}}/>
-                        <input type="radio" class="rmucsc-primary-actor-select" name="primaryActor" value="{{id}}" {{checked (eq id ../primaryActorId)}} {{disabled (not enabled)}}/>
+                        <input type="radio" class="rmucsc-primary-actor-select rmucsc-radio" name="primaryActor" value="{{id}}" {{checked (eq id ../primaryActorId)}} {{disabled (not enabled)}}/>
                         <label>{{name}}</label>
                         <span class="rmucsc-participant-bonus">{{signed bonusForSelectedSkill}}</span>
 

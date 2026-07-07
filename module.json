@@ -5,7 +5,7 @@
     "version": "1.2.0",
     "compatibility": { "minimum": "13", "verified": "14", "maximum": "14" },
     "relationships": {
-        "systems": [{ "id": "rmu", "type": "system", "compatibility": { "minimum": "1.2.88" } }]
+        "systems": [{ "id": "rmu", "type": "system", "compatibility": { "minimum": "1.2.70" } }]
     },
     "authors": [{ "name": "Ken Dearman" }],
     "esmodules": ["main.js"],

@@ -1,5 +1,5 @@
-<div class="rmucsc-tab-content rmucsc-scrollable {{#if (eq activeTab 'ritual')}}active{{/if}}" data-tab="ritual">
-    <form class="rmucsc-calc-wrapper" autocomplete="off">
+<div class="rmucsc-tab-content {{#if (eq activeTab 'ritual')}}active{{/if}}" data-tab="ritual">
+    <form class="rmucsc-calc-wrapper rmucsc-scrollable" autocomplete="off">
         <div class="rmucsc-calc-pane">
 
             <!-- Target Spell Details -->
@@ -319,6 +319,52 @@
 
             </fieldset>
 
+            <!-- Endurance Workflow (Dynamically Injected) -->
+            {{#if ritualState.enduranceGrid.length}}
+            <fieldset class="rmucsc-fieldset rmucsc-endurance-workflow">
+                <legend>{{localize "RMU_CS.Ritual.EnduranceWorkflow"}}</legend>
+
+                <div class="rmucsc-notes rmucsc-long">
+                    <p>{{localize "RMU_CS.Ritual.EnduranceInstructions"}}</p>
+                    <strong class="rmucsc-danger">{{localize "RMU_CS.Ritual.EnduranceWarning"}}</strong>
+                </div>
+
+                <div class="rmucsc-endurance-grid" style="--columns: {{ritualState.enduranceColumns}};">
+                    <!-- Headers -->
+                    <div class="rmucsc-grid-header">{{localize "RMU_CS.Common.Participant"}}</div>
+                    {{#each ritualState.enduranceHeaders}}
+                        <div class="rmucsc-grid-header">{{localize this}}</div>
+                    {{/each}}
+
+                    <!-- Rows -->
+                    {{#each ritualState.enduranceGrid}}
+                        <div class="rmucsc-grid-cell rmucsc-participant-name {{#if failed}}rmucsc-danger{{/if}}">
+                            <strong>{{name}}</strong> ({{localize roleLabel}})
+                        </div>
+                        {{#each rolls}}
+                            <div class="rmucsc-grid-cell rmucsc-roll-cell">
+                                {{#if (eq state 'rolled')}}
+                                    <span class="rmucsc-badge {{#if (contains result 'Success')}}primary{{else}}danger{{/if}}">
+                                        {{result}}
+                                    </span>
+                                {{else}}
+                                    <button type="button" class="rmucsc-btn rmucsc-icon-button" 
+                                        data-action="rollEndurance" 
+                                        data-participant-id="{{../participantId}}" 
+                                        data-roll-index="{{@index}}"
+                                        data-tooltip="{{localize 'RMU_CS.Ritual.RollEndurance' difficulty=(localize difficultyLabel)}}"
+                                        data-tooltip-class="rmucsc-tooltip"
+                                        {{disabled (eq state 'locked')}}>
+                                        <i class="rmucsc-icon ritual"></i>
+                                    </button>
+                                {{/if}}
+                            </div>
+                        {{/each}}
+                    {{/each}}
+                </div>
+            </fieldset>
+            {{/if}}
+
             <fieldset class="rmucsc-fieldset">
                 <legend>{{localize "RMU_CS.Common.Calculation"}}</legend>
 
@@ -365,7 +411,12 @@
     </form>
 
     <footer class="rmucsc-calc-footer">
-        <button type="button" class="rmucsc-btn rmucsc-send-chat">
+        {{#if ritualState.endurancePrimaryFailed}}
+            <span class="rmucsc-notes rmucsc-danger" style="margin-inline-end: auto; align-self: center; font-weight: bold;">
+                <i class="rmucsc-icon info" style="vertical-align: text-bottom;"></i> {{localize "RMU_CS.Ritual.PrimaryFailedWarning"}}
+            </span>
+        {{/if}}
+        <button type="button" class="rmucsc-btn rmucsc-send-chat" {{disabled ritualState.endurancePending}}>
             <i class="rmucsc-icon chat"></i> {{localize "RMU_CS.Common.SendChat"}}
         </button>
     </footer>
