@@ -1,4 +1,4 @@
-<div class="rmucsc-tab-content {{#if (eq activeTab 'boost')}}active{{/if}}" data-tab="boost">
+<section class="tab rmucsc-tab-content {{#if (eq activeTab 'boost')}}active{{/if}}" data-tab="boost" data-group="primary">
     <form class="rmucsc-calc-wrapper rmucsc-scrollable" autocomplete="off">
         <div class="rmucsc-calc-pane">
 
@@ -43,12 +43,12 @@
 
                     {{#each participants}}
                     <div class="rmucsc-participant-row">
-                        <input type="checkbox" class="rmucsc-checkbox rmucsc-participant-enable" data-id="{{id}}" {{checked enabled}}/>
+                        <input type="checkbox" name="participantEnable" class="rmucsc-checkbox rmucsc-participant-enable" data-id="{{id}}" {{checked enabled}}/>
                         <input type="radio" class="rmucsc-primary-actor-select rmucsc-radio" name="primaryActor" value="{{id}}" {{checked (eq id ../primaryActorId)}} {{disabled (not enabled)}}/>
                         <label>{{name}}</label>
                         <span class="rmucsc-participant-bonus">{{signed bonusForSelectedSkill}}</span>
 
-                        <button type="button" class="rmucsc-btn rmucsc-icon-button danger" data-action="removeParticipant" data-id="{{id}}" data-tooltip="{{localize 'RMU_CS.Common.Remove'}}" data-tooltip-class="rmucsc-tooltip">
+                        <button type="button" class="rmucsc-btn rmucsc-icon-button danger muted" data-action="removeParticipant" data-id="{{id}}" data-tooltip="{{localize 'RMU_CS.Common.Remove'}}" data-tooltip-class="rmucsc-tooltip">
                             <i class="rmucsc-icon delete"></i>
                         </button>
                     </div>
@@ -69,7 +69,7 @@
                     <div class="rmucsc-dynamic-list">
                         {{#each primaryActorSkills}}
                         <div class="rmucsc-dynamic-row">
-                            <select class="rmucsc-primary-comp-skill" data-index="{{@index}}">
+                            <select class="rmucsc-primary-comp-skill" name="primaryCompSkill" data-index="{{@index}}">
                                 <option value="">{{localize "RMU_CS.Boost.SelectSkill"}}</option>
                                 {{#each ../primaryComplementOptions}}
                                 <optgroup label="{{label}}">
@@ -82,19 +82,19 @@
                                 {{/each}}
                             </select>
 
-                            <button type="button" class="rmucsc-btn rmucsc-icon-button danger rmucsc-primary-comp-delete" data-index="{{@index}}" title="{{localize 'RMU_CS.Boost.RemoveSkill'}}">
+                            <button type="button" class="rmucsc-btn rmucsc-icon-button danger muted rmucsc-primary-comp-delete" data-action="deletePrimaryComp" data-index="{{@index}}" title="{{localize 'RMU_CS.Boost.RemoveSkill'}}">
                                 <i class="rmucsc-icon delete"></i>
                             </button>
                         </div>
                         {{/each}}
                     </div>
                     {{else}}
-                    <p class="rmucsc-notes rmucsc-empty-notes" style="text-align: center; margin-block-start: var(--filroden-space-l);">
+                    <p class="rmucsc-notes rmucsc-empty-notes" style="text-align: center; margin-block-start: var(--rmucsc-space-l);">
                         {{localize "RMU_CS.Common.NoSkillsSelected"}}
                     </p>
                     {{/if}}
 
-                    <button type="button" class="rmucsc-btn rmucsc-primary-comp-add">
+                    <button type="button" class="rmucsc-btn rmucsc-primary-comp-add" data-action="addPrimaryComp">
                         <i class="rmucsc-icon add"></i> {{localize "RMU_CS.Boost.AddSkill"}}
                     </button>
 
@@ -108,7 +108,7 @@
                     <div class="form-group">
                         <label>{{name}}</label>
                         <div class="form-fields">
-                            <select class="rmucsc-other-comp-skill" data-id="{{id}}">
+                            <select class="rmucsc-other-comp-skill" name="otherCompSkill" data-id="{{id}}">
                                 <option value="">{{localize "RMU_CS.Boost.None"}}</option>
                                 {{#each allSkillsGrouped}}
                                 <optgroup label="{{label}}">
@@ -174,8 +174,8 @@
     </form>
 
     <footer class="rmucsc-calc-footer">
-        <button type="button" class="rmucsc-btn rmucsc-send-chat">
+        <button type="button" class="rmucsc-btn rmucsc-send-chat" data-action="sendToChat">
             <i class="rmucsc-icon chat"></i> {{localize "RMU_CS.Common.SendChat"}}
         </button>
     </footer>
-</div>
+</section>

@@ -1,4 +1,4 @@
-<div class="rmucsc-tab-content {{#if (eq activeTab 'group')}}active{{/if}}" data-tab="group">
+<section class="tab rmucsc-tab-content {{#if (eq activeTab 'group')}}active{{/if}}" data-tab="group" data-group="primary">
     <form class="rmucsc-calc-wrapper rmucsc-scrollable" autocomplete="off">
         <div class="rmucsc-calc-pane">
 
@@ -42,13 +42,13 @@
 
                     {{#each participants}}
                     <div class="rmucsc-participant-row">
-                        <input type="checkbox" class="rmucsc-checkbox rmucsc-participant-enable" data-id="{{id}}" {{checked enabled}} />
+                        <input type="checkbox" name="participantEnable" class="rmucsc-checkbox rmucsc-participant-enable" data-id="{{id}}" {{checked enabled}} />
                         <input type="radio" class="rmucsc-leader-select rmucsc-radio" name="leader" value="{{id}}" {{checked (eq id ../leaderId)}} {{disabled (not enabled)}} />
                         <label>{{name}}</label>
                         <span class="rmucsc-participant-ranks">{{leadershipRanks}}</span>
                         <span class="rmucsc-participant-bonus">{{signed bonusForSelectedSkill}}</span>
 
-                        <button type="button" class="rmucsc-btn rmucsc-icon-button danger" data-action="removeParticipant" data-id="{{id}}" data-tooltip="{{localize 'RMU_CS.Common.Remove'}}" data-tooltip-class="rmucsc-tooltip">
+                        <button type="button" class="rmucsc-btn rmucsc-icon-button danger muted" data-action="removeParticipant" data-id="{{id}}" data-tooltip="{{localize 'RMU_CS.Common.Remove'}}" data-tooltip-class="rmucsc-tooltip">
                             <i class="rmucsc-icon delete"></i>
                         </button>
                     </div>
@@ -77,27 +77,14 @@
                     </div>
                 </div>
 
-                {{#if calculation.participants}}
-                <div class="rmucsc-output-breakdown">
-                    <span class="rmucsc-notes">{{localize "RMU_CS.Group.PartBonuses"}}</span>
-                    <ul>
-                        {{#each calculation.participants}}
-                        <li>
-                        <strong>{{signed bonus}}</strong> ({{name}})
-                        </li>
-                        {{/each}}
-                    </ul>
-                </div>
-                {{/if}}
-
             </fieldset>
 
         </div>
     </form>
 
     <footer class="rmucsc-calc-footer">
-        <button type="button" class="rmucsc-btn rmucsc-send-chat">
+        <button type="button" class="rmucsc-btn rmucsc-send-chat" data-action="sendToChat">
             <i class="rmucsc-icon chat"></i> {{localize "RMU_CS.Common.SendChat"}}
         </button>
     </footer>
-</div>
+</section>

@@ -10,9 +10,32 @@ import { ChatManager } from "./src/ChatManager.js";
 import { VALID_ACTOR_TYPES } from "./src/config.js";
 
 /**
+ * Applies the selected hue class to the Foundry document body.
+ * @param {string} hue - The hue string ('gold' or 'teal').
+ */
+function applyThemeHue(hue) {
+    document.body.classList.remove("rmucsc-hue-gold", "rmucsc-hue-teal");
+    document.body.classList.add(`rmucsc-hue-${hue}`);
+}
+
+/**
  * Registers Handlebars helpers used across the module's templates.
  */
 Hooks.once("init", () => {
+    game.settings.register("rmu-complementary-skills", "themeHue", {
+        name: "RMU_CS.Settings.ThemeHue.Name",
+        hint: "RMU_CS.Settings.ThemeHue.Hint",
+        scope: "client",
+        config: true,
+        type: String,
+        choices: {
+            gold: "RMU_CS.Settings.ThemeHue.Gold",
+            teal: "RMU_CS.Settings.ThemeHue.Teal",
+        },
+        default: "gold",
+        onChange: (value) => applyThemeHue(value),
+    });
+
     Handlebars.registerHelper("rmucsSelected", function (condition) {
         return condition ? "selected" : "";
     });

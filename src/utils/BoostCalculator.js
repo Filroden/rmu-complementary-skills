@@ -10,7 +10,7 @@ export class BoostCalculator {
      * @returns {Object} The calculated totals and breakdown.
      */
     static calculate(calcState, participants, allPrimarySkills) {
-        const primaryActor = participants.get(calcState.primaryActorId);
+        const primaryActor = participants.find((p) => p.id === calcState.primaryActorId);
         if (!primaryActor) return {};
 
         const primarySkill = allPrimarySkills.find((s) => s.uuid === calcState.primarySkillUuid);
@@ -30,7 +30,8 @@ export class BoostCalculator {
 
         // Gather other participants' complementary skills
         for (const [actorId, skillUuid] of Object.entries(calcState.otherActorSkills)) {
-            const participant = participants.get(actorId);
+            const participant = participants.find((p) => p.id === actorId);
+
             if (participant?.enabled && skillUuid) {
                 const skillData = participant.allSkills.find((s) => s.uuid === skillUuid);
                 if (skillData && skillData.ranks > 0) {

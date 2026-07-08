@@ -9,7 +9,7 @@
     },
     "authors": [{ "name": "Ken Dearman" }],
     "esmodules": ["main.js"],
-    "styles": ["styles/filroden-theme.css", "styles/rmu-complementary-skills.css"],
+    "styles": ["styles/rmucsc-theme.css", "styles/rmu-complementary-skills.css"],
     "languages": [
         { "lang": "en", "name": "English", "path": "languages/en.json" },
         { "lang": "en", "name": "English (GB)", "path": "languages/en.gb.json" },

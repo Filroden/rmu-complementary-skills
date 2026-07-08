@@ -9,7 +9,7 @@ export class GroupCalculator {
      * @returns {Object} The calculated totals and participant breakdown.
      */
     static calculate(calcState, participants) {
-        const enabledParticipants = Array.from(participants.values()).filter((p) => p.enabled);
+        const enabledParticipants = participants.filter((p) => p.enabled);
         if (enabledParticipants.length === 0) return {};
 
         let totalBonus = 0;
@@ -22,7 +22,7 @@ export class GroupCalculator {
         }
 
         const averageBonus = enabledParticipants.length > 0 ? totalBonus / enabledParticipants.length : 0;
-        const leader = participants.get(calcState.leaderId);
+        const leader = participants.find((p) => p.id === calcState.leaderId);
         const leadershipBonus = leader?.enabled ? leader.leadershipRanks : 0;
 
         return {

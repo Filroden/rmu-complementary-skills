@@ -1,3 +1,4 @@
 {
-    "RMU_CS.Notifications.NotInitialized": "RMU Complementary Skills module is not yet initialised."
+    "RMU_CS.Notifications.NotInitialized": "RMU Complementary Skills module is not yet initialised.",
+    "RMU_CS.Settings.ThemeHue.Name": "Colour Theme"
 }

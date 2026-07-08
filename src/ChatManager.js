@@ -26,7 +26,10 @@ export class ChatManager {
             .map(RMUSkillParser.getSkillData)
             .filter((sk) => !sk.disabledBySystem);
 
-        const calc = BoostCalculator.calculate(calcState, participants, allPrimarySkills);
+        // Convert the map to an array for the new calculator logic
+        const participantsArray = Array.from(participants.values());
+
+        const calc = BoostCalculator.calculate(calcState, participantsArray, allPrimarySkills);
         const content = await foundry.applications.handlebars.renderTemplate("modules/rmu-complementary-skills/templates/chat-boost-skill.hbs", {
             primaryActorName: primaryActor.name,
             primarySkillName: calcState.primarySkillName,
@@ -67,7 +70,10 @@ export class ChatManager {
             return false;
         }
 
-        const calc = GroupCalculator.calculate(calcState, participants);
+        // Convert the map to an array for the new calculator logic
+        const participantsArray = Array.from(participants.values());
+
+        const calc = GroupCalculator.calculate(calcState, participantsArray);
         const leaderRaw = RMUSkillParser.getBestSkillMatch(leader.actor, calcState.taskSkillName);
         const leaderData = leaderRaw ? RMUSkillParser.getSkillData(leaderRaw) : null;
         const leaderSkillUuid = leaderData ? leaderData.uuid : calcState.taskSkillUuid;
@@ -221,7 +227,7 @@ export class ChatManager {
         // If the sacrifices were already applied in a previous session, disable the UI
         if (sacrificesApplied) {
             $applyButton.prop("disabled", true);
-            $applyButton.html(`<i class="rmucsc-icon check"></i> ${game.i18n.localize("RMU_CS.Ritual.Applied")}`); // Optional visual change
+            $applyButton.html(` ${game.i18n.localize("RMU_CS.Ritual.Applied")}`);
             $html.find(".rmucsc-crit-type-select").prop("disabled", true);
         }
 

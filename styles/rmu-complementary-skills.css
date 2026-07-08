@@ -5,13 +5,13 @@
 /* --- MATERIAL DESIGN ICONS --- */
 .rmucsc-icon {
     display: inline-block;
-    width: var(--filroden-font-size-l); 
-    height: var(--filroden-font-size-l);
-    min-width: var(--filroden-font-size-l);
+    width: var(--rmucsc-font-size-l); 
+    height: var(--rmucsc-font-size-l);
+    min-width: var(--rmucsc-font-size-l);
     background-color: currentColor;
     background-image: none !important;
     content: "";
-    transform: scaleX(var(--filroden-dir-flip));
+    transform: scaleX(var(--rmucsc-dir-flip));
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
     -webkit-mask-position: center;
@@ -48,18 +48,18 @@
 }
 
 .rmucsc-scrollable::-webkit-scrollbar-track {
-    background: var(--filroden-color-bg-hover-solid) !important;
-    border-radius: var(--filroden-radius-large) !important;
+    background: var(--rmucsc-bg-hover) !important;
+    border-radius: var(--rmucsc-radius-large) !important;
 }
 
 .rmucsc-scrollable::-webkit-scrollbar-thumb {
-    background-color: var(--filroden-color-text-accent) !important;
-    border-radius: var(--filroden-radius-large) !important;
+    background-color: var(--rmucsc-accent-main) !important;
+    border-radius: var(--rmucsc-radius-large) !important;
     border: 1px solid rgba(0, 0, 0, 0.6) !important;
 }
 
 .rmucsc-scrollable::-webkit-scrollbar-thumb:hover {
-    background-color: var(--filroden-color-text-accent-hover) !important;
+    background-color: var(--rmucsc-accent-hover) !important;
 }
 
 .rmucsc-scrollable::-webkit-scrollbar-button {
@@ -70,44 +70,45 @@
 /* --- TOOLTIPS --- */
 #tooltip.rmucsc-tooltip {
     max-width: 300px !important;
-    border: 1px solid var(--filroden-color-text-accent);
-    border-radius: var(--filroden-radius-small);
-    padding: var(--filroden-space-s);
-    background: var(--filroden-color-bg-darkest);
-    color: var(--filroden-color-text-main-solid);
-    box-shadow: var(--filroden-shadow-popout);
-    font-family: var(--filroden-font-family);
-    font-size: var(--filroden-font-size-s);
-    line-height: var(--filroden-line-height-body);
+    border: 1px solid var(--rmucsc-accent-main);
+    border-radius: var(--rmucsc-radius-small);
+    padding: var(--rmucsc-space-s);
+    background: var(--rmucsc-bg-base);
+    color: var(--rmucsc-text-primary);
+    box-shadow: var(--rmucsc-shadow-popout);
+    font-family: var(--rmucsc-font-family);
+    font-size: var(--rmucsc-font-size-s);
+    line-height: var(--rmucsc-line-height-body);
     text-align: start;
     z-index: var(--z-index-tooltip, 9999);
-    margin-block-start: var(--filroden-space-m);
+    margin-block-start: var(--rmucsc-space-m);
 }
 
 
 /* --- BUTTONS --- */
 /* Standard button styles for all buttons */
 .rmucsc button {
-    background: var(--filroden-color-bg-light-solid);
-    border: 1px solid var(--filroden-color-border);
-    color: var(--filroden-color-text-main-solid);
-    border-radius: var(--filroden-radius-small);
+    background: var(--rmucsc-accent-main);
+    border: 1px solid var(--rmucsc-border-main);
+    color: var(--rmucsc-text-inverse);
+    border-radius: var(--rmucsc-radius-small);
     cursor: pointer;
     padding: 0;
     transition: all 0.1s ease;
+    min-height: 0;
 }
 
 .rmucsc button:hover {
-    background: var(--filroden-color-bg-hover-solid);
-    border-color: var(--filroden-color-text-accent);
-    color: var(--filroden-color-text-main-solid);
+    background: var(--rmucsc-accent-hover);
+    border-color: var(--rmucsc-border-focus);
+    color: var(--rmucsc-text-inverse);
     box-shadow: none;
 }
 
 .rmucsc *:focus-visible,
 .rmucsc button:focus {
-    outline: 2px solid var(--filroden-color-text-accent);
-    border-radius: var(--filroden-radius-small);
+    outline: 2px solid var(--rmucsc-border-focus);
+    border-radius: var(--rmucsc-radius-small);
 }
 
 /* Variant styles for primary and danger buttons */
@@ -116,43 +117,47 @@
     align-items: center;
     justify-content: center;
     font-family: inherit;
-    font-size: var(--filroden-font-size-s);
+    font-size: var(--rmucsc-font-size-s);
     font-weight: bold;
-    gap: var(--filroden-space-s);
-    padding: var(--filroden-space-s) var(--filroden-space-m);
+    gap: var(--rmucsc-space-s);
+    padding: var(--rmucsc-space-s) var(--rmucsc-space-m);
 }
 
 .rmucsc .rmucsc-btn.wide {
     width: auto;
 }
 
-.rmucsc .rmucsc-btn:hover {
-    background: var(--filroden-color-bg-hover-solid);
-    border-color: var(--filroden-color-text-accent);
-    color: var(--filroden-color-text-main-solid);
-}
-
 .rmucsc .rmucsc-btn.danger {
-    color: var(--filroden-color-danger);
+    color: var(--rmucsc-color-danger);
     width: 100%;
 }
 
+.rmucsc .rmucsc-btn.muted {
+    background: inherit;
+    border-color: transparent;
+}
+
 .rmucsc .rmucsc-btn.danger:hover {
-    color: var(--filroden-color-danger);
+    color: var(--rmucsc-color-danger);
+}
+
+.rmucsc .rmucsc-btn.muted:hover {
+    background: var(--rmucsc-bg-hover);
+    border-color: var(--rmucsc-border-subtle);
 }
 
 .rmucsc .rmucsc-btn.primary {
-    color: var(--filroden-color-text-accent);
+    color: var(--rmucsc-accent-main);
 }
 
 .rmucsc .rmucsc-btn.primary:hover {
-    color: var(--filroden-color-text-accent);
+    color: var(--rmucsc-accent-main);
 }
 
 .rmucsc .rmucsc-btn.outline.active {
-    background: var(--filroden-color-bg-hover-solid);
-    border-color: var(--filroden-color-border-focus);
-    color: var(--filroden-color-text-main-solid);
+    background: var(--rmucsc-bg-hover);
+    border-color: var(--rmucsc-border-focus);
+    color: var(--rmucsc-text-primary);
 }
 
 .rmucsc button:disabled,
@@ -160,18 +165,18 @@
 .rmucsc .rmucsc-icon-button:disabled {
     opacity: 0.3;
     cursor: not-allowed;
-    background: var(--filroden-color-bg-medium-solid);
-    border-color: var(--filroden-color-border);
-    color: var(--filroden-color-text-muted-solid);
+    background: var(--rmucsc-bg-muted);
+    border-color: var(--rmucsc-border-subtle);
+    color: var(--rmucsc-text-muted);
     box-shadow: none;
 }
 
 .rmucsc button:disabled:hover,
 .rmucsc .rmucsc-btn:disabled:hover,
 .rmucsc .rmucsc-icon-button:disabled:hover {
-    background: var(--filroden-color-bg-medium-solid);
-    border-color: var(--filroden-color-border);
-    color: var(--filroden-color-text-muted-solid);
+    background: var(--rmucsc-bg-muted);
+    border-color: var(--rmucsc-border-subtle);
+    color: var(--rmucsc-text-muted);
 }
 
 
@@ -181,12 +186,12 @@
 .rmucsc input[type="time"],
 .rmucsc select,
 .rmucsc textarea {
-    background: var(--filroden-color-bg-medium-solid);
-    border: 1px solid var(--filroden-color-border);
-    color: var(--filroden-color-text-main-solid);
-    border-radius: var(--filroden-radius-small);
-    min-height: var(--filroden-font-size-xl);
-    padding-inline: var(--filroden-space-xs);
+    background: var(--rmucsc-bg-panel);
+    border: 1px solid var(--rmucsc-border-main);
+    color: var(--rmucsc-text-primary);
+    border-radius: var(--rmucsc-radius-small);
+    min-height: var(--rmucsc-font-size-xl);
+    padding-inline: var(--rmucsc-space-s);
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -204,13 +209,13 @@
 .rmucsc input[type="time"]:focus,
 .rmucsc select:focus,
 .rmucsc textarea:focus {
-    border-color: var(--filroden-color-text-accent);
-    box-shadow: var(--filroden-shadow-focus);
+    border-color: var(--rmucsc-border-focus);
+    box-shadow: var(--rmucsc-shadow-focus);
 }
 
 .rmucsc input::placeholder,
 .rmucsc textarea::placeholder {
-    color: var(--filroden-color-text-placeholder-solid);
+    color: var(--rmucsc-text-muted);
     opacity: 1;
     font-style: italic;
 }
@@ -222,7 +227,7 @@
 .rmucsc textarea {
     resize: vertical;
     font-family: monospace;
-    line-height: var(--filroden-line-height-body);
+    line-height: var(--rmucsc-line-height-body);
 }
 
 .rmucsc select,
@@ -241,32 +246,32 @@
 .rmucsc select::picker(select),
 .rmucsc-roll-footer select::picker(select) {
     position-area: top;
-    margin-block-end: var(--filroden-space-xs);
-    border: 1px solid var(--filroden-color-text-accent);
+    margin-block-end: var(--rmucsc-space-xs);
+    border: 1px solid var(--rmucsc-border-focus);
 
     scrollbar-width: thin;
-    scrollbar-color: var(--filroden-color-text-accent) var(--filroden-color-bg-darkest);
+    scrollbar-color: var(--rmucsc-accent-main) var(--rmucsc-bg-base);
 }
 
 .rmucsc option,
 .rmucsc-roll-footer option {
-    background: var(--filroden-color-bg-medium-solid);
-    color: var(--filroden-color-text-main-solid);
-    padding: var(--filroden-space-xs) var(--filroden-space-s);
+    background: var(--rmucsc-bg-panel);
+    color: var(--rmucsc-text-primary);
+    padding: var(--rmucsc-space-xs) var(--rmucsc-space-s);
 }
 
 .rmucsc option:hover,
 .rmucsc option:focus,
 .rmucsc-roll-footer option:hover,
 .rmucsc-roll-footer option:focus {
-    background: var(--filroden-color-text-accent);
-    color: var(--filroden-color-text-on-accent);
+    background: var(--rmucsc-accent-hover);
+    color: var(--rmucsc-text-inverse);
     outline: none;
 }
 
 .rmucsc optgroup {
-    background-color: var(--filroden-color-bg-darkest);
-    color: var(--filroden-color-text-accent);
+    background-color: var(--rmucsc-bg-base);
+    color: var(--rmucsc-text-primary);
     font-weight: bold;
     font-style: italic;
     padding-block: 3px 1px;
@@ -275,9 +280,9 @@
 .rmucsc input:disabled,
 .rmucsc select:disabled,
 .rmucsc textarea:disabled {
-    background: var(--filroden-color-bg-medium-solid);
-    border-color: var(--filroden-border-main);
-    color: var(--filroden-color-text-muted-solid);
+    background: var(--rmucsc-bg-panel);
+    border-color: var(--rmucsc-border-main);
+    color: var(--rmucsc-text-muted);
     opacity: 0.5;
     cursor: not-allowed;
 }
@@ -286,11 +291,10 @@
 .rmucsc-checkbox,
 .rmucsc-radio {
     appearance: auto;
-    accent-color: var(--filroden-color-text-accent);
-    color-scheme: dark;
-    width: var(--filroden-font-size-m) !important;
-    height: var(--filroden-font-size-m);
-    margin: var(--filroden-space-xs);
+    accent-color: var(--rmucsc-accent-main);
+    width: var(--rmucsc-font-size-m) !important;
+    height: var(--rmucsc-font-size-m);
+    margin: var(--rmucsc-space-xs);
     cursor: pointer;
     display: inline-block;
     align-content: center;
@@ -332,10 +336,10 @@
     flex: 0 0 18rem; /* Default width, easily overridden */
     display: flex;
     flex-direction: column;
-    padding: var(--filroden-space-m);
-    gap: var(--filroden-space-m);
-    background-color: var(--filroden-color-bg-darkest);
-    border-inline-end: 1px solid var(--filroden-color-border);
+    padding: var(--rmucsc-space-m);
+    gap: var(--rmucsc-space-m);
+    background-color: var(--rmucsc-bg-panel);
+    border-inline-end: 1px solid var(--rmucsc-border-main);
     overflow-y: auto;
 }
 
@@ -344,7 +348,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: var(--filroden-space-l);
+    padding: var(--rmucsc-space-l);
     overflow-y: auto;
     min-width: 0; /* Prevents flexbox text overflow issues */
 }
@@ -355,10 +359,10 @@
 .rmucsc .rmucsc-tabs {
     display: flex;
     flex: 0 0 auto;
-    gap: var(--filroden-space-xs);
-    padding-inline-start: var(--filroden-space-xs);
-    border-block-end: 1px solid var(--filroden-color-border);
-    background: var(--filroden-color-bg-medium-solid);
+    gap: 0;
+    padding-inline-start: var(--rmucsc-space-xs);
+    border-block-end: 1px solid var(--rmucsc-border-main);
+    background: var(--rmucsc-bg-panel);
 }
 
 .rmucsc nav.tabs .item,
@@ -367,37 +371,38 @@
     flex: 1;
     align-items: center;
     justify-content: center;
-    gap: var(--filroden-space-m);
+    gap: var(--rmucsc-space-m);
     text-align: center;
-    padding: var(--filroden-space-s);
-        color: var(--filroden-color-text-muted-solid);
+    padding: var(--rmucsc-space-s);
+    color: var(--rmucsc-text-secondary);
     font-weight: bold;
     cursor: pointer;
-    border-block-end: 2px solid transparent;
+    border-block-end: 4px solid transparent;
     transition: background-color 0.2s, color 0.2s;
 }
 
 .rmucsc nav.tabs .item:hover,
 .rmucsc .rmucsc-tabs .item:hover {
-    color: var(--filroden-color-text-main-solid);
-    background: var(--filroden-color-bg-hover-solid);
+    color: var(--rmucsc-text-primary);
+    background: var(--rmucsc-bg-hover);
 }
 
 .rmucsc nav.tabs .item.active,
 .rmucsc .rmucsc-tabs .item.active {
-    color: var(--filroden-color-text-accent);
-    border-block-end-color: var(--filroden-color-text-accent);
-    background: var(--filroden-color-bg-darkest);
+    color: var(--rmucsc-accent-main);
+    border-block-end-color: var(--rmucsc-border-focus);
+    background: var(--rmucsc-bg-base);
+    text-shadow: none;
 }
 
 
 /* --- STRUCTURED FORMS --- */
 .rmucsc fieldset.rmucsc-fieldset {
-    border: var(--filroden-border-main);
-    border-radius: var(--filroden-radius-medium);
-    padding: var(--filroden-space-m);
-    margin: var(--filroden-space-m);
-    gap: var(--filroden-space-xs);
+    border: 1px solid var(--rmucsc-border-main);
+    border-radius: var(--rmucsc-radius-medium);
+    padding: var(--rmucsc-space-m);
+    margin: var(--rmucsc-space-m);
+    gap: var(--rmucsc-space-xs);
     display: flex;
     flex-direction: column;
     max-width: 45rem;
@@ -405,9 +410,9 @@
 
 .rmucsc fieldset.rmucsc-fieldset legend {
     font-weight: bold;
-    color: var(--filroden-color-text-accent);
-    padding-inline: var(--filroden-space-xs);
-    font-size: var(--filroden-font-size-s);
+    color: var(--rmucsc-accent-main);
+    padding-inline: var(--rmucsc-space-xs);
+    font-size: var(--rmucsc-font-size-s);
 }
 
 .rmucsc .form-group {
@@ -415,36 +420,36 @@
     grid-template-columns: auto minmax(0, max-content);
     align-items: center;
     justify-content: space-between;
-    gap: var(--filroden-space-l);
+    gap: var(--rmucsc-space-l);
 }
 
 .rmucsc label {
     margin: 0;
-    color: var(--filroden-color-text-main-solid);
+    color: var(--rmucsc-text-primary);
     white-space: nowrap;
 }
 
 .rmucsc .rmucsc-title {
     font-weight: bold;
-    margin-block-start: var(--filroden-space-m);
-    margin-block-end: var(--filroden-space-m);
+    margin-block-start: var(--rmucsc-space-m);
+    margin-block-end: var(--rmucsc-space-m);
 }
 
 .rmucsc .rmucsc-stacked-group {
-    border: var(--filroden-border-main);
-    padding: var(--filroden-space-m);
-    margin-block-start: var(--filroden-space-m);
-    border-radius: var(--filroden-radius-small);
+    border: 1px solid var(--rmucsc-border-main);
+    padding: var(--rmucsc-space-m);
+    margin-block-start: var(--rmucsc-space-m);
+    border-radius: var(--rmucsc-radius-small);
 
     display: flex;
     flex-direction: column;
-    gap: var(--filroden-space-s);
+    gap: var(--rmucsc-space-s);
 }
 
 .rmucsc .rmucsc-checkbox-label {
     display: flex;
     align-items: center;
-    gap: var(--filroden-space-xs);
+    gap: var(--rmucsc-space-xs);
     white-space: normal;
 }
 
@@ -453,15 +458,15 @@
 /* Helper text below inputs or headers */
 .rmucsc .hint,
 .rmucsc .rmucsc-notes {
-    font-size: var(--filroden-font-size-xs);
-    color: var(--filroden-color-text-muted-solid);
-    margin-block-start: var(--filroden-space-xxs);
-    line-height: var(--filroden-line-height-body);
+    font-size: var(--rmucsc-font-size-xs);
+    color: var(--rmucsc-text-muted);
+    margin-block-start: var(--rmucsc-space-xxs);
+    line-height: var(--rmucsc-line-height-body);
 }
 
 .rmucsc .rmucsc-notes.rmucsc-long {
     text-align: start;
-    margin-block-end: var(--filroden-space-m);
+    margin-block-end: var(--rmucsc-space-m);
 }
 
 /* Empty or missing data states */
@@ -471,12 +476,12 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: var(--filroden-color-text-placeholder-solid);
+    color: var(--rmucsc-text-muted);
     font-style: italic;
-    padding: var(--filroden-space-xl);
-    background-color: var(--filroden-color-bg-light-solid);
-    border-radius: var(--filroden-radius-medium);
-    border: var(--filroden-border-main);
+    padding: var(--rmucsc-space-xl);
+    background-color: var(--rmucsc-bg-panel);
+    border-radius: var(--rmucsc-radius-medium);
+    border: 1px solid var(--rmucsc-border-main);
 }
 
 /* Thematic Divider */
@@ -484,12 +489,12 @@
     border: none;
     height: 1px;
     width: 100%;
-    background-color: var(--filroden-color-text-accent);
-    margin-block: var(--filroden-space-m);
+    background-color: var(--rmucsc-accent-main);
+    margin-block: var(--rmucsc-space-m);
 }
 
 .rmucsc-danger {
-    color: var(--filroden-color-danger);
+    color: var(--rmucsc-color-danger);
 }
 
 /* --- BADGES & PILLS --- */
@@ -497,22 +502,22 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--filroden-space-xs);
-    background-color: var(--filroden-color-bg-darkest);
-    color: var(--filroden-color-text-muted-solid);
-    border: 1px solid var(--filroden-color-border);
-    border-radius: var(--filroden-radius-large);
-    font-size: var(--filroden-font-size-xs);
+    gap: var(--rmucsc-space-xs);
+    background-color: var(--rmucsc-bg-base);
+    color: var(--rmucsc-text-secondary);
+    border: 1px solid var(--rmucsc-border-focus);
+    border-radius: var(--rmucsc-radius-large);
+    font-size: var(--rmucsc-font-size-xs);
     font-weight: bold;
-    padding: var(--filroden-space-xxs) var(--filroden-space-s);
-    line-height: var(--filroden-line-height-heading);
+    padding: var(--rmucsc-space-xxs) var(--rmucsc-space-s);
+    line-height: var(--rmucsc-line-height-heading);
     white-space: nowrap;
 }
 
 .rmucsc .rmucsc-badge.primary {
-    background-color: var(--filroden-color-text-accent);
-    color: var(--filroden-color-text-on-accent);
-    border-color: var(--filroden-color-text-accent);
+    background-color: var(--rmucsc-accent-main);
+    color: var(--rmucsc-text-inverse);
+    border-color: var(--rmucsc-accent-main);
 }
 
 /* ===================================================================
@@ -521,7 +526,7 @@
 
 .rmucsc .rmucsc-flex-row {
     display: flex;
-    gap: var(--filroden-space-s);
+    gap: var(--rmucsc-space-s);
     width: 100%;
 }
 
@@ -536,8 +541,8 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: var(--filroden-space-m);
-    gap: var(--filroden-space-xs);
+    padding: var(--rmucsc-space-m);
+    gap: var(--rmucsc-space-xs);
     overflow-y: auto; /* Required to trigger rmucsc-scrollable mechanics */
 }
 
@@ -571,7 +576,6 @@ button.control.tool.rmucsc-skill-button-icon::before {
     mask-size: contain;
 }
 
-
 /* =====================================
 --- MAIN MODULE STYLES ---
 =====================================
@@ -585,32 +589,16 @@ button.control.tool.rmucsc-skill-button-icon::before {
 .rmucsc,
 .rmucsc .window-header {
     background-image: unset;
-    background-color: var(--filroden-color-bg-darkest);
-    color: var(--filroden-color-text-main-solid);
+    background-color: var(--rmucsc-primary-900);
+    color: var(--rmucsc-primary-100);
 }
 
 .rmucsc .window-header {
-    border-block-end: var(--filroden-border-main);
+    border-block-end: 1px solid var(--rmucsc-border-main);
 }
 
 .rmucsc .window-header .window-title {
-    color: var(--filroden-color-text-main-solid);
-}
-
-.rmucsc .rmucsc-notes {
-    color: var(--filroden-color-text-muted-solid);
-}
-
-.rmucsc .rmucsc-button-title {
-    color: var(--filroden-color-text-accent);
-    font-size: var(--filroden-font-size-l);
-    font-weight: bold;
-}
-
-.rmucsc .rmucsc-button-note {
-    color: var(--filroden-color-text-muted-solid);
-    font-size: var(--filroden-font-size-s);
-    font-weight: normal;
+    color: var(--rmucsc-primary-100);
 }
 
 
@@ -621,8 +609,8 @@ button.control.tool.rmucsc-skill-button-icon::before {
 
 .rmucsc .window-content {
     background: none;
-    background-color: var(--filroden-color-bg-darkest);
-    color: var(--filroden-color-text-main-solid);
+    background-color: var(--rmucsc-bg-base);
+    color: var(--rmucsc-text-primary);
     padding: 0;
     height: auto;
 
@@ -636,7 +624,7 @@ button.control.tool.rmucsc-skill-button-icon::before {
 .rmucsc-calc-pane {
     display: flex;
     flex-direction: column;
-    gap: var(--filroden-space-xs);
+    gap: var(--rmucsc-space-xs);
 }
 
 .rmucsc-notes {
@@ -651,7 +639,7 @@ button.control.tool.rmucsc-skill-button-icon::before {
     display: none;
     flex-direction: column;
     overflow-y: hidden;
-    padding: var(--filroden-space-m);
+    padding: var(--rmucsc-space-m);
 }
 
 .rmucsc-tab-content.active {
@@ -671,8 +659,8 @@ button.control.tool.rmucsc-skill-button-icon::before {
     width: 0;
     opacity: 0;
     overflow: hidden;
-    background: var(--filroden-color-bg-medium-solid);
-    border-inline-start: var(--filroden-border-main);
+    background: var(--rmucsc-bg-panel);
+    border-inline-start: 1px solid var(--rmucsc-border-main);
     transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out, padding 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
@@ -682,18 +670,18 @@ button.control.tool.rmucsc-skill-button-icon::before {
 .rmucsc-side-panel.open {
     width: 18.75rem; /* 300px */
     opacity: 1;
-    padding: var(--filroden-space-m);
+    padding: var(--rmucsc-space-m);
     white-space: normal;
 }
 
 .rmucsc-side-panel-header {
-    color: var(--filroden-color-text-accent);
-    font-size: var(--filroden-font-size-l);
-    font-weight: var(--filroden-font-weight-bold);
-    letter-spacing: var(--filroden-letter-spacing-wide);
-    border-block-end: var(--filroden-border-main);
-    margin-block-end: var(--filroden-space-m);
-    padding-block-end: var(--filroden-space-xs);
+    color: var(--rmucsc-accent-main);
+    font-size: var(--rmucsc-font-size-l);
+    font-weight: bold;
+    letter-spacing: var(--rmucsc-letter-spacing-wide);
+    border-block-end: 1px solid var(--rmucsc-border-main);
+    margin-block-end: var(--rmucsc-space-m);
+    padding-block-end: var(--rmucsc-space-xs);
 }
 
 /* =====================================
@@ -702,25 +690,25 @@ button.control.tool.rmucsc-skill-button-icon::before {
 */
 
 .rmucsc .rmucsc-sub-fieldset {
-    border: var(--filroden-border-main);
-    padding: var(--filroden-space-m);
-    margin-block-start: var(--filroden-space-m);
-    border-radius: var(--filroden-radius-small);
+    border: 1px solid var(--rmucsc-border-main);
+    padding: var(--rmucsc-space-m);
+    margin-block-start: var(--rmucsc-space-m);
+    border-radius: var(--rmucsc-radius-small);
     
     display: grid;
     grid-template-columns: max-content 1fr;
-    gap: var(--filroden-space-s) var(--filroden-space-l);
+    gap: var(--rmucsc-space-s) var(--rmucsc-space-l);
     align-items: center;
 }
 
 .rmucsc .rmucsc-sub-fieldset legend {
     grid-column: 1 / 3; 
-    font-size: var(--filroden-font-size-xs);
+    font-size: var(--rmucsc-font-size-xs);
     font-weight: normal;
-    padding-inline: var(--filroden-space-xs);
+    padding-inline: var(--rmucsc-space-xs);
     text-transform: uppercase;
-    color: var(--filroden-color-text-muted-solid);
-    margin-block-end: var(--filroden-space-xs);
+    color: var(--rmucsc-text-secondary);
+    margin-block-end: var(--rmucsc-space-xs);
 }
 
 /* --- Form Inputs & Selects --- */
@@ -737,47 +725,51 @@ button.control.tool.rmucsc-skill-button-icon::before {
 .rmucsc .rmucsc-participant-list {
     display: flex;
     flex-direction: column;
-    gap: var(--filroden-space-xs);
+    gap: var(--rmucsc-space-xs);
 }
 
 .rmucsc #boost-skill-participants .rmucsc-participant-row {
     display: grid;
     grid-template-columns: 3.75rem 3.75rem 1fr 5rem 2rem;
     align-items: center;
-    gap: var(--filroden-space-m);
+    gap: var(--rmucsc-space-m);
 }
 
 .rmucsc #group-task-participants .rmucsc-participant-row {
     display: grid;
     grid-template-columns: 3.75rem 3.75rem 1fr 5rem 5rem 2rem;
     align-items: center;
-    gap: var(--filroden-space-m);
+    gap: var(--rmucsc-space-m);
 }
 
 .rmucsc .rmucsc-participant-header {
     font-weight: bold;
-    font-size: var(--filroden-font-size-xs);
+    font-size: var(--rmucsc-font-size-xs);
     text-transform: uppercase;
-    border-block-end: var(--filroden-border-main);
-    padding-block-end: var(--filroden-space-xs);
+    border-block-end: 1px solid var(--rmucsc-border-main);
+    padding-block-end: var(--rmucsc-space-xs);
 }
+
 .rmucsc .rmucsc-participant-header span:last-child {
     text-align: center;
 }
+
 .rmucsc .rmucsc-participant-row input[type="checkbox"],
 .rmucsc .rmucsc-participant-row input[type="radio"] {
     margin: 0;
     justify-self: center;
 }
+
 .rmucsc .rmucsc-participant-row .rmucsc-participant-ranks,
 .rmucsc .rmucsc-participant-row .rmucsc-participant-bonus {
     text-align: center;
     font-style: italic;
-    font-size: var(--filroden-font-size-s);
-    color: var(--filroden-color-text-muted-solid);
+    font-size: var(--rmucsc-font-size-s);
+    color: var(--rmucsc-text-secondary);
 }
+
 .rmucsc .rmucsc-add-wrapper {
-    margin-block-start: var(--filroden-space-m);
+    margin-block-start: var(--rmucsc-space-m);
 }
 .rmucsc .rmucsc-add-list .form-group {
     justify-content: flex-start;
@@ -788,12 +780,12 @@ button.control.tool.rmucsc-skill-button-icon::before {
 .rmucsc .rmucsc-dynamic-list {
     display: flex;
     flex-direction: column;
-    gap: var(--filroden-space-xs);
+    gap: var(--rmucsc-space-xs);
 }
 .rmucsc .rmucsc-dynamic-row {
     display: grid;
     grid-template-columns: 1fr auto;
-    gap: var(--filroden-space-xs);
+    gap: var(--rmucsc-space-xs);
     align-items: center;
 }
 .rmucsc .rmucsc-icon-button {
@@ -811,9 +803,9 @@ button.control.tool.rmucsc-skill-button-icon::before {
 .rmucsc .rmucsc-output-box {
     display: flex;
     flex-direction: column;
-    gap: var(--filroden-space-xs);
-    font-size: var(--filroden-font-size-s);
-    padding-inline-end: var(--filroden-space-s);
+    gap: var(--rmucsc-space-xs);
+    font-size: var(--rmucsc-font-size-s);
+    padding-inline-end: var(--rmucsc-space-s);
 }
 
 .rmucsc .rmucsc-output-row {
@@ -824,32 +816,31 @@ button.control.tool.rmucsc-skill-button-icon::before {
 
 .rmucsc .rmucsc-output-row .rmucsc-output-value {
     font-weight: bold;
-    font-size: var(--filroden-font-size-s);
+    font-size: var(--rmucsc-font-size-s);
 }
 
 .rmucsc .rmucsc-output-total {
-    font-size: var(--filroden-font-size-m);
+    font-size: var(--rmucsc-font-size-m);
     font-weight: bold;
-    border-block-start: var(--filroden-border-main);
-    padding-block-start: var(--filroden-space-xs);
+    border-block-start: 1px solidvar(--rmucsc-border-main);
+    padding-block-start: var(--rmucsc-space-xs);
     overflow-y: auto;
 }
 
 .rmucsc .rmucsc-output-total .rmucsc-output-value {
-    font-size: var(--filroden-font-size-m);
-    color: var(--filroden-color-text-accent);
+    font-size: var(--rmucsc-font-size-m);
+    color: var(--rmucsc-accent-main);
     font-weight: bold;
 }
 
 .rmucsc .rmucsc-output-breakdown {
-    margin-block-start: var(--filroden-space-m);
-    margin-block-end: var(--filroden-space-m);
-    border-block-start: var(--filroden-border-main);
-
+    margin-block-start: var(--rmucsc-space-m);
+    margin-block-end: var(--rmucsc-space-m);
+    border-block-start: 1px solid var(--rmucsc-border-main);
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: var(--filroden-space-xs);
+    width: 100%;
+    gap: var(--rmucsc-space-xs);
 }
 
 .rmucsc .rmucsc-output-breakdown .rmucsc-notes {
@@ -859,36 +850,36 @@ button.control.tool.rmucsc-skill-button-icon::before {
 .rmucsc .rmucsc-output-breakdown ul,
 .rmucsc-chat-card .rmucsc-costs-breakdown ul {
     margin: 0;
-    list-style-type: disc;
-    font-size: var(--filroden-font-size-xs);
+    list-style-type: none;
+    font-size: var(--rmucsc-font-size-xs);
 }
 
 .rmucsc .rmucsc-output-breakdown li,
 .rmucsc-chat-card .rmucsc-costs-breakdown li {
     overflow-wrap: break-word;
-    word-break: break-word; 
+    word-break: word-break;
     white-space: normal;
-    margin-block-end: var(--filroden-space-xs);
+    margin-block-end: var(--rmucsc-space-xs);
 }
 
 /* --- Footer --- */
 .rmucsc .rmucsc-calc-footer {
     flex: none;
-    border-block-start: var(--filroden-border-main);
-    padding: var(--filroden-space-m);
+    border-block-start: 1px solid var(--rmucsc-border-main);
+    padding: var(--rmucsc-space-m);
     display: flex;
-    justify-content: flex-end; /* flex-end natively respects LTR/RTL flow */
+    justify-content: flex-end;
 }
 .rmucsc .rmucsc-send-chat {
-    background: var(--filroden-color-text-accent);
-    border-color: var(--filroden-color-text-accent);
-    color: var(--filroden-color-text-on-accent);
+    background: var(--rmucsc-accent-main);
+    border-color: var(--rmucsc-accent-main);
+    color: var(--rmucsc-text-inverse);
     font-weight: normal;
 }
 .rmucsc .rmucsc-send-chat:hover {
-    background: var(--filroden-color-text-accent-hover);
-    border-color: var(--filroden-color-text-accent-hover);
-    color: var(--filroden-color-text-on-accent);
+    background: var(--rmucsc-accent-hover);
+    border-color: var(--rmucsc-accent-hover);
+    color: var(--rmucsc-text-inverse);
 }
 
 /* =====================================
@@ -896,21 +887,22 @@ button.control.tool.rmucsc-skill-button-icon::before {
    ===================================== */
 
 .rmucsc .rmucsc-collapsible-section {
-    border: var(--filroden-border-main);
-    border-radius: var(--filroden-radius-small);
-    margin-block-end: var(--filroden-space-s);
-    background: var(--filroden-color-bg-medium-solid);
+    border: 1px solid var(--rmucsc-border-main);
+    border-radius: var(--rmucsc-radius-small);
+    margin-block-end: var(--rmucsc-space-s);
+    background: var(--rmucsc-bg-panel);
     transition: background-color 0.2s;
 }
 
 .rmucsc .rmucsc-collapsible-section[open] {
-    background: var(--filroden-color-bg-darkest);
+    background: var(--rmucsc-bg-base);
 }
 
 .rmucsc .rmucsc-collapsible-section summary {
-    padding: var(--filroden-space-s) var(--filroden-space-m);
+    padding: var(--rmucsc-space-s) var(--rmucsc-space-m);
     font-weight: bold;
-    color: var(--filroden-color-text-accent);
+    background: var(--rmucsc-bg-panel);
+    color: var(--rmucsc-accent-main);
     cursor: pointer;
     list-style: none;
     display: flex;
@@ -922,15 +914,15 @@ button.control.tool.rmucsc-skill-button-icon::before {
 .rmucsc .rmucsc-collapsible-section summary::before {
     content: "▶";
     display: inline-block;
-    margin-inline-end: var(--filroden-space-s);
-    font-size: var(--filroden-font-size-xs);
+    margin-inline-end: var(--rmucsc-space-s);
+    font-size: var(--rmucsc-font-size-xs);
     transition: transform 0.2s ease;
-    color: var(--filroden-color-text-muted-solid);
+    color: var(--rmucsc-text-primary);
 }
 
 .rmucsc .rmucsc-collapsible-section[open] summary::before {
     transform: rotate(90deg);
-    color: var(--filroden-color-text-accent);
+    color: var(--rmucsc-accent-main);
 }
 
 /* Hide the default webkit arrow */
@@ -939,13 +931,24 @@ button.control.tool.rmucsc-skill-button-icon::before {
 }
 
 .rmucsc .rmucsc-collapsible-content {
-    padding: var(--filroden-space-m);
-    border-block-start: var(--filroden-border-main);
-    gap: var(--filroden-space-m);
+    display: flex;
+    flex-direction: column;
+    padding: var(--rmucsc-space-m);
+    border-block-start: 1px solid var(--rmucsc-border-main);
+    gap: var(--rmucsc-space-m);
 }
 
-.rmucsc .rmucsc-column-layout {
+.rmucsc ul.rmucsc-column-layout {
     column-width: 12rem;
+    column-gap: var(--rmucsc-space-m);
+    display: block;
+    width: 100%;
+}
+
+.rmucsc ul.rmucsc-column-layout li {
+    break-inside: avoid-column;
+    page-break-inside: avoid;
+    margin-block-end: var(--rmucsc-space-xs);
 }
 
 /* =====================================
@@ -956,9 +959,9 @@ button.control.tool.rmucsc-skill-button-icon::before {
 .rmucsc .rmucsc-ritual-row-wrapper {
     display: flex;
     flex-direction: column;
-    gap: var(--filroden-space-s);
-    border-block-end: var(--filroden-border-main);
-    padding-block-end: var(--filroden-space-m);
+    gap: var(--rmucsc-space-s);
+    border-block-end: 1px solid var(--rmucsc-border-main);
+    padding-block-end: var(--rmucsc-space-m);
 }
 
 .rmucsc .rmucsc-ritual-row-wrapper:last-child {
@@ -970,28 +973,28 @@ button.control.tool.rmucsc-skill-button-icon::before {
     display: grid;
     grid-template-columns: 3.75rem 6.5rem 1fr 6rem 5rem 5rem 2rem;
     align-items: center;
-    gap: var(--filroden-space-m);
+    gap: var(--rmucsc-space-m);
 }
 
 .rmucsc .rmucsc-ritual-skills-row {
     display: flex;
     flex-direction: column;
-    gap: var(--filroden-space-s);
+    gap: var(--rmucsc-space-s);
     padding-inline-start: 6rem;
-    margin-block-start: var(--filroden-space-xs);
+    margin-block-start: var(--rmucsc-space-xs);
 }
 
 .rmucsc .rmucsc-child-label {
     display: flex;
     align-items: center;
-    gap: var(--filroden-space-s);
+    gap: var(--rmucsc-space-s);
 }
 
 .rmucsc .rmucsc-child-label::before {
     content: "";
     display: inline-block;
-    width: var(--filroden-font-size-xxs);
-    height: var(--filroden-font-size-xs);
+    width: var(--rmucsc-font-size-xxs);
+    height: var(--rmucsc-font-size-xs);
     border-bottom: 2px solid currentColor;
     border-inline-start: 2px solid currentColor;
     transform: translateY(-25%);
@@ -1011,7 +1014,7 @@ button.control.tool.rmucsc-skill-button-icon::before {
 .rmucsc .rmucsc-pp-wrapper {
     display: flex;
     align-items: center;
-    gap: var(--filroden-space-xs);
+    gap: var(--rmucsc-space-xs);
 }
 
 .rmucsc .rmucsc-pp-wrapper input {
@@ -1020,33 +1023,29 @@ button.control.tool.rmucsc-skill-button-icon::before {
 }
 
 .rmucsc .rmucsc-pp-max {
-    color: var(--filroden-color-text-muted-solid);
-    font-size: var(--filroden-font-size-s);
+    color: var(--rmucsc-text-secondary);
+    font-size: var(--rmucsc-font-size-s);
     font-style: italic;
     white-space: nowrap;
-}
-
-.rmucsc-participant-remove:hover .rmucsc-icon.delete {
-    background-color: var(--filroden-color-danger);
 }
 
 /* --- Target Spell Grid --- */
 .rmucsc .rmucsc-spell-list {
     display: flex;
     flex-direction: column;
-    gap: var(--filroden-space-s);
+    gap: var(--rmucsc-space-s);
 }
 
 .rmucsc .rmucsc-spell-row {
     display: grid;
     grid-template-columns: 5rem 1fr 1fr 2rem;
     align-items: center;
-    gap: var(--filroden-space-m);
+    gap: var(--rmucsc-space-m);
 }
 
 .rmucsc .rmucsc-spell-row.total-row {
-    border-block-start: var(--filroden-border-main);
-    padding-block-start: var(--filroden-space-xs);
+    border-block-start: 1px solid var(--rmucsc-border-main);
+    padding-block-start: var(--rmucsc-space-xs);
     font-weight: bold;
 }
 
@@ -1057,34 +1056,30 @@ button.control.tool.rmucsc-skill-button-icon::before {
 
 .rmucsc .total-row.rmucsc-spell-level,
 .rmucsc .total-row.rmucsc-spell-pp {
-    color: var(--filroden-color-text-accent);
-}
-
-.rmucsc-spell-remove:hover .rmucsc-icon.delete {
-    background-color: var(--filroden-color-danger);
+    color: var(--rmucsc-accent-main);
 }
 
 /* --- Target Spell Grid Specifics --- */
 .rmucsc .rmucsc-spell-total-label {
     text-transform: uppercase;
-    color: var(--filroden-color-text-accent);
+    color: var(--rmucsc-accent-main);
 }
 
 /* --- Form Field Utilities --- */
 .rmucsc .rmucsc-section-divider {
-    border-block-start: var(--filroden-border-dashed);
-    padding-block-start: var(--filroden-space-m);
+    border-block-start: 1px dashed var(--rmucsc-border-main);
+    padding-block-start: var(--rmucsc-space-m);
 }
 
 .rmucsc .rmucsc-checkbox-group {
     display: flex;
     flex-direction: column;
-    gap: var(--filroden-space-xs);
+    gap: var(--rmucsc-space-xs);
 }
 
 .rmucsc .rmucsc-inline-fields {
     display: flex;
-    gap: var(--filroden-space-s);
+    gap: var(--rmucsc-space-s);
     align-items: center;
 }
 
@@ -1094,7 +1089,7 @@ button.control.tool.rmucsc-skill-button-icon::before {
 }
 
 .rmucsc .rmucsc-checkbox-note {
-    margin-inline-start: var(--filroden-space-xs);
+    margin-inline-start: var(--rmucsc-space-xs);
 }
 
 .rmucsc .rmucsc-output-box .rmucsc-empty-notes {
@@ -1105,10 +1100,10 @@ button.control.tool.rmucsc-skill-button-icon::before {
 .rmucsc .rmucsc-circumstance-grid,
 .rmucsc .rmucsc-items-grid {
     display: grid;
-    gap: var(--filroden-space-s);
+    gap: var(--rmucsc-space-s);
     align-items: center;
     text-align: center;
-    margin-block-start: var(--filroden-space-m);
+    margin-block-start: var(--rmucsc-space-m);
 }
 
 .rmucsc .rmucsc-circumstance-grid {
@@ -1122,10 +1117,10 @@ button.control.tool.rmucsc-skill-button-icon::before {
 .rmucsc .rmucsc-circumstance-grid .rmucsc-grid-header,
 .rmucsc .rmucsc-items-grid .rmucsc-grid-header {
     font-weight: bold;
-    font-size: var(--filroden-font-size-xs);
-    color: var(--filroden-color-text-muted-solid);
-    border-block-end: var(--filroden-border-main);
-    padding-block-end: var(--filroden-space-xs);
+    font-size: var(--rmucsc-font-size-xs);
+    color: var(--rmucsc-text-secondary);
+    border-block-end: 1px solid var(--rmucsc-border-main);
+    padding-block-end: var(--rmucsc-space-xs);
     align-self: end;
     cursor: help;
 }
@@ -1134,7 +1129,7 @@ button.control.tool.rmucsc-skill-button-icon::before {
 .rmucsc .rmucsc-items-grid .rmucsc-grid-label {
     font-weight: bold;
     text-align: start;
-    padding-inline-end: var(--filroden-space-s);
+    padding-inline-end: var(--rmucsc-space-s);
 }
 
 .rmucsc .rmucsc-circumstance-grid input,
@@ -1143,7 +1138,7 @@ button.control.tool.rmucsc-skill-button-icon::before {
 }
 
 .rmucsc .rmucsc-items-grid .rmucsc-grid-header .info {
-    height: var(--filroden-font-size-m);
+    height: var(--rmucsc-font-size-m);
     vertical-align: text-top;
 }
 
@@ -1157,7 +1152,7 @@ button.control.tool.rmucsc-skill-button-icon::before {
 .rmucsc .rmucsc-stepper {
     display: flex;
     align-items: center;
-    gap: var(--filroden-space-xs);
+    gap: var(--rmucsc-space-xs);
 }
 
 .rmucsc .rmucsc-stepper input[type="number"] {
@@ -1177,7 +1172,7 @@ button.control.tool.rmucsc-skill-button-icon::before {
 
 /* Enhancing the button text for + and - */
 .rmucsc .rmucsc-stepper .rmucsc-icon-button {
-    font-size: var(--filroden-font-size-l);
+    font-size: var(--rmucsc-font-size-l);
     font-weight: bold;
     padding-block-end: 2px; /* Vertically centers HTML math symbols cleanly */
 }
@@ -1193,15 +1188,16 @@ button.control.tool.rmucsc-skill-button-icon::before {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: var(--filroden-color-text-muted-solid);
+    color: var(--rmucsc-text-secondary);
     transition: color 0.1s, text-shadow 0.1s;
-    margin-inline: var(--filroden-space-s);
-    border: 1px solid var(--filroden-color-border);
+    margin-inline: var(--rmucsc-space-s);
+    border: 1px solid var(--rmucsc-border-main);
 }
 
 .rmucsc .rmucsc-legend-action:hover {
-    color: var(--filroden-color-text-accent);
-    text-shadow: 0 0 5px var(--filroden-color-text-accent);
+    background-color: var(--rmucsc-bg-hover);
+    color: var(--rmucsc-accent-main);
+    text-shadow: var(--rmucsc-shadow-focus);
 }
 
 /* =====================================
@@ -1211,16 +1207,16 @@ button.control.tool.rmucsc-skill-button-icon::before {
 .rmucsc .rmucsc-endurance-grid {
     display: grid;
     grid-template-columns: minmax(0, 4fr) repeat(var(--columns), 1fr);
-    gap: var(--filroden-space-xxs);
+    gap: var(--rmucsc-space-xxs);
     align-items: center;
 }
 
 .rmucsc .rmucsc-endurance-grid .rmucsc-grid-header {
     font-weight: bold;
-    font-size: var(--filroden-font-size-xs);
-    color: var(--filroden-color-text-muted-solid);
-    border-block-end: var(--filroden-border-main);
-    padding-block-end: var(--filroden-space-xs);
+    font-size: var(--rmucsc-font-size-xs);
+    color: var(--rmucsc-text-secondary);
+    border-block-end: 1px solid var(--rmucsc-border-main);
+    padding-block-end: var(--rmucsc-space-xs);
     text-align: center;
 }
 
@@ -1244,53 +1240,54 @@ button.control.tool.rmucsc-skill-button-icon::before {
    ===================================== */
 
 .chat-message.rmucsc-calc-message {
-    background: var(--filroden-color-bg-darkest);
+    background: var(--rmucsc-bg-base);
     border: none;
-    padding: var(--filroden-space-s);
+    padding: var(--rmucsc-space-s);
     box-shadow: none;
 }
 
 .chat-message.rmucsc-calc-message :is(.message-sender, .whisper-to, .message-timestamp) {
-    color: var(--filroden-color-text-muted-solid);
-    font-size: var(--filroden-font-size-xs);
+    color: var(--rmucsc-text-secondary);
+    font-size: var(--rmucsc-font-size-xs);
 }
 
 .chat-message.rmucsc-calc-message .message-header {
-    background: var(--filroden-color-bg-medium-solid);
-    padding: var(--filroden-space-xs);
-    border-radius: var(--filroden-radius-medium);
-    margin: var(--filroden-space-xs);
-    border: var(--filroden-border-main);
+    background: var(--rmucsc-bg-panel);
+    padding: var(--rmucsc-space-xs);
+    border-radius: var(--rmucsc-radius-medium);
+    margin: var(--rmucsc-space-xs);
+    border: 1px solid var(--rmucsc-border-main);
 }
 
 .rmucsc-chat-card {
     display: flex;
     flex-direction: row;
-    gap: var(--filroden-space-xs);
-    font-family: var(--filroden-font-family);
-    font-size: var(--filroden-font-size-xs);
-    color: var(--filroden-color-text-main-solid);
+    gap: var(--rmucsc-space-xs);
+    font-family: var(--rmucsc-font-family);
+    font-size: var(--rmucsc-font-size-xs);
+    color: var(--rmucsc-text-primary);
 }
 
 .rmucsc-chat-card .rmucsc-card-sidebar {
     flex: 0 0 1.8rem; 
-    background-color: var(--filroden-color-text-accent);
-    color: var(--filroden-color-text-on-accent);
-    border-radius: var(--filroden-radius-medium);
-    box-shadow: var(--filroden-shadow-card);
+    background-color: var(--rmucsc-accent-main);
+    color: var(--rmucsc-text-inverse);
+    border: 1px solid var(--rmucsc-border-main);
+    border-radius: var(--rmucsc-radius-medium);
+    box-shadow: var(--rmucsc-shadow-popout);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: var(--filroden-space-xs);
-    padding-block: var(--filroden-space-l);
+    margin: var(--rmucsc-space-xs);
+    padding-block: var(--rmucsc-space-l);
 }
 
 .rmucsc-chat-card .rmucsc-card-sidebar span {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
     text-transform: uppercase;
-    letter-spacing: var(--filroden-letter-spacing-wide);
-    font-size: var(--filroden-font-size-xs);
+    letter-spacing: var(--rmucsc-letter-spacing-wide);
+    font-size: var(--rmucsc-font-size-xs);
     font-weight: bold;
     white-space: nowrap;
 }
@@ -1299,27 +1296,27 @@ button.control.tool.rmucsc-skill-button-icon::before {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: var(--filroden-space-m);
+    gap: var(--rmucsc-space-m);
 }
 
 .rmucsc-chat-card .rmucsc-card-panel {
-    background-color: var(--filroden-color-bg-light-solid);
-    border: var(--filroden-border-main);
-    border-radius: var(--filroden-radius-medium);
-    box-shadow: var(--filroden-shadow-card);
-    padding: var(--filroden-space-s);
+    background-color: var(--rmucsc-bg-panel);
+    border: 1px solid var(--rmucsc-border-main);
+    border-radius: var(--rmucsc-radius-medium);
+    box-shadow: var(--rmucsc-shadow-popout);
+    padding: var(--rmucsc-space-s);
     display: flex;
     flex-direction: column;
-    gap: var(--filroden-space-xs);
-    margin: var(--filroden-space-xs);
+    gap: var(--rmucsc-space-xs);
+    margin: var(--rmucsc-space-xs);
 }
 
 .rmucsc-chat-card .rmucsc-panel-header {
-    color: var(--filroden-color-text-accent);
+    color: var(--rmucsc-accent-main);
     font-weight: bold;
-    border-block-end: var(--filroden-border-main);
-    margin-block-end: var(--filroden-space-xs);
-    padding-block-end: var(--filroden-space-xxs);
+    border-block-end: 1px solid var(--rmucsc-border-main);
+    margin-block-end: var(--rmucsc-space-xs);
+    padding-block-end: var(--rmucsc-space-xxs);
     display: block;
 }
 
@@ -1333,14 +1330,14 @@ button.control.tool.rmucsc-skill-button-icon::before {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-block-end: var(--filroden-space-xs);
-    padding-inline-start: var(--filroden-space-l);
+    margin-block-end: var(--rmucsc-space-xs);
+    padding-inline-start: var(--rmucsc-space-l);
 }
 
 .rmucsc-chat-card li > span:first-child {
     flex: 1;
-    margin-inline-end: var(--filroden-space-s);
-    word-break: break-word;
+    margin-inline-end: var(--rmucsc-space-s);
+    word-break: word-break;
 }
 
 .rmucsc-chat-card .rmucsc-val {
@@ -1348,25 +1345,25 @@ button.control.tool.rmucsc-skill-button-icon::before {
     white-space: nowrap;
     text-align: end;
     font-weight: bold;
-    color: var(--filroden-color-text-main-solid);
+    color: var(--rmucsc-text-primary);
 }
 
 .rmucsc-chat-card .rmucsc-name-list {
     font-style: italic;
-    color: var(--filroden-color-text-muted-solid);
-    font-size: var(--filroden-font-size-xs);
+    color: var(--rmucsc-text-secondary);
+    font-size: var(--rmucsc-font-size-xs);
 }
 
 .rmucsc-chat-card .rmucsc-complementary-sum,
 .rmucsc-chat-card .rmucsc-complementary-average {
-    margin-block-start: var(--filroden-space-xs);
-    border-block-start: var(--filroden-border-main);
-    padding-block-start: var(--filroden-space-xxs);
+    margin-block-start: var(--rmucsc-space-xs);
+    border-block-start: 1px solid var(--rmucsc-border-main);
+    padding-block-start: var(--rmucsc-space-xxs);
     text-align: end;
 }
 
 .rmucsc-chat-card .rmucsc-costs-item {
-    margin-block-end: var(--filroden-space-m);
+    margin-block-end: var(--rmucsc-space-m);
 }
 
 .rmucsc-chat-card .rmucsc-costs-breakdown {
@@ -1377,42 +1374,43 @@ button.control.tool.rmucsc-skill-button-icon::before {
 }
 
 .rmucsc-chat-card .rmucsc-card-panel.result {
-    background-color: var(--filroden-color-bg-medium-solid);
-    border-color: var(--filroden-color-text-accent);
+    background-color: var(--rmucsc-bg-panel);
+    border-color: var(--rmucsc-border-focus);
     text-align: center;
 }
 
 .rmucsc-chat-card .rmucsc-total-label {
     text-transform: uppercase;
-    color: var(--filroden-color-text-muted-solid);
-    font-size: var(--filroden-font-size-xs);
+    color: var(--rmucsc-text-secondary);
+    font-size: var(--rmucsc-font-size-xs);
 }
 
 .rmucsc-chat-card .rmucsc-total-value {
     display: block;
-    font-size: var(--filroden-font-size-l);
-    font-weight: var(--filroden-font-weight-bold);
-    color: var(--filroden-color-text-accent);
+    font-size: var(--rmucsc-font-size-l);
+    font-weight: var(--rmucsc-font-weight-bold);
+    color: var(--rmucsc-accent-main);
 }
 
 .rmucsc-chat-card .rmucsc-roll-footer {
     display: flex;
     flex-direction: column;
-    gap: var(--filroden-space-m);
-    margin-block-start: var(--filroden-space-m);
+    align-items: flex-end;
+    gap: var(--rmucsc-space-m);
+    margin-block-start: var(--rmucsc-space-m);
     width: 100%;
 }
 
 .rmucsc-chat-card .rmucsc-roll-skill-button,
 .rmucsc-chat-card .rmucsc-apply-sacrifices-button {
-    background: var(--filroden-color-bg-light-solid);
-    border: var(--filroden-border-main);
-    border-radius: var(--filroden-radius-small);
-    box-shadow: var(--filroden-shadow-card);
-    color: var(--filroden-color-text-muted-solid);
-    margin: var(--filroden-space-xs);
-    padding: var(--filroden-space-xs) var(--filroden-space-l);  
-    font-size: var(--filroden-font-size-xs);
+    background: var(--rmucsc-accent-main);
+    border: 1px solid var(--rmucsc-border-main);
+    border-radius: var(--rmucsc-radius-small);
+    box-shadow: var(--rmucsc-shadow-popout);
+    color: var(--rmucsc-text-inverse);
+    margin: var(--rmucsc-space-xs);
+    padding: var(--rmucsc-space-xs) var(--rmucsc-space-l);  
+    font-size: var(--rmucsc-font-size-xs);
     width: 66%;
     cursor: pointer;
     transition: background-color 0.1s, border-color 0.1s, color 0.1s;
@@ -1420,25 +1418,25 @@ button.control.tool.rmucsc-skill-button-icon::before {
 
 .rmucsc-chat-card .rmucsc-roll-skill-button:hover,
 .rmucsc-chat-card .rmucsc-apply-sacrifices-button:hover {
-    background: var(--filroden-color-bg-hover-solid);
-    border-color: var(--filroden-color-text-accent);
-    color: var(--filroden-color-text-main-solid);
+    background: var(--rmucsc-accent-hover);
+    border-color: var(--rmucsc-accent-main);
+    color: var(--rmucsc-text-inverse);
 }
 
 .rmucsc-chat-card .rmucsc-roll-skill-button:disabled,
 .rmucsc-chat-card .rmucsc-apply-sacrifices-button:disabled {
-    background: var(--filroden-color-bg-medium-solid);
-    border-color: var(--filroden-border-main);
-    color: var(--filroden-color-text-muted-solid);
+    background: var(--rmucsc-bg-muted);
+    border-color: var(--rmucsc-border-main);
+    color: var(--rmucsc-text-muted);
     opacity: 0.5;
     cursor: not-allowed;
 }
 
 .rmucsc-chat-card .rmucsc-crit-type-select {
-    background-color: var(--filroden-color-bg-light-solid);
-    color: var(--filroden-color-text-main-solid);
-    padding: var(--filroden-space-s);
-    min-height: var(--filroden-font-size-xl);
+    background-color: var(--rmucsc-bg-hover);
+    color: var(--rmucsc-accent-main);
+    padding: var(--rmucsc-space-s);
+    min-height: var(--rmucsc-font-size-xl);
     width: 100%;
     transition: border-color 0.2s, box-shadow 0.2s;
 }
@@ -1448,7 +1446,7 @@ button.control.tool.rmucsc-skill-button-icon::before {
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
-    gap: var(--filroden-space-m);
+    gap: var(--rmucsc-space-m);
     width: 100%;
 }
 
@@ -1466,13 +1464,13 @@ button.control.tool.rmucsc-skill-button-icon::before {
 
 /* Restores the border to the open state */
 .rmucsc-chat-card details.rmucsc-chat-details[open] summary.rmucsc-panel-header {
-    border-block-end: var(--filroden-border-main);
-    padding-block-end: var(--filroden-space-xs);
-    margin-block-end: var(--filroden-space-xs);
+    border-block-end: 1px solid var(--rmucsc-border-main);
+    padding-block-end: var(--rmucsc-space-xs);
+    margin-block-end: var(--rmucsc-space-xs);
 }
 
 .message-delete {
-    color: var(--filroden-color-danger);
+    color: var(--rmucsc-color-danger);
     opacity: 0.6;
     transition: opacity 0.2s;
 }
