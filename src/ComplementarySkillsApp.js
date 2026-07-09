@@ -24,6 +24,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         this.calcState = {
             activeTab: "boost",
             sidePanelOpen: false,
+            sidePanelMode: "participants",
             candidatesToAdd: new Set(),
             detailsState: {
                 boostBreakdown: false,
@@ -117,6 +118,9 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             rollEndurance: ComplementarySkillsApp.#rollEndurance,
             addPrimaryComp: ComplementarySkillsApp.#addPrimaryComp,
             deletePrimaryComp: ComplementarySkillsApp.#deletePrimaryComp,
+            saveRitualPreset: ComplementarySkillsApp.#saveRitualPreset,
+            loadRitualPreset: ComplementarySkillsApp.#loadRitualPreset,
+            deleteRitualPreset: ComplementarySkillsApp.#deleteRitualPreset,
             sendToChat: ComplementarySkillsApp.#sendToChat,
         },
     };
@@ -126,7 +130,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         boost: { template: "modules/rmu-complementary-skills/templates/boost-tab.hbs" },
         group: { template: "modules/rmu-complementary-skills/templates/group-tab.hbs" },
         ritual: { template: "modules/rmu-complementary-skills/templates/ritual-tab.hbs" },
-        sidePanel: { template: "modules/rmu-complementary-skills/templates/add-participant-panel.hbs" },
+        sidePanel: { template: "modules/rmu-complementary-skills/templates/side-panel.hbs" },
     };
 
     /**
@@ -397,6 +401,165 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         this.render({ parts: ["boost"] });
     }
 
+    static async #saveRitualPreset(event, target) {
+        const nameInput = this.element.querySelector('input[name="newPresetName"]');
+        const flagInput = this.element.querySelector('input[name="saveParticipantsFlag"]');
+
+        let presetName = nameInput?.value?.trim();
+        if (!presetName) {
+            presetName = game.i18n.localize("RMU_CS.Ritual.DefaultPresetName") || "New Ritual";
+        }
+
+        // Clone the core ritual state, cleanly omitting dynamically generated grid/UI states
+        const stateClone = foundry.utils.deepClone(this.calcState.ritualState);
+        delete stateClone.enduranceGrid;
+        delete stateClone.enduranceHeaders;
+        delete stateClone.enduranceColumns;
+        delete stateClone.endurancePrimaryFailed;
+        delete stateClone.endurancePending;
+
+        const preset = {
+            id: foundry.utils.randomID(),
+            name: presetName,
+            state: stateClone,
+            savedParticipants: null,
+        };
+
+        // Extract participant data into a scene-agnostic format
+        if (flagInput?.checked) {
+            const enabledParticipants = Array.from(this.participants.values()).filter((p) => p.enabled);
+            preset.savedParticipants = enabledParticipants.map((p) => {
+                const pData = this.calcState.ritualParticipantData[p.id];
+                return {
+                    actorId: p.actor.id,
+                    name: p.name,
+                    role: pData.role,
+                    ritualSkillUuid: pData.ritualSkillUuid,
+                    additionalSkillUuid: pData.additionalSkillUuid,
+                    ppContributed: pData.ppContributed,
+                    bloodDice: pData.bloodDice,
+                    bloodCrit: pData.bloodCrit,
+                };
+            });
+        }
+
+        const presets = game.settings.get("rmu-complementary-skills", "ritualPresets") || [];
+        presets.push(preset);
+        await game.settings.set("rmu-complementary-skills", "ritualPresets", presets);
+
+        // Reset the UI inputs
+        if (nameInput) nameInput.value = "";
+        if (flagInput) flagInput.checked = false;
+
+        ui.notifications.info(game.i18n.format("RMU_CS.Notifications.PresetSaved", { name: presetName }));
+        this.render({ parts: ["sidePanel"] });
+    }
+
+    static async #deleteRitualPreset(event, target) {
+        const id = target.dataset.id;
+        const presets = game.settings.get("rmu-complementary-skills", "ritualPresets") || [];
+        const filtered = presets.filter((p) => p.id !== id);
+
+        await game.settings.set("rmu-complementary-skills", "ritualPresets", filtered);
+        this.render({ parts: ["sidePanel"] });
+    }
+
+    static async #loadRitualPreset(event, target) {
+        const id = target.dataset.id;
+        const presets = game.settings.get("rmu-complementary-skills", "ritualPresets") || [];
+        const preset = presets.find((p) => p.id === id);
+
+        if (!preset) return;
+
+        // 1. Safely restore core configuration
+        for (const [key, val] of Object.entries(preset.state)) {
+            if (key === "targetSpells") {
+                this.calcState.ritualState.targetSpells = foundry.utils.deepClone(val);
+            } else {
+                this.calcState.ritualState[key] = val;
+            }
+        }
+
+        // 2. Safely rehydrate participants (Graceful Degradation)
+        if (preset.savedParticipants) {
+            this.tokenIds.clear();
+            this.participants.clear();
+            this.calcState.ritualParticipantData = {};
+            const missingNames = [];
+
+            for (const sp of preset.savedParticipants) {
+                // Find token on the active canvas
+                const token = canvas.tokens.placeables.find((t) => t.actor?.id === sp.actorId);
+
+                if (!token) {
+                    missingNames.push(sp.name);
+                    continue;
+                }
+
+                this.tokenIds.add(token.id);
+                this.calcState.ritualParticipantData[token.id] = {
+                    role: sp.role,
+                    ritualSkillUuid: sp.ritualSkillUuid,
+                    additionalSkillUuid: sp.additionalSkillUuid,
+                    ppContributed: sp.ppContributed,
+                    bloodDice: sp.bloodDice,
+                    bloodCrit: sp.bloodCrit,
+                };
+            }
+
+            if (missingNames.length > 0) {
+                ui.notifications.warn(game.i18n.format("RMU_CS.Notifications.MissingParticipants", { names: missingNames.join(", ") }));
+            }
+
+            // Force a deep fetch of the newly loaded actors' data
+            await this._hydrateParticipants();
+
+            // Validate and clamp dynamically changing attributes
+            for (const tokenId of this.tokenIds) {
+                const participant = this.participants.get(tokenId);
+                const data = this.calcState.ritualParticipantData[tokenId];
+
+                if (participant && data) {
+                    const maxPP = participant.attributes.currentPP;
+                    if (data.ppContributed > maxPP) {
+                        data.ppContributed = maxPP; // Clamp Power Points
+                    }
+
+                    // Nullify skills if they were deleted from the actor since the save
+                    if (data.ritualSkillUuid && !participant.allSkills.some((s) => s.uuid === data.ritualSkillUuid)) {
+                        data.ritualSkillUuid = null;
+                    }
+                    if (data.additionalSkillUuid && !participant.allSkills.some((s) => s.uuid === data.additionalSkillUuid)) {
+                        data.additionalSkillUuid = null;
+                    }
+                }
+            }
+        }
+
+        // 3. Reset the UI to cleanly show the loaded data
+        if (this.calcState.sidePanelOpen) {
+            this.calcState.sidePanelOpen = false;
+
+            // Execute the width collapse animation programmatically
+            if (typeof this.position.width === "number") {
+                const panelWidthPx = 300;
+                const isRTL = this.element.classList.contains("rtl");
+
+                let newWidth = this.position.width - panelWidthPx;
+                let newLeft = this.position.left;
+                if (isRTL && newLeft !== null) newLeft += panelWidthPx;
+
+                this.setPosition({ width: newWidth, left: newLeft });
+            }
+        }
+
+        this._enforceDeterministicPrimaryCaster();
+        this.#updateEnduranceGrid();
+
+        ui.notifications.info(game.i18n.format("RMU_CS.Notifications.PresetLoaded", { name: preset.name }));
+        this.render({ force: true });
+    }
+
     static #sendToChat(event, target) {
         const tab = this.tabGroups.primary || "boost";
 
@@ -443,7 +606,20 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
 
     #prepareSidePanelContext(context) {
         const availableTokens = canvas.tokens.placeables.filter((t) => t.actor && VALID_ACTOR_TYPES.includes(t.actor.type) && !this.tokenIds.has(t.id));
-        return { ...context, availableTokens };
+
+        let savedPresets = [];
+        try {
+            savedPresets = game.settings.get("rmu-complementary-skills", "ritualPresets") || [];
+        } catch (e) {
+            console.error("RMU COMP SKILLS | Could not retrieve ritual presets.", e);
+        }
+
+        return {
+            ...context,
+            availableTokens,
+            savedPresets,
+            sidePanelMode: this.calcState.sidePanelMode,
+        };
     }
 
     #prepareBoostContext(context) {
@@ -596,9 +772,19 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
     /* ----------------------------------------- */
 
     static #toggleSidePanel(event, target) {
-        this.calcState.sidePanelOpen = !this.calcState.sidePanelOpen;
+        const requestedMode = target.dataset.panelMode || "participants";
+        const wasOpen = this.calcState.sidePanelOpen;
 
-        if (typeof this.position.width === "number") {
+        // If clicking the same button while open, close it. Otherwise, open/swap to the requested mode.
+        if (wasOpen && this.calcState.sidePanelMode === requestedMode) {
+            this.calcState.sidePanelOpen = false;
+        } else {
+            this.calcState.sidePanelOpen = true;
+            this.calcState.sidePanelMode = requestedMode;
+        }
+
+        // Only animate the width if the open/close state actually changed
+        if (typeof this.position.width === "number" && wasOpen !== this.calcState.sidePanelOpen) {
             const panelWidthPx = 300;
             const isRTL = this.element.classList.contains("rtl");
 

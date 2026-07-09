@@ -1,0 +1,103 @@
+<aside class="rmucsc-side-panel {{#if sidePanelOpen}}open{{/if}}">
+    
+    {{#if (eq sidePanelMode "participants")}}
+        <div class="rmucsc-side-panel-header">
+            {{localize "RMU_CS.AddDialog.Title"}}
+        </div>
+
+        {{#if availableTokens.length}}
+        <p class="rmucsc-notes">{{localize "RMU_CS.AddDialog.Select"}}</p>
+        <div class="rmucsc-add-list">
+            {{#each availableTokens}}
+                <div class="form-group">
+                    <input type="checkbox" class="rmucsc-checkbox" data-action="toggleCandidate" value="{{id}}" id="add-{{id}}"/>
+                    <label for="add-{{id}}">{{name}}</label>
+                </div>
+            {{/each}}
+        </div>
+        {{else}}
+        <p class="rmucsc-notes rmucsc-empty-notes" style="margin-block-start: var(--rmucsc-space-l);">
+            {{localize "RMU_CS.Common.NoTokensAvailable"}}
+        </p>
+        {{/if}}
+
+        <div class="rmucsc-flex-row" style="justify-content: flex-end; gap: var(--rmucsc-space-m); margin-block-start: var(--rmucsc-space-m);">
+            <button type="button" class="rmucsc-btn" data-action="toggleSidePanel" data-panel-mode="participants">
+                {{localize "RMU_CS.Common.Cancel"}}
+            </button>
+            
+            {{#if availableTokens.length}}
+            <button type="button" class="rmucsc-btn" data-action="confirmAddParticipants">
+                {{localize "RMU_CS.Common.Add"}}
+            </button>
+            {{/if}}
+        </div>
+    {{/if}}
+
+    {{#if (eq sidePanelMode "presets")}}
+        <div class="rmucsc-side-panel-header">
+            {{localize "RMU_CS.Ritual.PresetsTitle"}}
+        </div>
+
+        <!-- Save New Preset -->
+        <div class="rmucsc-stacked-group">
+            <div class="form-group" style="grid-template-columns: 1fr;">
+                <input type="text" name="newPresetName" placeholder="{{localize 'RMU_CS.Ritual.PresetNamePlaceholder'}}" />
+            </div>
+            
+            <label class="rmucsc-checkbox-label">
+                <input type="checkbox" name="saveParticipantsFlag" class="rmucsc-checkbox" />
+                {{localize "RMU_CS.Ritual.IncludeParticipants"}}
+            </label>
+            
+            <button type="button" class="rmucsc-btn outline" data-action="saveRitualPreset">
+                <i class="rmucsc-icon book"></i>
+                {{localize "RMU_CS.Ritual.SaveCurrent"}}
+            </button>
+        </div>
+
+        <div class="rmucsc-divider"></div>
+
+        <!-- List of Saved Presets -->
+        <div class="rmucsc-preset-list rmucsc-scrollable">
+            {{#if savedPresets.length}}
+                {{#each savedPresets}}
+                    <div class="rmucsc-preset-card">
+                        
+                        <div class="rmucsc-preset-name-row">
+                            <strong class="rmucsc-preset-name">
+                                {{name}}
+                            </strong>
+                            <div class="rmucsc-preset-actions">
+                                <button type="button" class="rmucsc-btn rmucsc-icon-button primary muted" data-action="loadRitualPreset" data-id="{{id}}" data-tooltip="{{localize 'RMU_CS.Common.Load'}}" data-tooltip-class="rmucsc-tooltip">
+                                    <i class="rmucsc-icon file-open"></i>
+                                </button>
+                                <button type="button" class="rmucsc-btn rmucsc-icon-button danger muted" data-action="deleteRitualPreset" data-id="{{id}}" data-tooltip="{{localize 'RMU_CS.Common.Delete'}}" data-tooltip-class="rmucsc-tooltip">
+                                    <i class="rmucsc-icon delete"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        {{#if savedParticipants}}
+                            <span class="rmucsc-preset-details rmucsc-notes rmucsc-long">
+                                <i class="rmucsc-icon ritual small"></i>
+                                {{localize "RMU_CS.Ritual.IncludesParticipants"}}
+                            </span>
+                        {{/if}}
+
+                    </div>
+                {{/each}}
+            {{else}}
+                <p class="rmucsc-notes rmucsc-empty-notes" style="margin-block-start: var(--rmucsc-space-l);">
+                    {{localize "RMU_CS.Ritual.NoPresets"}}
+                </p>
+            {{/if}}
+        </div>
+
+        <div class="rmucsc-flex-row" style="justify-content: flex-end; gap: var(--rmucsc-space-m); margin-block-start: var(--rmucsc-space-m); padding-block-start: var(--rmucsc-space-m); border-block-start: 1px solid var(--rmucsc-border-main);">
+            <button type="button" class="rmucsc-btn" data-action="toggleSidePanel" data-panel-mode="presets">
+                {{localize "RMU_CS.Common.Close"}}
+            </button>
+        </div>
+    {{/if}}
+</aside>

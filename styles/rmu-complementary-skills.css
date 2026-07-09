@@ -31,6 +31,14 @@
 .rmucsc-icon.ritual                     { --rmucsc-mask: url('../assets/token.svg'); }
 .rmucsc-icon.delete                     { --rmucsc-mask: url('../assets/icon-trash.svg'); }
 .rmucsc-icon.info                       { --rmucsc-mask: url('../assets/info.svg'); }
+.rmucsc-icon.book                       { --rmucsc-mask: url('../assets/book.svg'); }
+.rmucsc-icon.file-open                  { --rmucsc-mask: url('../assets/file_open.svg'); }
+
+.rmucsc-icon.small {
+    width: var(--rmucsc-font-size-xs); 
+    height: var(--rmucsc-font-size-xs);
+    min-width: var(--rmucsc-font-size-xs);
+}
 
 /* --- APPLICATION SCROLLBARS --- */
 .rmucsc * {
@@ -118,7 +126,6 @@
     justify-content: center;
     font-family: inherit;
     font-size: var(--rmucsc-font-size-s);
-    font-weight: bold;
     gap: var(--rmucsc-space-s);
     padding: var(--rmucsc-space-s) var(--rmucsc-space-m);
 }
@@ -129,21 +136,24 @@
 
 .rmucsc .rmucsc-btn.danger {
     color: var(--rmucsc-color-danger);
-    width: 100%;
+    opacity: 0.5;
+}
+
+.rmucsc .rmucsc-btn.danger:hover {
+    color: var(--rmucsc-color-danger);
+    opacity: 1;
 }
 
 .rmucsc .rmucsc-btn.muted {
     background: inherit;
     border-color: transparent;
-}
-
-.rmucsc .rmucsc-btn.danger:hover {
-    color: var(--rmucsc-color-danger);
+    opacity: 0.7;
 }
 
 .rmucsc .rmucsc-btn.muted:hover {
     background: var(--rmucsc-bg-hover);
     border-color: var(--rmucsc-border-subtle);
+    opacity: 0.7;
 }
 
 .rmucsc .rmucsc-btn.primary {
@@ -152,12 +162,6 @@
 
 .rmucsc .rmucsc-btn.primary:hover {
     color: var(--rmucsc-accent-main);
-}
-
-.rmucsc .rmucsc-btn.outline.active {
-    background: var(--rmucsc-bg-hover);
-    border-color: var(--rmucsc-border-focus);
-    color: var(--rmucsc-text-primary);
 }
 
 .rmucsc button:disabled,
@@ -458,8 +462,8 @@
 /* Helper text below inputs or headers */
 .rmucsc .hint,
 .rmucsc .rmucsc-notes {
-    font-size: var(--rmucsc-font-size-xs);
-    color: var(--rmucsc-text-muted);
+    font-size: var(--rmucsc-font-size-s);
+    color: var(--rmucsc-text-secondary);
     margin-block-start: var(--rmucsc-space-xxs);
     line-height: var(--rmucsc-line-height-body);
 }
@@ -684,6 +688,48 @@ button.control.tool.rmucsc-skill-button-icon::before {
     padding-block-end: var(--rmucsc-space-xs);
 }
 
+.rmucsc-preset-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--rmucsc-space-s);
+}
+
+.rmucsc-preset-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--rmucsc-bg-panel);
+    border: 1px solid var(--rmucsc-border-main);
+    border-radius: var(--rmucsc-radius-small);
+    padding: var(--rmucsc-space-s);
+    gap: var(--rmucsc-space-xs);
+}
+
+.rmucsc-preset-name-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rmucsc-preset-name {
+    color: var(--rmucsc-text-primary);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: var(--rmucsc-font-size-s);
+}
+
+.rmucsc-preset-actions {
+    display: flex;
+    gap: var(--rmucsc-space-xs);
+}
+
+.rmucsc-preset-details {
+    margin: 0;
+    font-size: var(--rmucsc-font-size-xs);
+}
+
 /* =====================================
 --- CALCULATOR STYLES ---
 =====================================
@@ -840,11 +886,6 @@ button.control.tool.rmucsc-skill-button-icon::before {
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: var(--rmucsc-space-xs);
-}
-
-.rmucsc .rmucsc-output-breakdown .rmucsc-notes {
-    font-weight: bold;
 }
 
 .rmucsc .rmucsc-output-breakdown ul,
@@ -869,7 +910,15 @@ button.control.tool.rmucsc-skill-button-icon::before {
     padding: var(--rmucsc-space-m);
     display: flex;
     justify-content: flex-end;
+    margin-block-start: var(--rmucsc-space-m);
 }
+
+.rmucsc .rmucsc-footer-right {
+    display: flex;
+    gap: var(--rmucsc-space-m);
+    align-items: center;
+}
+
 .rmucsc .rmucsc-send-chat {
     background: var(--rmucsc-accent-main);
     border-color: var(--rmucsc-accent-main);

@@ -36,6 +36,13 @@ Hooks.once("init", () => {
         onChange: (value) => applyThemeHue(value),
     });
 
+    game.settings.register("rmu-complementary-skills", "ritualPresets", {
+        scope: "world",
+        config: false,
+        type: Array,
+        default: [],
+    });
+
     Handlebars.registerHelper("rmucsSelected", function (condition) {
         return condition ? "selected" : "";
     });

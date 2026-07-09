@@ -56,7 +56,7 @@
             <fieldset class="rmucsc-fieldset">
                 <legend class="rmucsc-legend-with-action">
                     <span>{{localize "RMU_CS.Ritual.Participants"}}</span>
-                    <a class="rmucsc-legend-action" data-action="toggleSidePanel" data-tooltip="{{localize 'RMU_CS.Common.AddParticipant'}}" data-tooltip-class="rmucsc-tooltip">
+                    <a class="rmucsc-legend-action" data-action="toggleSidePanel" data-panel-mode="participants" data-tooltip="{{localize 'RMU_CS.Common.AddParticipant'}}" data-tooltip-class="rmucsc-tooltip">
                         <i class="rmucsc-icon add"></i>
                     </a>
                 </legend>
@@ -410,14 +410,21 @@
         </div>
     </form>
 
-    <footer class="rmucsc-calc-footer">
-        {{#if ritualState.endurancePrimaryFailed}}
-            <span class="rmucsc-notes rmucsc-danger" style="margin-inline-end: auto; align-self: center; font-weight: bold;">
-                <i class="rmucsc-icon info" style="vertical-align: text-bottom;"></i> {{localize "RMU_CS.Ritual.PrimaryFailedWarning"}}
-            </span>
-        {{/if}}
-        <button type="button" class="rmucsc-btn rmucsc-send-chat" data-action="sendToChat" {{disabled ritualState.endurancePending}}>
-            <i class="rmucsc-icon chat"></i> {{localize "RMU_CS.Common.SendChat"}}
-        </button>
+    <footer class="rmucsc-calc-footer" style="justify-content: space-between; align-items: center;">
+        <div class="rmucsc-footer-left">
+            <button type="button" class="rmucsc-btn" data-action="toggleSidePanel" data-panel-mode="presets">
+                <i class="rmucsc-icon book"></i> {{localize "RMU_CS.Ritual.Presets"}}
+            </button>
+        </div>
+        <div class="rmucsc-footer-right">
+            {{#if ritualState.endurancePrimaryFailed}}
+                <span class="rmucsc-notes rmucsc-danger" style="margin-inline-end: auto; align-self: center; font-weight: bold;">
+                    <i class="rmucsc-icon info" style="vertical-align: text-bottom;"></i> {{localize "RMU_CS.Ritual.PrimaryFailedWarning"}}
+                </span>
+            {{/if}}
+            <button type="button" class="rmucsc-btn rmucsc-send-chat" data-action="sendToChat" {{disabled ritualState.endurancePending}}>
+                <i class="rmucsc-icon chat"></i> {{localize "RMU_CS.Common.SendChat"}}
+            </button>
+        </div>
     </footer>
 </section>
