@@ -251,7 +251,7 @@
     "RMU_CS.Ritual.PrimaryFailedWarning": "Primary Caster failed. The ritual has collapsed.",
 
     "RMU_CS.Settings.ThemeHue.Name": "Color Theme",
-    "RMU_CS.Settings.ThemeHue.Hint": "Select the primary hue for the Complementary Skills interface.",
+    "RMU_CS.Settings.ThemeHue.Hint": "Select the primary hue for the interface.",
     "RMU_CS.Settings.ThemeHue.Gold": "Gold",
     "RMU_CS.Settings.ThemeHue.Teal": "Teal",
 

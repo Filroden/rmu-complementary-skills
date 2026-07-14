@@ -36,6 +36,9 @@ Hooks.once("init", () => {
         onChange: (value) => applyThemeHue(value),
     });
 
+    const savedHue = game.settings.get("rmu-complementary-skills", "themeHue");
+    applyThemeHue(savedHue);
+
     game.settings.register("rmu-complementary-skills", "ritualPresets", {
         scope: "world",
         config: false,
@@ -57,6 +60,11 @@ Hooks.once("init", () => {
     });
     Handlebars.registerHelper("not", function (a) {
         return !a;
+    });
+
+    Handlebars.registerHelper("contains", function (string, substring) {
+        if (typeof string !== "string") return false;
+        return string.includes(substring);
     });
 
     // Formats a number to always show a sign (+5, -2, +0)

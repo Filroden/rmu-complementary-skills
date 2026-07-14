@@ -165,8 +165,7 @@
 }
 
 .rmucsc button:disabled,
-.rmucsc .rmucsc-btn:disabled,
-.rmucsc .rmucsc-icon-button:disabled {
+.rmucsc .rmucsc-btn:disabled {
     opacity: 0.3;
     cursor: not-allowed;
     background: var(--rmucsc-bg-muted);
@@ -174,6 +173,16 @@
     color: var(--rmucsc-text-muted);
     box-shadow: none;
 }
+
+.rmucsc .rmucsc-icon-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: inherit;
+    border: none;
+    color: var(--rmucsc-text-muted);
+    box-shadow: none;
+}
+
 
 .rmucsc button:disabled:hover,
 .rmucsc .rmucsc-btn:disabled:hover,
@@ -488,18 +497,23 @@
     border: 1px solid var(--rmucsc-border-main);
 }
 
-/* Thematic Divider */
-.rmucsc .rmucsc-divider {
-    border: none;
-    height: 1px;
-    width: 100%;
-    background-color: var(--rmucsc-accent-main);
-    margin-block: var(--rmucsc-space-m);
-}
-
 .rmucsc-danger {
     color: var(--rmucsc-color-danger);
 }
+
+/* Thematic Dividers */
+.rmucsc .rmucsc-divider {
+    border-block-end: 2px solid var(--rmucsc-border-main);
+    width: 100%;
+    margin-block: var(--rmucsc-space-m);
+}
+
+.rmucsc .rmucsc-divider-vertical {
+    border-inline-end: 2px solid var(--rmucsc-border-main);
+    width: 100%;
+    margin-inline: var(--rmucsc-space-m);
+}
+
 
 /* --- BADGES & PILLS --- */
 .rmucsc .rmucsc-badge {
@@ -519,9 +533,15 @@
 }
 
 .rmucsc .rmucsc-badge.primary {
-    background-color: var(--rmucsc-accent-main);
+    background-color: var(--rmucsc-color-success);
     color: var(--rmucsc-text-inverse);
-    border-color: var(--rmucsc-accent-main);
+    border-color: var(--rmucsc-border-main);
+}
+
+.rmucsc .rmucsc-badge.danger {
+    background-color: var(--rmucsc-color-danger);
+    color: var(--rmucsc-text-inverse);
+    border-color: var(--rmucsc-border-main);
 }
 
 /* ===================================================================
@@ -1483,8 +1503,7 @@ button.control.tool.rmucsc-skill-button-icon::before {
 
 .rmucsc-chat-card .rmucsc-crit-type-select {
     background-color: var(--rmucsc-bg-hover);
-    color: var(--rmucsc-accent-main);
-    padding: var(--rmucsc-space-s);
+    color: var(--rmucsc-text-primary);
     min-height: var(--rmucsc-font-size-xl);
     width: 100%;
     transition: border-color 0.2s, box-shadow 0.2s;

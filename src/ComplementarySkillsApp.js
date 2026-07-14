@@ -127,10 +127,22 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
 
     static PARTS = {
         tabs: { template: "modules/rmu-complementary-skills/templates/tabs.hbs" },
-        boost: { template: "modules/rmu-complementary-skills/templates/boost-tab.hbs" },
-        group: { template: "modules/rmu-complementary-skills/templates/group-tab.hbs" },
-        ritual: { template: "modules/rmu-complementary-skills/templates/ritual-tab.hbs" },
-        sidePanel: { template: "modules/rmu-complementary-skills/templates/side-panel.hbs" },
+        boost: {
+            template: "modules/rmu-complementary-skills/templates/boost-tab.hbs",
+            scrollable: [".rmucsc-scrollable"],
+        },
+        group: {
+            template: "modules/rmu-complementary-skills/templates/group-tab.hbs",
+            scrollable: [".rmucsc-scrollable"],
+        },
+        ritual: {
+            template: "modules/rmu-complementary-skills/templates/ritual-tab.hbs",
+            scrollable: [".rmucsc-scrollable"],
+        },
+        sidePanel: {
+            template: "modules/rmu-complementary-skills/templates/side-panel.hbs",
+            scrollable: [".rmucsc-scrollable"],
+        },
     };
 
     /**
@@ -357,33 +369,49 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         const rollIndex = Number.parseInt(target.dataset.rollIndex, 10);
 
         const participant = this.participants.get(participantId);
-        const gridRow = this.calcState.ritualState.enduranceGrid.find((r) => r.participantId === participantId);
-        const cell = gridRow.rolls[rollIndex];
+
+        // Fetch initial reference to lock the UI
+        let gridRow = this.calcState.ritualState.enduranceGrid.find((r) => r.participantId === participantId);
+        let cell = gridRow.rolls[rollIndex];
 
         if (!participant?.token) return;
 
-        // Ensure we disable the grid momentarily while the API handles the roll
+        // Disable the grid momentarily while the API handles the roll
         cell.state = "locked";
         this.render({ parts: ["ritual"] });
 
         try {
-            // Await the API execution with the dialog bypass
-            const result = await game.system.api.rmuMacroSkillAction(participant.token, "Endurance", "", { prompt: false });
+            // Await the API execution with the dialog bypass and difficulty parameter
+            const result = await game.system.api.rmuMacroSkillAction(participant.token, "Endurance", "", {
+                prompt: false,
+                difficulty: cell.difficulty,
+            });
+
+            gridRow = this.calcState.ritualState.enduranceGrid.find((r) => r.participantId === participantId);
+            cell = gridRow.rolls[rollIndex];
 
             if (result) {
-                cell.state = "rolled";
-                cell.result = result.decision; // e.g., "Success", "Absolute Failure"
+                const resultObj = Array.isArray(result) ? result[0] : result;
+                const decisionStr = resultObj?.decision || "Failure";
 
-                if (!result.decision.includes("Success")) {
+                cell.state = "rolled";
+                cell.result = decisionStr;
+
+                if (typeof decisionStr === "string" && !decisionStr.includes("Success")) {
                     gridRow.failed = true;
                 }
             } else {
-                // Failsafe if the API aborts or returns null
                 cell.state = "ready";
             }
         } catch (error) {
             console.error("RMU Complementary Skills | Error executing Endurance API:", error);
-            cell.state = "ready"; // Unlock on error so the GM is not permanently stuck
+
+            // Safely unlock on error so the GM is not permanently stuck
+            gridRow = this.calcState.ritualState.enduranceGrid.find((r) => r.participantId === participantId);
+            if (gridRow) {
+                cell = gridRow.rolls[rollIndex];
+                if (cell) cell.state = "ready";
+            }
         }
 
         this.#refreshEnduranceLocks();
