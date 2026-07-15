@@ -78,15 +78,16 @@
             {{/if}}
             
             <div class="rmucsc-footer-buttons">
-                {{#if costsBreakdown.length}}
-                <button type="button" class="rmucsc-apply-sacrifices-button danger">
-                    {{localize "RMU_CS.Ritual.ApplySacrifices"}}
-                </button>
-                {{/if}}
-
-                <button type="button" class="rmucsc-roll-skill-button">
+                <button type="button" class="rmucsc-roll-skill-button rmucsc-btn">
+                    {{#if costsBreakdown.length}}1. {{/if}}
                     {{localize "RMU_CS.Chat.RollBonus" bonus=(signed modifiersTotal)}}
                 </button>
+
+                {{#if costsBreakdown.length}}
+                <button type="button" class="rmucsc-apply-sacrifices-button rmucsc-btn danger">
+                    2. {{localize "RMU_CS.Ritual.ApplySacrifices"}}
+                </button>
+                {{/if}}
             </div>
         </div>
 

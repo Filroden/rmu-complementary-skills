@@ -326,7 +326,7 @@
 
                 <div class="rmucsc-notes rmucsc-long">
                     <p>{{localize "RMU_CS.Ritual.EnduranceInstructions"}}</p>
-                    <strong class="rmucsc-danger">{{localize "RMU_CS.Ritual.EnduranceWarning"}}</strong>
+                    <strong>{{localize "RMU_CS.Ritual.EnduranceWarning"}}</strong>
                 </div>
 
                 <div class="rmucsc-endurance-grid" style="--columns: {{ritualState.enduranceColumns}};">
@@ -344,8 +344,8 @@
                         {{#each rolls}}
                             <div class="rmucsc-grid-cell rmucsc-roll-cell">
                                 {{#if (eq state 'rolled')}}
-                                    <span class="rmucsc-badge {{#if (contains result 'Success')}}primary{{else}}danger{{/if}}">
-                                        {{result}}
+                                    <span class="rmucsc-badge {{#if (contains result 'Success')}}primary{{else}}danger{{/if}}" data-tooltip="{{result}}" data-tooltip-class="rmucsc-tooltip">
+                                        <i class="rmucsc-icon {{resultIcon}}"></i>
                                     </span>
                                 {{else}}
                                     <button type="button" class="rmucsc-btn rmucsc-icon-button" 
@@ -362,6 +362,12 @@
                         {{/each}}
                     {{/each}}
                 </div>
+
+                {{#if ritualState.endurancePrimaryFailed}}
+                    <span class="rmucsc-notes rmu-primary-failed">
+                        <i class="rmucsc-icon info" style="vertical-align: text-bottom;"></i> {{localize "RMU_CS.Ritual.PrimaryFailedWarning"}}
+                    </span>
+                {{/if}}
             </fieldset>
             {{/if}}
 
@@ -417,11 +423,6 @@
             </button>
         </div>
         <div class="rmucsc-footer-right">
-            {{#if ritualState.endurancePrimaryFailed}}
-                <span class="rmucsc-notes rmucsc-danger" style="margin-inline-end: auto; align-self: center; font-weight: bold;">
-                    <i class="rmucsc-icon info" style="vertical-align: text-bottom;"></i> {{localize "RMU_CS.Ritual.PrimaryFailedWarning"}}
-                </span>
-            {{/if}}
             <button type="button" class="rmucsc-btn rmucsc-send-chat" data-action="sendToChat" {{disabled ritualState.endurancePending}}>
                 <i class="rmucsc-icon chat"></i> {{localize "RMU_CS.Common.SendChat"}}
             </button>

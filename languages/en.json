@@ -248,7 +248,7 @@
     "RMU_CS.Ritual.EnduranceInstructions": "Roll fatigue checks down the columns and across the rows. If the primary caster fails any check, the ritual fails immediately. If a major contributor fails, their skill contributions are lost and they no longer need to make futher checks.",
     "RMU_CS.Ritual.EnduranceWarning": "Note: Do not apply any fatigue check results shown on chat cards until after the entire ritual is complete. Once complete, apply them even if the ritual fails.",
     "RMU_CS.Ritual.RollEndurance": "Roll {difficulty} Endurance",
-    "RMU_CS.Ritual.PrimaryFailedWarning": "Primary Caster failed. The ritual has collapsed.",
+    "RMU_CS.Ritual.PrimaryFailedWarning": "Primary Caster failed. The ritual has collapsed. Still send the result to chat as sacrifices must still be paid.",
 
     "RMU_CS.Settings.ThemeHue.Name": "Color Theme",
     "RMU_CS.Settings.ThemeHue.Hint": "Select the primary hue for the interface.",

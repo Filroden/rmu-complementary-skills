@@ -305,6 +305,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                     difficultyLabel: rollDef.difficultyLabel,
                     state: oldRoll ? oldRoll.state : "locked",
                     result: oldRoll ? oldRoll.result : null,
+                    resultIcon: oldRoll ? oldRoll.resultIcon : null,
                 };
             });
 
@@ -391,11 +392,28 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             cell = gridRow.rolls[rollIndex];
 
             if (result) {
+                // Bulletproof extraction handling arrays or direct objects safely
                 const resultObj = Array.isArray(result) ? result[0] : result;
                 const decisionStr = resultObj?.decision || "Failure";
 
                 cell.state = "rolled";
                 cell.result = decisionStr;
+
+                // Map the result string to the correct CSS icon class
+                let iconClass = "failure";
+                const decLower = decisionStr.toLowerCase();
+
+                if (decLower.includes("partial")) {
+                    iconClass = "partial-success";
+                } else if (decLower.includes("absolute") && decLower.includes("success")) {
+                    iconClass = "absolute-success";
+                } else if (decLower.includes("success")) {
+                    iconClass = "success";
+                } else if (decLower.includes("absolute") && decLower.includes("failure")) {
+                    iconClass = "absolute-failure";
+                }
+
+                cell.resultIcon = iconClass;
 
                 if (typeof decisionStr === "string" && !decisionStr.includes("Success")) {
                     gridRow.failed = true;

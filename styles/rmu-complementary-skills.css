@@ -34,6 +34,12 @@
 .rmucsc-icon.book                       { --rmucsc-mask: url('../assets/book.svg'); }
 .rmucsc-icon.file-open                  { --rmucsc-mask: url('../assets/file_open.svg'); }
 
+.rmucsc-icon.absolute-success           { --rmucsc-mask: url('../assets/done_outline.svg'); }
+.rmucsc-icon.success                    { --rmucsc-mask: url('../assets/check.svg'); }
+.rmucsc-icon.partial-success            { --rmucsc-mask: url('../assets/check_small.svg'); }
+.rmucsc-icon.failure                    { --rmucsc-mask: url('../assets/close.svg'); }
+.rmucsc-icon.absolute-failure           { --rmucsc-mask: url('../assets/disabled_by_default.svg'); }
+
 .rmucsc-icon.small {
     width: var(--rmucsc-font-size-xs); 
     height: var(--rmucsc-font-size-xs);
@@ -1304,6 +1310,15 @@ button.control.tool.rmucsc-skill-button-icon::before {
     justify-content: center;
 }
 
+.rmucsc .rmu-primary-failed {
+    color: var(--rmucsc-color-danger);
+    margin-inline: 3rem;
+    margin-block-start: var(--rmucsc-space-l);
+    align-self: start;
+    font-weight: bold;
+    text-align: start;
+}
+
 /* =====================================
    --- CHAT CARD STYLES ---
    ===================================== */
@@ -1474,7 +1489,7 @@ button.control.tool.rmucsc-skill-button-icon::before {
 .rmucsc-chat-card .rmucsc-apply-sacrifices-button {
     background: var(--rmucsc-accent-main);
     border: 1px solid var(--rmucsc-border-main);
-    border-radius: var(--rmucsc-radius-small);
+    border-radius: var(--rmucsc-radius-medium);
     box-shadow: var(--rmucsc-shadow-popout);
     color: var(--rmucsc-text-inverse);
     margin: var(--rmucsc-space-xs);
