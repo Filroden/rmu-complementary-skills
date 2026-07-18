@@ -23,7 +23,6 @@
     margin: 0;
 }
 
-.rmucsc-icon.group-skill                { --rmucsc-mask: url('../assets/icon-group-skill.svg'); }
 .rmucsc-icon.boost-skill                { --rmucsc-mask: url('../assets/boost-skill.svg'); }
 .rmucsc-icon.group-task                 { --rmucsc-mask: url('../assets/group-task.svg'); }
 .rmucsc-icon.add                        { --rmucsc-mask: url('../assets/add.svg'); }
@@ -134,10 +133,6 @@
     font-size: var(--rmucsc-font-size-s);
     gap: var(--rmucsc-space-s);
     padding: var(--rmucsc-space-s) var(--rmucsc-space-m);
-}
-
-.rmucsc .rmucsc-btn.wide {
-    width: auto;
 }
 
 .rmucsc .rmucsc-btn.danger {
@@ -334,48 +329,14 @@
 }
 
 .rmucsc button.active,
-.rmucsc [class*="rmucsc-"][class*="-btn"].active,
-.rmucsc .rmucsc-pill.active {
+.rmucsc [class*="rmucsc-"][class*="-btn"].active {
     outline: none;
     box-shadow: none;
 }
 
 
-/* --- APPLICATION LAYOUTS --- */
-/* Standard two-column wrapper */
-.rmucsc .rmucsc-layout {
-    display: flex;
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-}
-
-/* Standard Sidebar */
-.rmucsc .rmucsc-sidebar {
-    flex: 0 0 18rem; /* Default width, easily overridden */
-    display: flex;
-    flex-direction: column;
-    padding: var(--rmucsc-space-m);
-    gap: var(--rmucsc-space-m);
-    background-color: var(--rmucsc-bg-panel);
-    border-inline-end: 1px solid var(--rmucsc-border-main);
-    overflow-y: auto;
-}
-
-/* Standard Main Content Area */
-.rmucsc .rmucsc-main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: var(--rmucsc-space-l);
-    overflow-y: auto;
-    min-width: 0; /* Prevents flexbox text overflow issues */
-}
-
-
 /* --- TABBED NAVIGATION --- */
-.rmucsc nav.tabs,
-.rmucsc .rmucsc-tabs {
+.rmucsc nav.tabs {
     display: flex;
     flex: 0 0 auto;
     gap: 0;
@@ -384,8 +345,7 @@
     background: var(--rmucsc-bg-panel);
 }
 
-.rmucsc nav.tabs .item,
-.rmucsc .rmucsc-tabs .item {
+.rmucsc nav.tabs .item {
     display: flex;
     flex: 1;
     align-items: center;
@@ -400,14 +360,12 @@
     transition: background-color 0.2s, color 0.2s;
 }
 
-.rmucsc nav.tabs .item:hover,
-.rmucsc .rmucsc-tabs .item:hover {
+.rmucsc nav.tabs .item:hover {
     color: var(--rmucsc-text-primary);
     background: var(--rmucsc-bg-hover);
 }
 
-.rmucsc nav.tabs .item.active,
-.rmucsc .rmucsc-tabs .item.active {
+.rmucsc nav.tabs .item.active {
     color: var(--rmucsc-accent-main);
     border-block-end-color: var(--rmucsc-border-focus);
     background: var(--rmucsc-bg-base);
@@ -448,12 +406,6 @@
     white-space: nowrap;
 }
 
-.rmucsc .rmucsc-title {
-    font-weight: bold;
-    margin-block-start: var(--rmucsc-space-m);
-    margin-block-end: var(--rmucsc-space-m);
-}
-
 .rmucsc .rmucsc-stacked-group {
     border: 1px solid var(--rmucsc-border-main);
     padding: var(--rmucsc-space-m);
@@ -475,7 +427,6 @@
 
 /* --- SEMANTIC TEXT & STATES --- */
 /* Helper text below inputs or headers */
-.rmucsc .hint,
 .rmucsc .rmucsc-notes {
     font-size: var(--rmucsc-font-size-s);
     color: var(--rmucsc-text-secondary);
@@ -488,21 +439,6 @@
     margin-block-end: var(--rmucsc-space-m);
 }
 
-/* Empty or missing data states */
-.rmucsc .rmucsc-empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: var(--rmucsc-text-muted);
-    font-style: italic;
-    padding: var(--rmucsc-space-xl);
-    background-color: var(--rmucsc-bg-panel);
-    border-radius: var(--rmucsc-radius-medium);
-    border: 1px solid var(--rmucsc-border-main);
-}
-
 .rmucsc-danger {
     color: var(--rmucsc-color-danger);
 }
@@ -513,13 +449,6 @@
     width: 100%;
     margin-block: var(--rmucsc-space-m);
 }
-
-.rmucsc .rmucsc-divider-vertical {
-    border-inline-end: 2px solid var(--rmucsc-border-main);
-    width: 100%;
-    margin-inline: var(--rmucsc-space-m);
-}
-
 
 /* --- BADGES & PILLS --- */
 .rmucsc .rmucsc-badge {
@@ -560,40 +489,20 @@
     width: 100%;
 }
 
-.rmucsc .rmucsc-flex-1 {
-    flex: 1;
-    min-height: 0;
-    min-width: 0; /* Prevents flexbox text inputs from breaking container bounds */
-}
-
-/* --- CONTEXT PANEL CONTENT --- */
-.rmucsc-tool-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: var(--rmucsc-space-m);
-    gap: var(--rmucsc-space-xs);
-    overflow-y: auto; /* Required to trigger rmucsc-scrollable mechanics */
-}
-
-.rmucsc .rmucsc-wide {
-    width: 4rem;
-}
-
 
 /* =====================================
 --- SCENE CONTROL BUTTON ---
 =====================================
 */
 
-button.control.tool.rmucsc-skill-button-icon {
+.rmucsc-skill-button-icon {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
 }
 
-button.control.tool.rmucsc-skill-button-icon::before {
+.rmucsc-skill-button-icon::before {
     content: "";
     display: block;
     width: 1.5rem;
@@ -840,9 +749,6 @@ button.control.tool.rmucsc-skill-button-icon::before {
     color: var(--rmucsc-text-secondary);
 }
 
-.rmucsc .rmucsc-add-wrapper {
-    margin-block-start: var(--rmucsc-space-m);
-}
 .rmucsc .rmucsc-add-list .form-group {
     justify-content: flex-start;
 }
@@ -1124,13 +1030,11 @@ button.control.tool.rmucsc-skill-button-icon::before {
     font-weight: bold;
 }
 
-.rmucsc .rmucsc-spell-level,
-.rmucsc .rmucsc-spell-pp {
+.rmucsc .rmucsc-spell-level {
     text-align: center;
 }
 
-.rmucsc .total-row.rmucsc-spell-level,
-.rmucsc .total-row.rmucsc-spell-pp {
+.rmucsc .total-row.rmucsc-spell-level {
     color: var(--rmucsc-accent-main);
 }
 
@@ -1146,12 +1050,6 @@ button.control.tool.rmucsc-skill-button-icon::before {
     padding-block-start: var(--rmucsc-space-m);
 }
 
-.rmucsc .rmucsc-checkbox-group {
-    display: flex;
-    flex-direction: column;
-    gap: var(--rmucsc-space-xs);
-}
-
 .rmucsc .rmucsc-inline-fields {
     display: flex;
     gap: var(--rmucsc-space-s);
@@ -1161,10 +1059,6 @@ button.control.tool.rmucsc-skill-button-icon::before {
 .rmucsc .rmucsc-inline-fields select {
     width: max-content;
     flex: 0 0 auto;
-}
-
-.rmucsc .rmucsc-checkbox-note {
-    margin-inline-start: var(--rmucsc-space-xs);
 }
 
 .rmucsc .rmucsc-output-box .rmucsc-empty-notes {
@@ -1430,12 +1324,6 @@ button.control.tool.rmucsc-skill-button-icon::before {
     text-align: end;
     font-weight: bold;
     color: var(--rmucsc-text-primary);
-}
-
-.rmucsc-chat-card .rmucsc-name-list {
-    font-style: italic;
-    color: var(--rmucsc-text-secondary);
-    font-size: var(--rmucsc-font-size-xs);
 }
 
 .rmucsc-chat-card .rmucsc-complementary-sum,

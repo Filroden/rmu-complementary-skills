@@ -137,7 +137,8 @@
    TIER 3: SEMANTIC TOKENS (DARK THEME)
    ========================================== */
 
-.theme-dark {
+.theme-dark,
+body.theme-dark .chat-message.rmucsc-calc-message {
     /* --- Backgrounds --- */
     --rmucsc-bg-base:          var(--rmucsc-primary-900); /* Deepest background (App Window) */
     --rmucsc-bg-panel:         var(--rmucsc-primary-800); /* Elevated elements (Cards, Inputs, Sidebars) */
@@ -174,7 +175,8 @@
    TIER 3: SEMANTIC TOKENS (LIGHT THEME)
    ========================================== */
 
-.theme-light {
+.theme-light,
+body.theme-light .chat-message.rmucsc-calc-message {
     /* --- Backgrounds --- */
     --rmucsc-bg-base:          var(--rmucsc-primary-100);
     --rmucsc-bg-panel:         var(--rmucsc-neutral-000);

@@ -504,8 +504,22 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
     static async #deleteRitualPreset(event, target) {
         const id = target.dataset.id;
         const presets = game.settings.get("rmu-complementary-skills", "ritualPresets") || [];
-        const filtered = presets.filter((p) => p.id !== id);
+        const presetToDelete = presets.find((p) => p.id === id);
 
+        if (!presetToDelete) return;
+
+        const confirmed = await foundry.applications.api.DialogV2.confirm({
+            window: {
+                title: game.i18n.localize("RMU_CS.Ritual.DeletePresetTitle"),
+            },
+            content: `<p>${game.i18n.format("RMU_CS.Ritual.DeletePresetConfirm", { name: presetToDelete.name })}</p>`,
+            rejectClose: false,
+            modal: true,
+        });
+
+        if (!confirmed) return;
+
+        const filtered = presets.filter((p) => p.id !== id);
         await game.settings.set("rmu-complementary-skills", "ritualPresets", filtered);
         this.render({ parts: ["sidePanel"] });
     }

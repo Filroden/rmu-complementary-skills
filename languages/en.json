@@ -267,5 +267,8 @@
     "RMU_CS.Ritual.DefaultPresetName": "New Ritual",
     "RMU_CS.Notifications.PresetSaved": "Ritual Preset '{name}' saved.",
     "RMU_CS.Notifications.PresetLoaded": "Ritual Preset '{name}' loaded.",
-    "RMU_CS.Notifications.MissingParticipants": "The following participants were not found on the current scene and were excluded: {names}"
+    "RMU_CS.Notifications.MissingParticipants": "The following participants were not found on the current scene and were excluded: {names}",
+
+    "RMU_CS.Ritual.DeletePresetTitle": "Delete Ritual Preset",
+    "RMU_CS.Ritual.DeletePresetConfirm": "Are you sure you want to delete the preset <strong>{name}</strong>? This action cannot be undone."
 }
