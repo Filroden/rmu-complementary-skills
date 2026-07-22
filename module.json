@@ -1,23 +1,24 @@
 {
     "id": "rmu-complementary-skills",
-    "title": "RMU Complementary Skills Calculator",
-    "description": "A GM-only tool to calculate and roll complementary skill checks for RMU, supporting both 'Boost Skill' and 'Group Task' scenarios.",
-    "version": "1.1.2",
-    "compatibility": { "minimum": "13", "verified": "14.359" },
+    "title": "Complementary Skills Calculator for RMU",
+    "description": "A GM-only tool to calculate and roll complementary skill checks (supporting both 'Boost Skill' and 'Group Task' scenarios) and magical rituals for the RMU system.",
+    "version": "1.2.0",
+    "compatibility": { "minimum": "13", "verified": "14", "maximum": "14" },
     "relationships": {
-        "systems": [{ "id": "rmu", "type": "system", "compatibility": {} }]
+        "systems": [{ "id": "rmu", "type": "system", "compatibility": { "minimum": "1.3.0" } }]
     },
     "authors": [{ "name": "Ken Dearman" }],
     "esmodules": ["main.js"],
-    "styles": ["styles/filroden-theme.css", "styles/rmu-complementary-skills.css"],
+    "styles": ["styles/rmucsc-theme.css", "styles/rmu-complementary-skills.css"],
     "languages": [
         { "lang": "en", "name": "English", "path": "languages/en.json" },
+        { "lang": "en", "name": "English (GB)", "path": "languages/en.gb.json" },
         { "lang": "fr", "name": "Français", "path": "languages/fr.json" },
         { "lang": "sv", "name": "Svenska", "path": "languages/sv.json" }
     ],
     "url": "https://github.com/Filroden/rmu-complementary-skills",
     "manifest": "https://github.com/Filroden/rmu-complementary-skills/releases/latest/download/module.json",
-    "download": "https://github.com/Filroden/rmu-complementary-skills/releases/download/v1.1.2/rmu-complementary-skills.zip",
+    "download": "https://github.com/Filroden/rmu-complementary-skills/releases/download/v1.2.0/rmu-complementary-skills.zip",
     "bugs": "https://github.com/Filroden/rmu-complementary-skills/issues",
     "readme": "https://github.com/Filroden/rmu-complementary-skills/blob/main/README.md",
     "license": "https://mit-license.org/"

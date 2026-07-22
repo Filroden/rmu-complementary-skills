@@ -1,151 +1,181 @@
-<div class="rmu-tab-content {{#if (eq activeTab 'boost')}}active{{/if}}" data-tab="boost">
-  <form class="rmu-calc-wrapper" autocomplete="off">
-    <div class="rmu-calc-pane">
+<section class="tab rmucsc-tab-content {{#if (eq activeTab 'boost')}}active{{/if}}" data-tab="boost" data-group="primary">
+    <form class="rmucsc-calc-wrapper rmucsc-scrollable" autocomplete="off">
+        <div class="rmucsc-calc-pane">
 
-      <fieldset class="rmu-calc-fieldset">
-        <legend>{{localize "RMU_CS.Boost.PrimarySkill"}}</legend>
-        <div class="form-group">
-          <label>{{localize "RMU_CS.Common.Skill"}}</label>
-          <div class="form-fields">
-            <select class="rmu-primary-skill-select" name="primarySkillName">
-              <option value="">{{localize "RMU_CS.Boost.SelectPrimary"}}</option>
-              {{#each primarySkillOptions}}
-              <optgroup label="{{label}}">
-                {{#each skills}}
-                <option value="{{uuid}}" {{rmucsSelected (eq uuid ../../primarySkillUuid)}}>
-                  {{name}} ({{localize "RMU_CS.Common.Bonus"}}: {{signed bonus}})
-                </option>
-                {{/each}}
-              </optgroup>
-              {{/each}}
-            </select>
-          </div>
-        </div>
-      </fieldset>
+            <fieldset class="rmucsc-fieldset">
+                <legend>{{localize "RMU_CS.Boost.PrimarySkill"}}</legend>
+                <div class="form-group">
+                <label>{{localize "RMU_CS.Common.Skill"}}</label>
+                    <div class="form-fields">
+                        <select class="rmucsc-primary-skill-select" name="primarySkillName">
+                            <option value="">{{localize "RMU_CS.Boost.SelectPrimary"}}</option>
+                            {{#each primarySkillOptions}}
+                            <optgroup label="{{label}}">
+                                {{#each skills}}
+                                <option value="{{uuid}}" {{rmucsSelected (eq uuid ../../primarySkillUuid)}}>
+                                {{name}} ({{localize "RMU_CS.Common.Bonus"}}: {{signed bonus}})
+                                </option>
+                                {{/each}}
+                            </optgroup>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
 
-      <fieldset class="rmu-calc-fieldset">
-        <legend>{{localize "RMU_CS.Boost.Participants"}}</legend>
-        <div class="rmu-participant-list" id="boost-skill-participants">
-          <div class="rmu-participant-row rmu-participant-header">
-            <span>{{localize "RMU_CS.Common.Enabled"}}</span>
-            <span>{{localize "RMU_CS.Boost.Primary"}}</span>
-            <span>{{localize "RMU_CS.Common.Participant"}}</span>
-            <span>{{localize "RMU_CS.Common.SkillBonus"}}</span>
-          </div>
-          {{#each participants}}
-          <div class="rmu-participant-row">
-            <input type="checkbox" class="rmu-participant-enable" data-id="{{id}}" {{checked enabled}}/>
-            <input type="radio" class="rmu-primary-actor-select" name="primaryActor" value="{{id}}" {{checked (eq id ../primaryActorId)}} {{disabled (not enabled)}}/>
-            <label>{{name}}</label>
-            <span class="rmu-participant-bonus">{{signed bonusForSelectedSkill}}</span>
-          </div>
-          {{/each}}
+            <fieldset class="rmucsc-fieldset">
+                <legend class="rmucsc-legend-with-action">
+                    <span>{{localize "RMU_CS.Boost.Participants"}}</span>
+                    <a class="rmucsc-legend-action" data-action="toggleSidePanel" data-panel-mode="participants" data-tooltip="{{localize 'RMU_CS.Common.AddParticipant'}}" data-tooltip-class="rmucsc-tooltip">
+                        <i class="rmucsc-icon add"></i>
+                    </a>
+                </legend>
+
+                <div class="rmucsc-participant-list" id="boost-skill-participants">
+
+                    <div class="rmucsc-participant-row rmucsc-participant-header">
+                        <span>{{localize "RMU_CS.Common.Enabled"}}</span>
+                        <span>{{localize "RMU_CS.Boost.Primary"}}</span>
+                        <span>{{localize "RMU_CS.Common.Participant"}}</span>
+                        <span>{{localize "RMU_CS.Common.SkillBonus"}}</span>
+                        <span></span>
+                    </div>
+
+                    {{#each participants}}
+                    <div class="rmucsc-participant-row">
+                        <input type="checkbox" name="participantEnable" class="rmucsc-checkbox rmucsc-participant-enable" data-id="{{id}}" {{checked enabled}}/>
+                        <input type="radio" class="rmucsc-primary-actor-select rmucsc-radio" name="primaryActor" value="{{id}}" {{checked (eq id ../primaryActorId)}} {{disabled (not enabled)}}/>
+                        <label>{{name}}</label>
+                        <span class="rmucsc-participant-bonus">{{signed bonusForSelectedSkill}}</span>
+
+                        <button type="button" class="rmucsc-btn rmucsc-icon-button danger muted" data-action="removeParticipant" data-id="{{id}}" data-tooltip="{{localize 'RMU_CS.Common.Remove'}}" data-tooltip-class="rmucsc-tooltip">
+                            <i class="rmucsc-icon delete"></i>
+                        </button>
+                    </div>
+                    {{/each}}
+
+                </div>
+
+            </fieldset>
+
+            {{#if primaryActorId}}
+            <fieldset class="rmucsc-fieldset">
+                <legend>{{localize "RMU_CS.Boost.ComplementarySkills"}}</legend>
+
+                <div class="rmucsc-stacked-group">
+                    <legend>{{localize "RMU_CS.Boost.FromPrimary"}}</legend>
+
+                    {{#if primaryActorSkills.length}}
+                    <div class="rmucsc-dynamic-list">
+                        {{#each primaryActorSkills}}
+                        <div class="rmucsc-dynamic-row">
+                            <select class="rmucsc-primary-comp-skill" name="primaryCompSkill" data-index="{{@index}}">
+                                <option value="">{{localize "RMU_CS.Boost.SelectSkill"}}</option>
+                                {{#each ../primaryComplementOptions}}
+                                <optgroup label="{{label}}">
+                                {{#each skills}}
+                                <option value="{{uuid}}" {{rmucsSelected (eq ../../uuid uuid)}}>
+                                    {{name}} ({{localize "RMU_CS.Common.Ranks"}}: {{ranks}})
+                                </option>
+                                {{/each}}
+                                </optgroup>
+                                {{/each}}
+                            </select>
+
+                            <button type="button" class="rmucsc-btn rmucsc-icon-button danger muted rmucsc-primary-comp-delete" data-action="deletePrimaryComp" data-index="{{@index}}" title="{{localize 'RMU_CS.Boost.RemoveSkill'}}">
+                                <i class="rmucsc-icon delete"></i>
+                            </button>
+                        </div>
+                        {{/each}}
+                    </div>
+                    {{else}}
+                    <p class="rmucsc-notes rmucsc-empty-notes" style="text-align: center; margin-block-start: var(--rmucsc-space-l);">
+                        {{localize "RMU_CS.Common.NoSkillsSelected"}}
+                    </p>
+                    {{/if}}
+
+                    <button type="button" class="rmucsc-btn rmucsc-primary-comp-add" data-action="addPrimaryComp">
+                        <i class="rmucsc-icon add"></i> {{localize "RMU_CS.Boost.AddSkill"}}
+                    </button>
+
+                </div>
+
+                <div class="rmucsc-sub-fieldset">
+                    <legend>{{localize "RMU_CS.Boost.FromOther"}}</legend>
+
+                    {{#each otherParticipants}}
+                    {{#if enabled}}
+                    <div class="form-group">
+                        <label>{{name}}</label>
+                        <div class="form-fields">
+                            <select class="rmucsc-other-comp-skill" name="otherCompSkill" data-id="{{id}}">
+                                <option value="">{{localize "RMU_CS.Boost.None"}}</option>
+                                {{#each allSkillsGrouped}}
+                                <optgroup label="{{label}}">
+                                {{#each skills}}
+                                <option value="{{uuid}}" {{rmucsSelected (eq (lookup ../../../otherActorSkills ../../id) uuid)}}>
+                                    {{name}} ({{localize "RMU_CS.Common.Ranks"}}: {{ranks}})
+                                </option>
+                                {{/each}}
+                                </optgroup>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{/each}}
+                    {{#if (eq otherParticipants.length 0)}}
+                    <span class="rmucsc-notes">{{localize "RMU_CS.Boost.NoOtherParticipants"}}</span>
+                    {{/if}}
+                </div>
+            </fieldset>
+
+            <fieldset class="rmucsc-fieldset">
+                <legend>{{localize "RMU_CS.Common.Calculation"}}</legend>
+
+                <div class="rmucsc-output-box">
+                    <div class="rmucsc-output-row">
+                        <span>{{localize "RMU_CS.Boost.OutputPrimary"}}</span>
+                        <span class="rmucsc-output-value">{{signed calculation.primaryBonus}}</span>
+                    </div>
+
+                    <div class="rmucsc-output-row">
+                        <span>{{localize "RMU_CS.Boost.OutputComplementary"}}</span>
+                        <span class="rmucsc-output-value">{{signed calculation.complementBonus}}</span>
+                    </div>
+
+                    <div class="rmucsc-output-row rmucsc-output-total">
+                        <span>{{localize "RMU_CS.Common.TotalBonus"}}:</span>
+                        <span class="rmucsc-output-value">{{signed calculation.total}}</span>
+                    </div>
+
+                    {{#if calculation.breakdown}}
+                    <details class="rmucsc-collapsible-section rmucsc-output-breakdown" data-section="boostBreakdown" {{#if detailsState.boostBreakdown}}open{{/if}}>
+                        <summary class="rmucsc-notes">
+                            {{localize "RMU_CS.Boost.Breakdown"}}
+                        </summary>
+                        
+                        <div class="rmucsc-collapsible-content">
+                            <ul>
+                            {{#each calculation.breakdown}}
+                            <li>
+                                <strong>{{signed bonus}}</strong>
+                                ({{localize "RMU_CS.Boost.BreakdownFrom" name=name ranks=ranks}})
+                            </li>
+                            {{/each}}
+                            </ul>
+                        </div>
+                    </details>
+                    {{/if}}
+                </div>
+            </fieldset>
+            {{/if}}
         </div>
-        <div class="rmu-add-wrapper">
-        <button type="button" class="rmu-add-participant" data-action="toggleSidePanel">
-          <i class="rmu-icon rmu-icon-add"></i> {{localize "RMU_CS.Common.AddParticipant"}}
+    </form>
+
+    <footer class="rmucsc-calc-footer">
+        <button type="button" class="rmucsc-btn rmucsc-send-chat" data-action="sendToChat">
+            <i class="rmucsc-icon chat"></i> {{localize "RMU_CS.Common.SendChat"}}
         </button>
-      </div>
-      </fieldset>
-
-      {{#if primaryActorId}}
-      <fieldset class="rmu-calc-fieldset">
-        <legend>{{localize "RMU_CS.Boost.ComplementarySkills"}}</legend>
-        <div class="rmu-sub-fieldset">
-          <legend>{{localize "RMU_CS.Boost.FromPrimary"}}</legend>
-          <div class="rmu-dynamic-list">
-            {{#each primaryActorSkills}}
-            <div class="rmu-dynamic-row">
-              <select class="rmu-primary-comp-skill" data-index="{{@index}}">
-                <option value="">{{localize "RMU_CS.Boost.SelectSkill"}}</option>
-                {{#each ../primaryComplementOptions}}
-                <optgroup label="{{label}}">
-                  {{#each skills}}
-                  <option value="{{uuid}}" {{rmucsSelected (eq ../../uuid uuid)}}>
-                    {{name}} ({{localize "RMU_CS.Common.Ranks"}}: {{ranks}})
-                  </option>
-                  {{/each}}
-                </optgroup>
-                {{/each}}
-              </select>
-              <button type="button" class="rmu-icon-button rmu-primary-comp-delete" data-index="{{@index}}" title="{{localize 'RMU_CS.Boost.RemoveSkill'}}">
-                <img src="modules/rmu-complementary-skills/assets/icon-trash.svg" width="14" height="14"/>
-              </button>
-            </div>
-            {{/each}}
-          </div>
-          <button type="button" class="rmu-primary-comp-add">
-          <i class="rmu-icon rmu-icon-add"></i> {{localize "RMU_CS.Boost.AddSkill"}}
-        </button>
-        </div>
-
-        <div class="rmu-sub-fieldset">
-          <legend>{{localize "RMU_CS.Boost.FromOther"}}</legend>
-          {{#each otherParticipants}}
-          {{#if enabled}}
-          <div class="form-group">
-            <label>{{name}}</label>
-            <div class="form-fields">
-              <select class="rmu-other-comp-skill" data-id="{{id}}">
-                <option value="">{{localize "RMU_CS.Boost.None"}}</option>
-                {{#each allSkillsGrouped}}
-                <optgroup label="{{label}}">
-                  {{#each skills}}
-                  <option value="{{uuid}}" {{rmucsSelected (eq (lookup ../../../otherActorSkills ../../id) uuid)}}>
-                    {{name}} ({{localize "RMU_CS.Common.Ranks"}}: {{ranks}})
-                  </option>
-                  {{/each}}
-                </optgroup>
-                {{/each}}
-              </select>
-            </div>
-          </div>
-          {{/if}}
-          {{/each}}
-          {{#if (eq otherParticipants.length 0)}}
-          <span class="rmu-notes">{{localize "RMU_CS.Boost.NoOtherParticipants"}}</span>
-          {{/if}}
-        </div>
-      </fieldset>
-
-      <fieldset class="rmu-calc-fieldset">
-        <legend>{{localize "RMU_CS.Common.Calculation"}}</legend>
-        <div class="rmu-output-box">
-          <div class="rmu-output-row">
-            <span>{{localize "RMU_CS.Boost.OutputPrimary"}}</span>
-            <span class="rmu-output-value">{{signed calculation.primaryBonus}}</span>
-          </div>
-          <div class="rmu-output-row">
-            <span>{{localize "RMU_CS.Boost.OutputComplementary"}}</span>
-            <span class="rmu-output-value">{{signed calculation.complementBonus}}</span>
-          </div>
-          <div class="rmu-output-row rmu-output-total">
-            <span>{{localize "RMU_CS.Common.TotalBonus"}}:</span>
-            <span class="rmu-output-value">{{signed calculation.total}}</span>
-          </div>
-
-          {{#if calculation.breakdown}}
-          <div class="rmu-output-breakdown">
-            <span class="rmu-notes">{{localize "RMU_CS.Boost.Breakdown"}}</span>
-            <ul>
-              {{#each calculation.breakdown}}
-              <li>
-                <strong>{{signed bonus}}</strong>
-                ({{localize "RMU_CS.Boost.BreakdownFrom" name=name ranks=ranks}})
-              </li>
-              {{/each}}
-            </ul>
-          </div>
-          {{/if}}
-        </div>
-      </fieldset>
-      {{/if}}
-    </div>
-  </form>
-
-  <footer class="rmu-calc-footer">
-  <button type="button" class="rmu-send-chat">
-    <i class="rmu-icon rmu-icon-chat"></i> {{localize "RMU_CS.Common.SendChat"}}
-  </button>
-</footer>
-</div>
+    </footer>
+</section>

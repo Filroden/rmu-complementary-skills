@@ -1,0 +1,35 @@
+<div class="rmucsc-chat-card">
+
+    <div class="rmucsc-card-sidebar">
+        <span>{{localize "RMU_CS.Ritual.ChatTitle"}}</span>
+    </div>
+
+    <div class="rmucsc-card-content">
+        <div class="rmucsc-card-panel">
+            <span class="rmucsc-panel-header">{{participantName}}</span>
+            <ul>
+                {{#if pp}}
+                    <li>
+                        <span>{{localize "RMU_CS.Ritual.PP"}}</span>
+                        <span class="rmucsc-val rmucsc-danger">&minus;{{pp}}</span>
+                    </li>
+                {{/if}}
+
+                {{#if hp}}
+                    <li>
+                        <span>{{localize "RMU_CS.Ritual.BloodHits"}} ({{hpDice}}d10)</span>
+                        <span class="rmucsc-val rmucsc-danger">&minus;{{hp}}</span>
+                    </li>
+                {{/if}}
+
+                {{#if crit}}
+                    <li>
+                        <span>{{localize "RMU_CS.Ritual.BloodCrit"}}</span>
+                        <span class="rmucsc-val rmucsc-danger">{{crit}}</span>
+                    </li>
+                {{/if}}
+            </ul>
+        </div>
+    </div>
+
+</div>
