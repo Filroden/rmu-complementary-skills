@@ -31,7 +31,7 @@ The calculator is designed for a fast, step-by-step workflow.
 
 This calculator is used when a primary actor is making a skill check, and other participants (or the primary actor themselves) are using *different* skills to help. It automatically calculates the final bonus, applying the diminishing returns (half, quarter, etc.) for each added skill.
 
-<img src="images/boost-skill.png" alt="Boost Skill Calculator" width="500" style="display: block; margin: 2rem auto;">
+![Boost Skill Calculator](https://github.com/Filroden/rmu-complementary-skills/blob/main/images/boost-skill.png)
 
 1. **Select the Primary Skill:** Use the top dropdown menu to choose the main skill being rolled (e.g., "Perception").
 2. **Choose the Primary Actor:** The "Skill Bonus" column will update, showing each participant's total bonus in that skill. Select the "Primary" radio button next to the actor who is making the main roll. Their bonus will be used as the base.
@@ -44,7 +44,7 @@ This calculator is used when a primary actor is making a skill check, and other 
 
 This calculator is used when the whole group is working together on a single task (e.g., "Group Stealth"). It calculates the *average* skill bonus of all enabled participants and adds the *ranks* from the group's leader.
 
-<img src="images/group-task.png" alt="Group Task Calculator" width="500" style="display: block; margin: 2rem auto;">
+![Group Task Calculator](https://github.com/Filroden/rmu-complementary-skills/blob/main/images/group-task.png)
 
 1. **Select the Task Skill:** Use the top dropdown menu to choose the skill being used by the group (e.g., "Stealth").
 2. **Review Participants:** The list will update, showing each participant's skill bonus and their total ranks in the "Leadership" skill.
@@ -69,7 +69,7 @@ This calculator is used when one or more participants are performing a magical r
 
 > **Note 2:** The effects of the ritual (the actual spells) are not automated by the module.
 
-<img src="images/magical-ritual.png" alt="Magical Ritual Calculator" width="500" style="display: block; margin: 2rem auto;">
+![Magical Ritual Calculator](https://github.com/Filroden/rmu-complementary-skills/blob/main/images/magical-ritual.png)
 
 ## Common Features
 
@@ -79,14 +79,14 @@ All calculator windows share these features:
 
 - **Add Participant:** If you forgot to select a token, click the `+ Add Participant` button. A side panel will slide out, allowing you to  select and add any other tokens from the scene without leaving the calculator.
 
-    <img src="images/add-participant.png" alt="Add Participant Dialogue" width="300" style="display: block; margin: 2rem auto;">
+    ![Add Participant Dialogue](https://github.com/Filroden/rmu-complementary-skills/blob/main/images/add-participant.png)
 
 - **Send to Chat (GM):** Click the "Send to Chat (GM)" button in the footer to post a formatted summary of the calculation, visible only to you in the chat log.
 
   <div style="display: flex; justify-content: center; align-items: flex-start; gap: 2rem;">
-  <img src="images/boost-skill-chat.png" alt="Chat output for Boost Skill Calculator" width="200" style="display: block; margin: 2rem auto;">
-  <img src="images/group-task-chat.png" alt="Chat output for Group Task Calculator" width="200" style="display: block; margin: 2rem auto;">
-  <img src="images/ritual-chat.png" alt="Chat output for Magical Ritual Calculator" width="200" style="display: block; margin: 2rem auto;">
+  ![Chat output for Boost Skill Calculator](https://github.com/Filroden/rmu-complementary-skills/blob/main/images/boost-skill-chat.png)
+  ![Chat output for Group Task Calculator](https://github.com/Filroden/rmu-complementary-skills/blob/main/images/group-task-chat.png)
+  ![Chat output for Magical Ritual Calculator](https://github.com/Filroden/rmu-complementary-skills/blob/main/images/ritual-chat.png)
   </div>
 
 - **Roll Skill (lead participant or GM):** The lead participant or the GM can make the modified skill manoeuvre roll by clicking the button at the bottom of the chat card. The button will be visible to other participants but it will show as disabled. This will launch RMU's skill roll dialogue and show either the additional bonus (for Boost Task) or the override skill bonus (for Group Task). You can still apply any other modifiers as normal in this dialogue before rolling.
