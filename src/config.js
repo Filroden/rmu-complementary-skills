@@ -110,4 +110,16 @@ export const RITUAL_OPTIONS = {
         2: { value: -10, label: "RMU_CS.Ritual.PPSourceTwoRealms" },
         3: { value: -25, label: "RMU_CS.Ritual.PPSourceThreeRealms" },
     },
+    realms: [
+        { value: "Channeling", label: "RMU_CS.Ritual.RealmChanneling" },
+        { value: "Essence", label: "RMU_CS.Ritual.RealmEssence" },
+        { value: "Mentalism", label: "RMU_CS.Ritual.RealmMentalism" },
+    ],
+    spellTypes: [
+        { value: "A", label: "RMU_CS.Ritual.SpellTypeAlchemical" },
+        { value: "E", label: "RMU_CS.Ritual.SpellTypeElemental" },
+        { value: "F", label: "RMU_CS.Ritual.SpellTypeForce" },
+        { value: "I", label: "RMU_CS.Ritual.SpellTypeInformation" },
+        { value: "U", label: "RMU_CS.Ritual.SpellTypeUtility" },
+    ],
 };
