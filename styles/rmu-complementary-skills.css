@@ -1044,6 +1044,14 @@
     color: var(--rmucsc-accent-main);
 }
 
+.rmucsc .rmucsc-ritual-failure-row {
+    display: grid;
+    grid-template-columns: auto 1fr 1fr;
+    align-items: center;
+    gap: var(--rmucsc-space-xxl);
+    margin-block-start: var(--rmucsc-space-m);
+}
+
 /* --- Form Field Utilities --- */
 .rmucsc .rmucsc-section-divider {
     border-block-start: 1px dashed var(--rmucsc-border-main);

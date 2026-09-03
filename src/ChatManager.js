@@ -183,6 +183,9 @@ export class ChatManager {
             })),
         });
 
+        // Extract token IDs for Major Contributors
+        const majorContributorIds = enabledParticipants.filter((p) => p.ritualData.role === "major").map((p) => p.id);
+
         await ChatMessage.create({
             user: game.user.id,
             content: content,
@@ -196,6 +199,10 @@ export class ChatManager {
                     bonus: calc.modifiersTotal,
                     hasCritSacrifice: hasCritSacrifice,
                     sacrifices: sacrifices,
+                    magicRitualRealm: calcState.ritualState.failureRealm,
+                    magicRitualSpellType: calcState.ritualState.failureSpellType,
+                    magicRitualTotalPowerPoints: calc.totalPP,
+                    magicRitualMajorContributors: majorContributorIds,
                 },
             },
         });
@@ -221,8 +228,20 @@ export class ChatManager {
 
         if ($rollButton.length === 0) return;
 
-        // Unpack the flags, including our new sacrificesApplied state
-        const { rollType, actorId, skillUuid, bonus, hasCritSacrifice, sacrifices, sacrificesApplied } = flags;
+        // Unpack the flags
+        const {
+            rollType,
+            actorId,
+            skillUuid,
+            bonus,
+            hasCritSacrifice,
+            sacrifices,
+            sacrificesApplied,
+            magicRitualRealm,
+            magicRitualSpellType,
+            magicRitualTotalPowerPoints,
+            magicRitualMajorContributors,
+        } = flags;
 
         // If the sacrifices were already applied in a previous session, disable the UI
         if (sacrificesApplied) {
@@ -253,6 +272,14 @@ export class ChatManager {
                     maneuverOptions.otherBonus = Number(bonus);
                 } else if (rollType === "group") {
                     maneuverOptions.overrideSkillBonus = Number(bonus);
+                }
+
+                // Inject the new parameters if this is a ritual roll
+                if (rollType === "ritual") {
+                    maneuverOptions.magicRitualRealm = magicRitualRealm;
+                    maneuverOptions.magicRitualSpellType = magicRitualSpellType;
+                    maneuverOptions.magicRitualTotalPowerPoints = magicRitualTotalPowerPoints;
+                    maneuverOptions.magicRitualMajorContributors = magicRitualMajorContributors;
                 }
 
                 if (game.system?.api?.rmuTokenSkillAction) {

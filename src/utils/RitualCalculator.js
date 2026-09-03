@@ -238,8 +238,8 @@ export class RitualCalculator {
 
         if (extraPP <= 0) return;
 
-        // Extract the cube root and floor it to get the discrete 'n' step
-        const n = Math.floor(Math.cbrt(extraPP));
+        // Extract the square root and floor it to get the discrete 'n' step
+        const n = Math.floor(Math.sqrt(extraPP));
 
         if (n < 1) return;
 

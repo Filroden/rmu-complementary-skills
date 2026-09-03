@@ -1,4 +1,6 @@
 {
     "RMU_CS.Notifications.NotInitialized": "RMU Complementary Skills module is not yet initialised.",
-    "RMU_CS.Settings.ThemeHue.Name": "Colour Theme"
+    "RMU_CS.Settings.ThemeHue.Name": "Colour Theme",
+    "RMU_CS.Ritual.RealmChanneling": "Channelling",
+    "RMU_CS.Ritual.RitualFailureTooltip": "For rituals with hybrid or multiple spells, you must chose which realm (Channelling, Essence, or Mentalism) and spell type (Alchemical, Elemental, Force, Information or Utility) best represents the main danger of the ritual."
 }

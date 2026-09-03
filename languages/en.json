@@ -270,5 +270,20 @@
     "RMU_CS.Notifications.MissingParticipants": "The following participants were not found on the current scene and were excluded: {names}",
 
     "RMU_CS.Ritual.DeletePresetTitle": "Delete Ritual Preset",
-    "RMU_CS.Ritual.DeletePresetConfirm": "Are you sure you want to delete the preset <strong>{name}</strong>? This action cannot be undone."
+    "RMU_CS.Ritual.DeletePresetConfirm": "Are you sure you want to delete the preset <strong>{name}</strong>? This action cannot be undone.",
+
+    "RMU_CS.Ritual.RealmChanneling": "Channeling",
+    "RMU_CS.Ritual.RealmEssence": "Essence",
+    "RMU_CS.Ritual.RealmMentalism": "Mentalism",
+
+    "RMU_CS.Ritual.SpellTypeAlchemical": "A (Alchemical)",
+    "RMU_CS.Ritual.SpellTypeElemental": "E (Elemental)",
+    "RMU_CS.Ritual.SpellTypeForce": "F (Force)",
+    "RMU_CS.Ritual.SpellTypeInformation": "I (Informational)",
+    "RMU_CS.Ritual.SpellTypeUtility": "U (Utility)",
+
+    "RMU_CS.Ritual.RitualFailure": "Ritual Failure Table Options",
+    "RMU_CS.Ritual.RitualFailureTooltip": "For rituals with hybrid or multiple spells, you must choose which realm (Channeling, Essence, or Mentalism) and spell type (Alchemical, Elemental, Force, Informational or Utility) best represents the main danger of the ritual. If the ritual fails, these selections will determine the appropriate ritual failure table to use.",
+    "RMU_CS.Ritual.FailureRealm": "Realm",
+    "RMU_CS.Ritual.FailureType": " Type"
 }

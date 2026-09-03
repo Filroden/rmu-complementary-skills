@@ -269,5 +269,20 @@
     "RMU_CS.Notifications.MissingParticipants": "The following participants were not found on the current scene and were excluded: {names}",
 
     "RMU_CS.Ritual.DeletePresetTitle": "Delete Ritual Preset",
-    "RMU_CS.Ritual.DeletePresetConfirm": "Are you sure you want to delete the preset <strong>{name}</strong>? This action cannot be undone."
+    "RMU_CS.Ritual.DeletePresetConfirm": "Are you sure you want to delete the preset <strong>{name}</strong>? This action cannot be undone.",
+
+    "RMU_CS.Ritual.RealmChanneling": "Théurgie",
+    "RMU_CS.Ritual.RealmEssence": "Essence",
+    "RMU_CS.Ritual.RealmMentalism": "Mentalisme",
+
+    "RMU_CS.Ritual.SpellTypeAlchemical": "A (Alchimique)",
+    "RMU_CS.Ritual.SpellTypeElemental": "E (Élémentaire)",
+    "RMU_CS.Ritual.SpellTypeForce": "F (Force)",
+    "RMU_CS.Ritual.SpellTypeInformation": "I (Informatif)",
+    "RMU_CS.Ritual.SpellTypeUtility": "U (Utilitaire)",
+
+    "RMU_CS.Ritual.RitualFailure": "Options de la table d'échec de rituel",
+    "RMU_CS.Ritual.RitualFailureTooltip": "Pour les rituels impliquant des sorts hybrides ou multiples, vous devez choisir quel royaume (Théurgie, Essence ou Mentalisme) et quel type de sort (Alchimique, Élémentaire, Force, Informatif ou Utilitaire) représentent le mieux le danger principal du rituel. Si le rituel échoue, ces sélections détermineront la table d'échec de rituel appropriée à utiliser.",
+    "RMU_CS.Ritual.FailureRealm": "Royaume",
+    "RMU_CS.Ritual.FailureType": " Type"
 }

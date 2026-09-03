@@ -50,6 +50,35 @@
                     </div>
                 </div>
 
+                <!-- Failure Table Overrides -->
+                <div class="rmucsc-section-divider rmucsc-ritual-failure-row">
+                    <label style="font-weight: bold;" data-tooltip="{{localize 'RMU_CS.Ritual.RitualFailureTooltip'}}" data-tooltip-class="rmucsc-tooltip">
+                        {{localize "RMU_CS.Ritual.RitualFailure"}} <i class="rmucsc-icon info small"></i> :
+                    </label>
+
+                    <div class="form-group" style="gap: var(--rmucsc-space-m); grid-template-columns: auto 1fr;">
+                        <label>
+                            {{localize "RMU_CS.Ritual.FailureRealm"}}
+                        </label>
+                        <select name="failureRealm">
+                            {{#each ritualOptions.realms}}
+                                <option value="{{this.value}}" {{rmucsSelected (eq ../ritualState.failureRealm this.value)}}>{{localize this.label}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" style="gap: var(--rmucsc-space-m); grid-template-columns: auto 1fr;">
+                        <label>
+                            {{localize "RMU_CS.Ritual.FailureType"}}
+                        </label>
+                        <select name="failureSpellType">
+                            {{#each ritualOptions.spellTypes}}
+                                <option value="{{this.value}}" {{rmucsSelected (eq ../ritualState.failureSpellType this.value)}}>{{localize this.label}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+
             </fieldset>
 
             <!-- Participants -->

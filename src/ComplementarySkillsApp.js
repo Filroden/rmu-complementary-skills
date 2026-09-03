@@ -48,6 +48,9 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
                 totalSpellLevel: 1,
                 totalBasePPCost: 1,
 
+                failureRealm: "Channeling",
+                failureSpellType: "A",
+
                 detailsState: {
                     environment: false,
                     items: false,
@@ -187,7 +190,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
 
         this._enforceDeterministicLeader();
         this._enforceDeterministicPrimaryCaster();
-        this.#updateEnduranceGrid();
+        this._updateEnduranceGrid();
         this._isHydrating = false;
     }
 
@@ -254,7 +257,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
      * Rebuilds the endurance grid structure based on the current time and participants.
      * Preserves already-rolled results if the grid shrinks or grows.
      */
-    #updateEnduranceGrid() {
+    _updateEnduranceGrid() {
         const selectedTimeValue = this.calcState.ritualState.investingTime;
 
         // Dynamically accumulate objects containing time, difficulty, and localisation keys
@@ -316,14 +319,14 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         this.calcState.ritualState.enduranceHeaders = requiredRolls.map((r) => r.timeLabel);
         this.calcState.ritualState.enduranceColumns = requiredRolls.length;
 
-        this.#refreshEnduranceLocks();
+        this._refreshEnduranceLocks();
     }
 
     /**
      * Sweeps the grid down the columns, then across the rows, to find the
      * next logical action and lock/unlock buttons accordingly.
      */
-    #refreshEnduranceLocks() {
+    _refreshEnduranceLocks() {
         const grid = this.calcState.ritualState.enduranceGrid;
         const numCols = this.calcState.ritualState.enduranceColumns;
         const numRows = grid.length;
@@ -432,7 +435,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             }
         }
 
-        this.#refreshEnduranceLocks();
+        this._refreshEnduranceLocks();
         this.render({ parts: ["ritual"] });
     }
 
@@ -614,7 +617,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         }
 
         this._enforceDeterministicPrimaryCaster();
-        this.#updateEnduranceGrid();
+        this._updateEnduranceGrid();
 
         ui.notifications.info(game.i18n.format("RMU_CS.Notifications.PresetLoaded", { name: preset.name }));
         this.render({ force: true });
@@ -623,9 +626,9 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
     static #sendToChat(event, target) {
         const tab = this.tabGroups.primary || "boost";
 
-        if (tab === "boost") this.#onSendBoostToChat(event);
-        if (tab === "group") this.#onSendGroupToChat(event);
-        if (tab === "ritual") this.#onSendRitualToChat(event);
+        if (tab === "boost") this._onSendBoostToChat(event);
+        if (tab === "group") this._onSendGroupToChat(event);
+        if (tab === "ritual") this._onSendRitualToChat(event);
     }
 
     /* ----------------------------------------- */
@@ -890,11 +893,11 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             listType: 0,
             listKnowledge: 0,
         });
-        this.#updateRitualTotals();
+        this._updateRitualTotals();
         this.render({ parts: ["ritual"] });
     }
 
-    #updateRitualTotals() {
+    _updateRitualTotals() {
         const spells = this.calcState.ritualState.targetSpells;
         const totalLevel = spells.reduce((sum, s) => sum + s.level, 0);
 
@@ -906,7 +909,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         if (this.calcState.ritualState.targetSpells.length <= 1) return;
         const id = target.dataset.id;
         this.calcState.ritualState.targetSpells = this.calcState.ritualState.targetSpells.filter((s) => s.id !== id);
-        this.#updateRitualTotals();
+        this._updateRitualTotals();
         this.render({ parts: ["ritual"] });
     }
 
@@ -917,7 +920,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         delete this.calcState.ritualParticipantData[id];
 
         this._enforceDeterministicPrimaryCaster();
-        this.#updateEnduranceGrid();
+        this._updateEnduranceGrid();
         this.render({ force: true });
     }
 
@@ -950,7 +953,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
 
                 if (partId === "ritual") {
                     this._enforceDeterministicPrimaryCaster();
-                    this.#updateEnduranceGrid();
+                    this._updateEnduranceGrid();
                 }
 
                 return this.render();
@@ -1044,7 +1047,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
 
         if (target.name === "spellLevel") {
             spell.level = Number.parseInt(target.value, 10) || 1;
-            this.#updateRitualTotals();
+            this._updateRitualTotals();
         } else if (target.name === "spellType") {
             spell.listType = Number.parseInt(target.value, 10) || 0;
         } else if (target.name === "spellKnowledge") {
@@ -1071,7 +1074,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             }
             pData[id].role = newRole;
             this._enforceDeterministicPrimaryCaster();
-            this.#updateEnduranceGrid();
+            this._updateEnduranceGrid();
         } else if (target.name === "ritualSkill") {
             pData[id].ritualSkillUuid = target.value;
         } else if (target.name === "ritualAdditionalSkill") {
@@ -1101,8 +1104,17 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
             return;
         }
 
-        // 2. Handle Numeric inputs
-        let val = Number.parseInt(target.value, 10) || 0;
+        // 2. Handle Inputs based on expected type
+        let val = target.value;
+
+        // Preserve string values
+        if (name === "failureRealm" || name === "failureSpellType") {
+            state[name] = val;
+            return;
+        }
+
+        // Parse everything else as integers
+        val = Number.parseInt(val, 10) || 0;
 
         // Apply clamping logic for circumstances
         if (name.startsWith("auspicious") || name.startsWith("inauspicious")) {
@@ -1121,7 +1133,7 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         if (name === "paramDurBase" && state.paramDurTarget < state.paramDurBase) {
             state.paramDurTarget = state.paramDurBase;
         } else if (name === "investingTime") {
-            this.#updateEnduranceGrid();
+            this._updateEnduranceGrid();
         }
     }
 
@@ -1132,17 +1144,17 @@ export class ComplementarySkillsApp extends HandlebarsApplicationMixin(Applicati
         }
     }
 
-    async #onSendBoostToChat(event) {
+    async _onSendBoostToChat(event) {
         const success = await ChatManager.sendBoostToChat(this.calcState, this.participants);
         if (success) this.close();
     }
 
-    async #onSendGroupToChat(event) {
+    async _onSendGroupToChat(event) {
         const success = await ChatManager.sendGroupToChat(this.calcState, this.participants);
         if (success) this.close();
     }
 
-    async #onSendRitualToChat(event) {
+    async _onSendRitualToChat(event) {
         const success = await ChatManager.sendRitualToChat(this.calcState, this.participants);
         if (success) this.close();
     }

@@ -269,5 +269,20 @@
     "RMU_CS.Notifications.MissingParticipants": "The following participants were not found on the current scene and were excluded: {names}",
 
     "RMU_CS.Ritual.DeletePresetTitle": "Delete Ritual Preset",
-    "RMU_CS.Ritual.DeletePresetConfirm": "Are you sure you want to delete the preset <strong>{name}</strong>? This action cannot be undone."
+    "RMU_CS.Ritual.DeletePresetConfirm": "Are you sure you want to delete the preset <strong>{name}</strong>? This action cannot be undone.",
+
+    "RMU_CS.Ritual.RealmChanneling": "Kanalisering",
+    "RMU_CS.Ritual.RealmEssence": "Essens",
+    "RMU_CS.Ritual.RealmMentalism": "Mentalism",
+
+    "RMU_CS.Ritual.SpellTypeAlchemical": "A (Alkemisk)",
+    "RMU_CS.Ritual.SpellTypeElemental": "E (Elemental)",
+    "RMU_CS.Ritual.SpellTypeForce": "F (Kraft)",
+    "RMU_CS.Ritual.SpellTypeInformation": "I (Informations)",
+    "RMU_CS.Ritual.SpellTypeUtility": "U (Nyttig)",
+
+    "RMU_CS.Ritual.RitualFailure": "Alternativ för tabell för rituellt misslyckande",
+    "RMU_CS.Ritual.RitualFailureTooltip": "För ritualer med hybrida eller multipla besvärjelser måste du välja vilken sfär (Kanalisering, Essens eller Mentalism) och besvärjelsetyp (Alkemisk, Elemental, Kraft, Informations eller Nyttig) som bäst representerar ritualens huvudsakliga fara. Om ritualen misslyckas avgör dessa val vilken tabell för rituellt misslyckande som ska användas.",
+    "RMU_CS.Ritual.FailureRealm": "Sfär",
+    "RMU_CS.Ritual.FailureType": " Typ"
 }
